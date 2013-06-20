@@ -8,7 +8,7 @@ Expires: December 22, 2013
 
 
                           The file URI Scheme
-                      draft-kerwinm-file-scheme-01
+                    draft-kerwinm-file-scheme-latest
 
 Abstract
 
