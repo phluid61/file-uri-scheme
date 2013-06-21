@@ -11,3 +11,9 @@ See also:
 * [RFC 1738 "Uniform Resource Locators (URL)"](http://tools.ietf.org/html/rfc1738#page-15)
 * [RFC 1630 "URIs in WWW"](http://tools.ietf.org/html/rfc1630#page-19)
 
+Notes to self
+-------------
+
+* http://xml.resource.org/ convert XML to plain text or HTML
+* http://tools.ietf.org/tools/idnits/ check for nits
+* https://datatracker.ietf.org/submit/ submit draft
