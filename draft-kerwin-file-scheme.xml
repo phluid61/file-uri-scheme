@@ -19,7 +19,7 @@
 <?rfc-ext include-index="no" ?>
 <rfc ipr="trust200811"
      category="std"
-     docName="draft-kerwinm-file-scheme-latest"
+     docName="draft-kerwin-file-scheme-latest"
      x:maturity-level="draft"
      xmlns:x="http://purl.org/net/xml2rfc/ext">
 
@@ -74,6 +74,11 @@
       <t>The file URL scheme is unusual in that it does not specify an Internet protocol or access method for such files; as such, its utility in network protocols between hosts is limited.</t>
 
     </section>
+    <section title="Security Considerations" anchor="security">
+
+      <t>As no Internet protocol or access method is defined, no security considerations are introduced by this document.</t>
+
+    </section>
     <section title="IANA Considerations" anchor="iana">
 
       <t>This document does not modify the existing entry in the URI Schemes registry <xref target="IANA" />, except by updating its reference RFC.</t>
@@ -88,6 +93,9 @@
 	  <reference anchor="IANA" target="http://www.iana.org/assignments/uri-schemes/uri-schemes.xml">
 	    <front>
 		  <title abbrev='URI Schemes registry'>Uniform Resource Identifier (URI) Schemes registry</title>
+          <author>
+            <organization>IANA</organization>
+          </author>
           <date year='2013' month='June' />
 		</front>
         <format type='TXT' octets='20046' target='http://www.iana.org/assignments/uri-schemes/uri-schemes.txt' />
