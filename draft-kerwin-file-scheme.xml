@@ -74,12 +74,25 @@
       <t>The file URL scheme is unusual in that it does not specify an Internet protocol or access method for such files; as such, its utility in network protocols between hosts is limited.</t>
 
     </section>
+    <section title="IANA Considerations" anchor="iana">
+
+      <t>This document does not modify the existing entry in the URI Schemes registry <xref target="IANA" />, except by updating its reference RFC.</t>
+
+    </section>
   </middle>
   <back>
     <references title="Normative References" />
     <references title="Informative References">
       &rfc1738;
       &rfc3986;
+	  <reference anchor="IANA" target="http://www.iana.org/assignments/uri-schemes/uri-schemes.xml">
+	    <front>
+		  <title abbrev='URI Schemes registry'>Uniform Resource Identifier (URI) Schemes registry</title>
+          <date year='2013' month='June' />
+		</front>
+        <format type='TXT' octets='20046' target='http://www.iana.org/assignments/uri-schemes/uri-schemes.txt' />
+        <format type='XML' octets='32231' target='http://www.iana.org/assignments/uri-schemes/uri-schemes.xml' />
+	  </reference>
     </references>
   </back>
 </rfc>
