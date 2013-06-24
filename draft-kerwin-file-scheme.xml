@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?xml-stylesheet type="text/xsl" href="lib/rfc2629.xslt" ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY rfc1630 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1630.xml'>
   <!ENTITY rfc1738 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1738.xml'>
+  <!ENTITY rfc2119 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml'>
   <!ENTITY rfc3986 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml'>
 ]>
 <?rfc toc="yes" ?>
@@ -24,83 +26,174 @@
      xmlns:x="http://purl.org/net/xml2rfc/ext">
 
   <x:feedback template="mailto:matthew@kerwin.net.au?subject={docname},%20%22{section}%22&amp;body=&lt;{ref}&gt;:"/>
-
   <front>
     <title abbrev="File Scheme">
       The file URI Scheme
     </title>
-
     <author surname="Kerwin" fullname="Matthew Kerwin" initials="M. V.">
       <address>
         <email>matthew@kerwin.net.au</email>
       </address>
     </author>
-
     <date month="June" year="2013" />
-
     <area>Applications</area>
     <keyword>URI</keyword>
     <keyword>scheme</keyword>
     <keyword>file</keyword>
-
     <abstract>
-      <t>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in <xref target="RFC1738"/>. The purpose of this document is to keep the information about the scheme on standards track, since <xref target="RFC1738"/> has been made obsolete.</t>
+      <t>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in <xref target="RFC1738"/>.  The purpose of this document is to keep the information about the scheme on standards track, since <xref target="RFC1738"/> has been made obsolete.</t>
     </abstract>
-
   </front>
   <middle>
     <section title="Introduction" anchor="intro">
-
-      <t>URIs were previously defined in <xref target="RFC1738"/>, which was updated by <xref target="RFC3986"/>. Those documents also specify how to define schemes for URIs.</t>
-
-      <t>The first definition for many URI schemes appeared in <xref target="RFC1738"/>. Because that document has been made obsolete, this document copies the file URI scheme from it to allow that material to remain on standards track.</t>
-
+      <t>URIs were previously defined in <xref target="RFC1738"/>, which was updated by <xref target="RFC3986"/>.  Those documents also specify how to define schemes for URIs.</t>
+      <t>The first definition for many URI schemes appeared in <xref target="RFC1738"/>.  Because that document has been made obsolete, this document copies the file URI scheme from it to allow that material to remain on standards track.</t>
+      <section title="Conventions and Terminology">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
+      </section>
+    </section>
+    <section title="History" anchor="history">
+      <t>The file URI scheme was first defined in <xref target="RFC1630"/>, and informational RFC which does not specify an Internet standard of any kind.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with IANA, however the latter definition omitted certain language from former that clarified aspects such as:
+        <list style="symbols">
+          <t>the use of slashes to donate boundaries between directory levels of a hierarchical file system</t>
+          <t>the requirement that client software convert the file URL into a file name in the local file name conventions</t>
+          <t>a justification for defining the scheme.</t>
+        </list>
+      </t>
+      <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the file URI scheme on standards track, but it expired in 2005.  That draft enumerated concerns arising from the various, often conflicting implementations.</t>
+      <t>Despite lacking a living standard, the file URI scheme is used by way of example in <xref target="RFC3986"/> three times:
+        <list style="numbers">
+          <t>section 1.1 [p6] uses "file:///etc/hosts" as an example</t>
+          <t>section 1.2.3 [p10] mentions the "file" scheme regarding relative references</t>
+          <t>section 3.2.2 [p21] says that '...the "file" URI scheme is defined so that no authority, an empty host, and "localhost" all mean the end-user's machine...'.</t>
+        </list>
+      </t>
+      <t>Finally the WHATWG defines a <xref target="WHATWG">living URL standard</xref>, which includes algorithms for interpreting file URIs.</t>
     </section>
     <section title="Scheme Definition" anchor="scheme">
-
-      <t>The file URL scheme is used to designate files accessible on a particular host computer. This scheme, unlike most other URL schemes, does not designate a resource that is universally accessible over the Internet.</t>
-
-      <t>A file URL takes the form:</t>
-      <figure><artwork>file://&lt;host&gt;/&lt;path&gt;</artwork></figure>
-      <t>where &lt;host&gt; is the fully quilified domain name of the system on which the &lt;path&gt; is accessible, and &lt;path&gt; is a hierarchical directory path of the form &lt;directory&gt;/&lt;directory&gt;/...&lt;name&gt;</t>
-
-      <t>For example, a VMS file</t>
-      <figure><artwork>DISK$USER:[MY.NOTES]NOTE123456.TXT</artwork></figure>
-      <t>might become</t>
-      <figure><artwork>&lt;URL:file://vms.host.edu/disk$user/my/notes/note12345.txt&gt;</artwork></figure>
-
-      <t>As a special case, &lt;host&gt; can be the string "localhost" or the empty string; this is interpreted as `the machine from which the URL is being interpreted'.</t>
-
+      <t>The file URI scheme is used to designate files accessible on a particular host computer.  This scheme, unlike most other URI schemes, does not designate a resource that is universally accessible over the Internet.</t>
+      <t>The file URI scheme has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular filesystem.  This document does not try to resolve those problems, only to show what has been commonly seen in use on the Internet.</t>
+      <t>Note that file: and ftp: URIs are not the same, even when the target of the ftp: URI is the local host.</t>
+      <t>A file URI conforms with the generic syntax presented in <xref target="RFC3986"/>, with the following components:
+        <list style="hanging">
+          <t hangText="scheme name">The literal value <spanx style="verb">file</spanx></t>
+          <t hangText="authority">If present, either the fully qualified domain name of the system on which the file is accessible;  or one of the special values <spanx style="verb">localhost</spanx> or the empty string, in which case it is interpreted as "the machine from which the URI is being interpreted".  An absent authority component SHOULD be interpreted as if it were present and had the value <spanx style="verb">localhost</spanx>.</t>
+          <t hangText="path">The hierarchical directory path to the file, using the slash character ("/") to separate directories.</t>
+        </list>
+      </t>
+      <t>Some systems allow URIs to point to directories.  In this case, there is usually (but not always) a terminating slash character, such as in:
+        <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
+      </t>
+      <t>
+        On systems running some versions of Microsoft Windows, the local drive specification is sometimes specified with a colon character (":") and sometimes with a pipe ("|").  The two SHOULD be considered equivalent.  For example:
+        <figure><artwork type="inline">file:///c:/windows/example.ini
+file:///c|/windows/example.ini</artwork></figure>
+      </t>
+      <t>Note that some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter.</t>
+      <t>For Windows shares, there is an additional slash prepeded to the path.  Thus, the file "example.doc" on the shared directory "departments" would have the URI
+        <figure><artwork type="inline">file:////department/example.doc</artwork></figure>
+      </t>
       <t>The file URL scheme is unusual in that it does not specify an Internet protocol or access method for such files; as such, its utility in network protocols between hosts is limited.</t>
-
+      <section title="Examples" anchor="examples">
+        <t>For example, a VMS file
+          <figure><artwork type="inline">DISK$USER:[MY.NOTES]NOTE123456.TXT</artwork></figure>
+          might become
+          <figure><artwork type="inline">file://vms.host.edu/disk$user/my/notes/note12345.txt</artwork></figure>
+        </t>
+        <t>On a Windows system, the file
+          <figure><artwork type="inline">C:\Users\kerwin\Documents\temp.txt</artwork></figure>
+          might become
+          <figure><artwork type="inline">file:///C:/Users/kerwin/Documents/temp.txt</artwork></figure>
+        </t>
+        <t>On a Linux system, the file
+          <figure><artwork type="inline">/usr/local/lib/ruby/2.0.0/uri.rb</artwork></figure>
+          could be referred to by any of the following equivalent URIs:
+          <figure><artwork type="inline">file://localhost/usr/local/lib/ruby/2.0.0/uri.rb
+file:///usr/local/lib/ruby/2.0.0/uri.rb
+file:/usr/local/lib/ruby/2.0.0/uri.rb</artwork></figure>
+        </t>
+      </section>
+    </section>
+    <section title="Implementation Notes" anchor="implementation">
+      <section title="Hierarchical Structure">
+        <t>Most implementations of the file URI scheme do a reasonable job of mapping the hierarchical part of a directory structure into the "/" delimited hierarchy of the URI syntax, independent of what the native platform delimiter is.</t>
+        <t>For example, on Windows platforms, it is typical that the file system presents backslash "\" as the file delimeter for file names, yet the URI's forward slash "/" can be used in file: URIs.  Similarly, on (some) Macintosh OS versions, at least in some contexts, the colon (":") is used as the delimiter in the native presentation of file path names.  Unix systems natively use the same forward slash "/" delimiter for hierarchy, so there is a closer mapping between file paths and native path names.</t>
+      </section>
+      <section title="Drives, drive letters, mount points, file system root">
+        <t>Historically there has been considerable difference, in practice, for handling of the syntax for the "top" of the hierarchy.  The file URI syntax provides one simple place for designating the root of the file hierachy, and implementations have diverged, even on the same platform, sometimes even within a single application.</t>
+        <t>For example, DOS- and Windows-based systems support the notion of a "drive letter", a single character which represents a (virtual) drive, mount point, or device.  Native representations of file paths start with the drive letter, a colon, and then the path; e.g., "c:\tmp\test.txt".</t>
+        <t>Drive letters are mapped into the top of a file URI in various ways, depending on the implementation; some applications substitute vertical bar ("|") for the colon after the drive letter, yielding "file:///c|/tmp/test.txt".  In some cases, the colon is left unchanged, as in "file:///c:/tmp/test.txt".  In other cases, the colon is simply omitted, as in "file:///c/tmp/test.txt".</t>
+      </section>
+      <section title="Character sets and encodings">
+        <t>Local file systems sometimes use many different encodings for representing file names.  The URI syntax defined in <xref target="RFC3986"/> provides a method of encoding data, presumably for the sake of identifying a resource, as a sequence of characters.  The URI characters are, in turn, frequently encoded as octets for transport or presentation.  This specification does not mandate any particular character encoding for mapping between URI characters and the octets used to store or transmit those characters, however for interoperability sake, it would be preferable for file: URI libraries to translate the native character encoding for file names to and from Unicode.</t>
+      </section>
     </section>
     <section title="Security Considerations" anchor="security">
-
-      <t>As no Internet protocol or access method is defined, no security considerations are introduced by this document.</t>
-
+      <t>There are many security considerations for URI schemes discussed in <xref target="RFC3986"/>.</t>
+      <t>File access and the granting of privileges for specific operations are complex topics, and the use of file: URIs can complicate the security model in effect for file privileges.  Under no circumstance should software using file: URIs grant greater access than would be available for other file access methods.</t>
     </section>
     <section title="IANA Considerations" anchor="iana">
-
-      <t>This document does not modify the existing entry in the URI Schemes registry <xref target="IANA" />, except by updating its reference RFC.</t>
-
+      <t>This document does not modify the existing entry in the <xref target="IANA">URI Schemes registry</xref>, except by updating its reference RFC.</t>
     </section>
   </middle>
   <back>
-    <references title="Normative References" />
-    <references title="Informative References">
-      &rfc1738;
+    <references title="Normative References">
+      &rfc2119;
       &rfc3986;
-	  <reference anchor="IANA" target="http://www.iana.org/assignments/uri-schemes/uri-schemes.xml">
-	    <front>
-		  <title abbrev='URI Schemes registry'>Uniform Resource Identifier (URI) Schemes registry</title>
+    </references>
+    <references title="Informative References">
+      &rfc1630;
+      &rfc1738;
+      <reference anchor='I-D.draft-hoffman-file-uri'>
+        <front>
+          <title>The file URI Scheme</title>
+          <author initials='P' surname='Hoffman' fullname='Paul Hoffman'>
+            <organization>VPN Consortium</organization>
+            <address>
+              <postal>
+                <street>127 Segre Place</street>
+                <street>Santa Cruz</street>
+                <street>CA 95060</street>
+              </postal>
+            </address>
+          </author>
+          <date month='January' year='2005' />
+          <abstract>
+            <t>
+              This document specifies the file Uniform Resource Identifier (URI)
+              scheme that was originally specified in RFC 1738.  The purpose of
+              this document is to allow RFC 1738 to be made obsolete while keeping
+              the information about the scheme on standards track.
+            </t>
+          </abstract>
+        </front>
+        <seriesInfo name='Internet-Draft' value='draft-hoffman-file-uri-03' />
+        <format type='TXT' target='http://www.ietf.org/internet-drafts/draft-hoffman-file-uri-03.txt' />
+      </reference>
+      <reference anchor="IANA" target="http://www.iana.org/assignments/uri-schemes/uri-schemes.xml">
+        <front>
+          <title abbrev='URI Schemes registry'>Uniform Resource Identifier (URI) Schemes registry</title>
           <author>
             <organization>IANA</organization>
           </author>
           <date year='2013' month='June' />
-		</front>
+        </front>
         <format type='TXT' octets='20046' target='http://www.iana.org/assignments/uri-schemes/uri-schemes.txt' />
         <format type='XML' octets='32231' target='http://www.iana.org/assignments/uri-schemes/uri-schemes.xml' />
-	  </reference>
+      </reference>
+      <reference anchor="WHATWG" target="http://url.spec.whatwg.org/">
+        <front>
+          <title>URL Living Standard</title>
+          <author>
+            <organization>WHATWG</organization>
+            <address>
+              <uri>http://www.whatwg.org/</uri>
+            </address>
+          </author>
+          <date year='2013' month='May' />
+        </front>
+        <format type='HTML' target='http://url.spec.whatwg.org/' />
+      </reference>
     </references>
   </back>
 </rfc>
