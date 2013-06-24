@@ -1,0 +1,16 @@
+#!/bin/bash --
+
+NAME=draft-kerwin-file-scheme
+VERSION=02
+
+xmllint $NAME.xml --loaddtd --noent > $NAME-latest.xml
+echo "Generated $NAME-latest.xml"
+
+sed -e 's/ x:maturity-level="draft"//' \
+	-e 's/ xmlns:x="http:\/\/purl\.org\/net\/xml2rfc\/ext"//' \
+	-e 's/<x:feedback .*>//' \
+	-e "s/$NAME-latest/$NAME-$VERSION/" \
+	< $NAME-latest.xml > $NAME-$VERSION.xml
+echo "Generated $NAME-$VERSION.xml"
+
+
