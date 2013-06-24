@@ -11,6 +11,14 @@ See also:
 * [RFC 1738 "Uniform Resource Locators (URL)"](http://tools.ietf.org/html/rfc1738#page-15)
 * [RFC 1630 "URIs in WWW"](http://tools.ietf.org/html/rfc1630#page-19)
 
+Other Resources
+---------------
+
+* http://tools.ietf.org/html/draft-hoffman-file-uri-03
+* http://url.spec.whatwg.org/
+
+* http://suika.fam.cx/~wakaba/wiki/sw/n/file has additional points but in Japanese
+
 Notes to self
 -------------
 
