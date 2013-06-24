@@ -53,7 +53,7 @@
       </section>
     </section>
     <section title="History" anchor="history">
-      <t>The file URI scheme was first defined in <xref target="RFC1630"/>, and informational RFC which does not specify an Internet standard of any kind.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with IANA, however the latter definition omitted certain language from former that clarified aspects such as:
+      <t>The file URI scheme was first defined in <xref target="RFC1630"/>, an informational RFC which does not specify an Internet standard of any kind.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with IANA, however the latter definition omitted certain language from former that clarified aspects such as:
         <list style="symbols">
           <t>the use of slashes to donate boundaries between directory levels of a hierarchical file system</t>
           <t>the requirement that client software convert the file URL into a file name in the local file name conventions</t>
