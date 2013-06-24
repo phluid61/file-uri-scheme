@@ -16,7 +16,6 @@ Other Resources
 
 * http://tools.ietf.org/html/draft-hoffman-file-uri-03
 * http://url.spec.whatwg.org/
-
 * http://suika.fam.cx/~wakaba/wiki/sw/n/file has additional points but in Japanese
 
 Notes to self
