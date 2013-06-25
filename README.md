@@ -24,3 +24,4 @@ Notes to self
 * http://xml.resource.org/ convert XML to plain text or HTML
 * http://tools.ietf.org/tools/idnits/ check for nits
 * https://datatracker.ietf.org/submit/ submit draft
+* http://www.ietf.org/iesg/statement/ad-sponsoring-docs.html
