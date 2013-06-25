@@ -63,7 +63,7 @@
           <t>a justification for defining the scheme.</t>
         </list>
       </t>
-      <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the file URI scheme on standards track, but it expired in 2005.  That draft enumerated concerns arising from the various, often conflicting implementations.</t>
+      <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the file URI scheme on standards track when <xref target="RFC1738"/> was made obsolete, but the draft expired in 2005.  That draft enumerated concerns arising from the various, often conflicting implementations.</t>
       <t>Despite lacking a living standard, the file URI scheme is used by way of example in <xref target="RFC3986"/> three times:
         <list style="numbers">
           <t>section 1.1 [p6] uses "file:///etc/hosts" as an example</t>
