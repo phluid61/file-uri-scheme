@@ -154,7 +154,7 @@ file:///c|/windows/example.ini</artwork></figure>
       <reference anchor='I-D.draft-hoffman-file-uri'>
         <front>
           <title>The file URI Scheme</title>
-          <author initials='P' surname='Hoffman' fullname='Paul Hoffman'>
+          <author initials='P.' surname='Hoffman' fullname='Paul Hoffman'>
             <organization>VPN Consortium</organization>
             <address>
               <postal>
