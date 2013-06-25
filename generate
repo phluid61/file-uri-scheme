@@ -1,7 +1,7 @@
 #!/bin/bash --
 
 NAME=draft-kerwin-file-scheme
-VERSION=03
+VERSION=04
 
 xmllint $NAME.xml --loaddtd --noent > $NAME-latest.xml
 echo "Generated $NAME-latest.xml"
