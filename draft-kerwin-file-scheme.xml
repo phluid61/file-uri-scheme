@@ -4,7 +4,32 @@
   <!ENTITY rfc1630 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1630.xml'>
   <!ENTITY rfc1738 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1738.xml'>
   <!ENTITY rfc2119 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml'>
+  <!ENTITY rfc3629 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3629.xml'>
   <!ENTITY rfc3986 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml'>
+
+  <!ENTITY MAY '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">MAY</bcp14>'>
+  <!ENTITY MUST '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">MUST</bcp14>'>
+  <!ENTITY MUST-NOT '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">MUST NOT</bcp14>'>
+  <!ENTITY OPTIONAL '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">OPTIONAL</bcp14>'>
+  <!ENTITY RECOMMENDED '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">RECOMMENDED</bcp14>'>
+  <!ENTITY REQUIRED '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">REQUIRED</bcp14>'>
+  <!ENTITY SHALL '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">SHALL</bcp14>'>
+  <!ENTITY SHALL-NOT '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">SHALL NOT</bcp14>'>
+  <!ENTITY SHOULD '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">SHOULD</bcp14>'>
+  <!ENTITY SHOULD-NOT '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">SHOULD NOT</bcp14>'>
+
+  <!ENTITY file-URI-scheme 'file URI scheme'>
+  <!ENTITY file '<spanx>file:</spanx>'>
+  <!ENTITY ftp '<spanx>ftp:</spanx>'>
+
+  <!--ENTITY rfc3986-path '<xref target="RFC3986" x:fmt="of" x:rel="#path"/>'-->
+  <!ENTITY rfc3986-path '<eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#path">Section 3.3</eref> of <xref target="RFC3986"/>'>
+
+  <!--ENTITY rfc3986-reference-resolution '<xref target="RFC3986" x:fmt="of" x:rel="#reference-resolution"/>'-->
+  <!ENTITY rfc3986-reference-resolution '<eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#reference-resolution">Section 5</eref> of <xref target="RFC3986"/>'>
+
+  <!--ENTITY rfc3986-absolutize '<xref target="RFC3986" x:fmt="," x:rel="#absolutize"/>'-->
+  <!ENTITY rfc3986-absolutize '<xref target="RFC3986"/>, <eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#absolutize">Section 5.2</eref>'>
 ]>
 <?rfc toc="yes" ?>
 <?rfc strict="yes"?>
@@ -50,85 +75,114 @@
   <middle>
     <section title="Introduction" anchor="intro">
       <t>URIs were previously defined in <xref target="RFC1738"/>, which was updated by <xref target="RFC3986"/>.  Those documents also specify how to define schemes for URIs.</t>
-      <t>The first definition for many URI schemes appeared in <xref target="RFC1738"/>.  Because that document has been made obsolete, this document copies the file URI scheme from it to allow that material to remain on standards track.</t>
+      <t>The first definition for many URI schemes appeared in <xref target="RFC1738"/>.  Because that document has been made obsolete, this document copies the &file-URI-scheme; from it to allow that material to remain on standards track.</t>
       <section title="Conventions and Terminology">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
       </section>
     </section>
     <section title="History" anchor="history">
-      <t>The file URI scheme was first defined in <xref target="RFC1630"/>, an informational RFC which does not specify an Internet standard of any kind.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with IANA;  however the latter definition omitted certain language included by former that clarified aspects such as:
+      <t>The &file-URI-scheme; was first defined in <xref target="RFC1630"/>, an informational RFC which does not specify an Internet standard of any kind.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with the <xref target="IANA-URI-Schemes">Internet Assigned Numbers Authority (IANA)</xref>;  however the latter definition omitted certain language included by former that clarified aspects such as:
         <list style="symbols">
           <t>the use of slashes to donate boundaries between directory levels of a hierarchical file system</t>
-          <t>the requirement that client software convert the file URL into a file name in the local file name conventions</t>
+          <t>the requirement that client software convert the &file; URL into a file name in the local file name conventions</t>
           <t>a justification for defining the scheme.</t>
         </list>
       </t>
-      <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the file URI scheme on standards track when <xref target="RFC1738"/> was made obsolete, but that draft expired in 2005.  It enumerated concerns arising from the various, often conflicting implementations of the scheme.</t>
-      <t>Despite the lack of a current standard, the file URI scheme is used by way of example in <xref target="RFC3986"/> three times, presumably referring to <xref target="RFC1738"/>:
+      <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the &file-URI-scheme; on standards track when <xref target="RFC1738"/> was made obsolete, but that draft expired in 2005.  It enumerated concerns arising from the various, often conflicting implementations of the scheme.</t>
+      <t>The &file-URI-scheme; defined in <xref target="RFC1738"/> is referenced three times in the current <xref target="RFC3986">URI Generic Syntax standard</xref>, despite the former's obsoletion:
         <list style="numbers">
-          <t>section 1.1 [p6] uses "file:///etc/hosts" as an example</t>
-          <t>section 1.2.3 [p10] mentions the "file" scheme regarding relative references</t>
-          <t>section 3.2.2 [p21] says that '...the "file" URI scheme is defined so that no authority, an empty host, and "localhost" all mean the end-user's machine...'.</t>
+          <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#overview">Section 1.1</eref> uses "file:///etc/hosts" as an example</t>
+          <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#hierarchical">Section 1.2.3</eref> mentions the "file" scheme regarding relative references</t>
+          <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#host">Section 3.2.2</eref> says that '...the "file" URI scheme is defined so that no authority, an empty host, and "localhost" all mean the end-user's machine...'.</t>
         </list>
       </t>
       <t>Finally the WHATWG defines a <xref target="WHATWG-URL">living URL standard</xref>, which includes algorithms for interpreting file URIs.</t>
     </section>
     <section title="Scheme Definition" anchor="scheme">
-      <t>The file URI scheme is used to designate files accessible on a particular host computer.  This scheme, unlike most other URI schemes, does not designate a resource that is universally accessible over the Internet.</t>
-      <t>The file URI scheme has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular filesystem.  This document attempts to resolve those problems, and define a standard scheme which is interoperable between different extant and future implementations.  Additionally, it aims to ease implementation by conforming to a general syntax that allows existing machinery to parse file URIs.</t>
-      <t>Note that file and ftp URIs are not the same, even when the target of the ftp URI is the local host.</t>
-      <t>A file URI conforms with the generic syntax presented in <xref target="RFC3986"/>, with the following components:
+      <t>The &file-URI-scheme; is used to designate files accessible on a particular host computer.  This scheme, unlike most other URI schemes, does not designate a resource that is universally accessible over the Internet.</t>
+      <t>The &file-URI-scheme; has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular filesystem.  This document attempts to resolve those problems, and define a standard scheme which is interoperable between different extant and future implementations.  Additionally, it aims to ease implementation by conforming to a general syntax that allows existing machinery to parse &file; URIs.</t>
+      <t>Note that &file; and &ftp; URIs are not the same, even when the target of the &ftp; URI is the local host.</t>
+      <t>The syntax of a &file; URI conforms with the generic syntax presented in <xref target="RFC3986"/>, with the following components:
         <list style="hanging">
           <t hangText="scheme name">The literal value <spanx style="verb">file</spanx></t>
-            <t hangText="authority">If present, either the fully qualified domain name of the system on which the file is accessible;  or one of the special values <spanx style="verb">localhost</spanx> or the empty string (""), in which case it is interpreted as "the machine from which the URI is being interpreted".  An absent authority component SHOULD be interpreted as if it were present and had the value <spanx style="verb">localhost</spanx>.</t>
-            <t>A host name, if supplied, is intended to inform a client on a remote machine that it cannot access the file system, or perhaps to use some other mechanism to access the file.  It does not imply that the file should be accessible over a network connection.</t>
-            <t hangText="path">The hierarchical directory path to the file, using the slash character ("/") to separate directories.  Implementations SHOULD translate between the URI syntax and the local system's conventions for specifying file paths, where they differ.</t>
-            <t>Some systems allow file URIs to point to directories.  In this case, there is usually (but not always) a terminating slash character, such as in:
-              <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
-            </t>
+          <t hangText="authority">
+            If present, either the fully qualified domain name of the system on which the file is accessible;  or one of the special values <spanx style="verb">localhost</spanx> or the empty string (""), in which case it is interpreted as "the machine from which the URI is being interpreted".  An absent authority component &SHOULD; be interpreted as if it were present and had the value <spanx style="verb">localhost</spanx>.
+            <vspace blankLines="1"/>
+            A host name, if supplied, is intended to inform a client on a remote machine that it cannot access the file system, or perhaps to use some other mechanism to access the file.  It does not imply that the file should be accessible over a network connection.
+          </t>
+          <t hangText="path">
+            The hierarchical directory path to the file, using the slash character ("/") to separate directories.  Implementations &SHOULD; translate between the URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
+            <vspace blankLines="1"/>
+            Some systems allow &file; URIs to point to directories.  In this case, there is usually (but not always) a terminating slash character, such as in:
+            <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
+          </t>
         </list>
       </t>
-      <t>Systems exhibit different levels of case-sensitivity.  Implementations SHOULD attempt to maintain the case of file and directory names when translating file URIs to and from local file paths, and any systems or devices that transport file URIs MUST NOT alter the case of file URIs they transport.</t>
+      <t>Because the &file-URI-scheme; does not define a retrieval mechanism for dereferencing a &file; URI, the semantics of a query or fragment component are considered unknown and are effectively unconstrained.  A protocol or system that utilises the &file-URI-scheme; &MAY; define its own semantics for query and/or fragment components for &file; URIs it uses.</t>
+      <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; attempt to maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
     </section>
     <section title="Implementation Notes" anchor="implementation">
-      <section title="Hierarchical Structure">
-        <t>Most implementations of the file URI scheme do a reasonable job of mapping the hierarchical part of a directory structure into the "/" delimited hierarchy of the URI syntax, independent of the native platform's delimiter.</t>
-        <t>For example, on Microsoft Windows platforms, it is typical that the file system presents backslash (<spanx type="verb">\</spanx>) as the file delimeter for file names, yet the URI's forward slash (<spanx type="verb">/</spanx>) can be used in file URIs.  Similarly, on (some) Macintosh OS versions, at least in some contexts, the colon (<spanx type="verb">:</spanx>) is used as the delimiter in the native presentation of file path names.  Unix systems natively use the same forward slash (<spanx type="verb">/</spanx>) delimiter for hierarchy, so there is a closer mapping between file paths and native path names.</t>
-        <t>In accordance with Section 3.3 of <xref target="RFC3986"/><!--xref target="RFC3986" x:fmt="of" x:rel="#section-3.3"/-->, the path segments <spanx type="verb">.</spanx> and <spanx type="verb">..</spanx>, also known as dot-segments, are only interpreted within the URI path hierarchy and are removed as part of the resolution process (<xref target="RFC3986"/>, Section 5.2<!--xref target="RFC3986" x:fmt="," x:rel="#section-5.2"/-->). <!-- TODO: describe how implementing systems are responsible for enforcing access permissions for relative and/or ..-resolved URIs when dereferencing files --></t>
+      <section title="Hierarchical Structure" anchor="hierarchy">
+        <t>Most implementations of the &file-URI-scheme; do a reasonable job of mapping the hierarchical part of a directory structure into the slash ("/") delimited hierarchy of the URI syntax, independent of the native platform's delimiter.</t>
+        <t>For example, on Microsoft Windows platforms, it is typical that the file system presents backslash ("\") as the file delimeter for file names, yet the URI's forward slash ("/") can be used in &file; URIs.  Similarly, on (some) Macintosh OS versions, at least in some contexts, the colon (":") is used as the delimiter in the native presentation of file path names.  Unix systems natively use the same forward slash ("/") delimiter for hierarchy, so there is a closer mapping between &file; URI paths and native path names.</t>
+        <t>In accordance with &rfc3986-path;, the path segments <spanx type="verb">.</spanx> and <spanx type="verb">..</spanx>, also known as dot-segments, are only interpreted within the URI path hierarchy and are removed as part of the resolution process (&rfc3986-absolutize;).  Implementations operating on or interacting with systems that allow dot-segments in their resolved native path representation may be required to escape those segments using some other means.</t>
       </section>
-      <section title="Drives, drive letters, mount points, file system root">
-        <t>Historically there has been considerable difference, in practice, for handling of the syntax for the "top" of the hierarchy.  The file URI syntax provides one simple place for designating the root of the file hierachy, and implementations have diverged, even on the same platform, sometimes even within a single application.</t>
+      <section title="Relative file paths" anchor="relative-paths">
+        <t>
+          As relative references are resolved into their respective (absolute) target URIs, according to &rfc3986-reference-resolution;, before any dereferencing can take place, this document does not describe that resolution.  However, a fully resolved &file; URI may contain a non-absolute file path.  For example, the URI:
+          <figure><artwork type="inline">file:a/b/c</artwork></figure>
+          would be interpreted as file <spanx>c</spanx>, in directory <spanx>b</spanx>, in directory <spanx>a</spanx>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no apparent indication of the location of the directory <spanx>a</spanx> on that machine.  By convention an absolute file path would begin with a slash character ("/") on a Unix-based system, or a drive letter (e.g. "c:\") on a Microsoft Windows system, etc.
+        </t>
+        <t>Resolution of relative file paths is left undefined by this specification.</t>
+      </section>
+      <section title="Drives, drive letters, mount points, file system root" anchor="drive-letters">
+        <t>Historically there has been considerable difference, in practice, for handling of the syntax for the "top" of the hierarchy.  The &file; URI syntax provides one simple place for designating the root of the file hierachy, and implementations have diverged, even on the same platform, sometimes even within a single application.</t>
         <t>For example, Microsoft DOS- and Windows-based systems support the notion of a "drive letter", a single character which represents a (virtual) drive, mount point, or device.  Native representations of file paths start with the drive letter, a colon, and then the path; e.g., <spanx type="verb">c:\TMP\test.txt</spanx>.</t>
         <t>
-          Drive letters are mapped into the top of a file URI in various ways.  On systems running some versions of Microsoft Windows, the drive letter may be specified with a colon character (<spanx type="verb">:</spanx>), however sometimes the colon is replaced with a pipe character (<spanx type="verb">|</spanx>), and in some implementations the colon is omitted entirely.  The three representations MAY be considered equivalent, and any implementation which could interact with a Microsoft Windows environment SHOULD interpret a single letter optionally followed by a colon or pipe character in the first segment of the path as a drive letter.  For example, the following URIs:
+          Drive letters are mapped into the top of a &file; URI in various ways.  On systems running some versions of Microsoft Windows, the drive letter may be specified with a colon character (":"), however sometimes the colon is replaced with a pipe character ("|"), and in some implementations the colon is omitted entirely.  The three representations &MAY; be considered equivalent, and any implementation which could interact with a Microsoft Windows environment &SHOULD; interpret a single letter, optionally followed by a colon or pipe character, in the first segment of the path as a drive letter.  For example, the following URIs:
           <figure><artwork type="inline">file:///c:/TMP/test.txt
 file:///c|/TMP/test.txt
 file:///c/TMP/test.txt</artwork></figure>
           when interpreted on the same machine, would refer to the same file:
           <figure><artwork type="inline">c:\TMP\test.txt</artwork></figure>
         </t>
-        <t>Note that some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the authority component with the drive specification.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI MAY interpret it as a drive letter, but SHOULD NOT generate such URIs.</t>
+        <t>Implementations &SHOULD; use a colon character (":") to specify drive letters when generating URIs.</t>
+        <t>Note that some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the authority component with the drive specification.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
       </section>
-      <section title="UNC File Paths">
-        <t>File names encoded using the <xref target="MS-DTYP">Universal Naming Convention (UNC)</xref>, for example Windows shares accessed via the <xref target="MS-SMB2">SMB/CIFS protocol</xref>, SHOULD be translated entirely into the path segment of a file URI, including both leading slashes.  For example, the UNC path <figure><artwork type="inline">\\server.example.com\Share\path\to\file.doc</artwork></figure> would become <figure><artwork type="inline">
+      <section title="UNC File Paths" anchor="unc-file-paths">
+        <t>File names encoded using the <xref target="MS-DTYP">Universal Naming Convention (UNC)</xref>, for example Windows shares accessed via the <xref target="MS-SMB2">SMB/CIFS protocol</xref>, &SHOULD; be translated entirely into the path segment of a &file; URI, including both leading slashes.  For example, the UNC path <figure><artwork type="inline">\\server.example.com\Share\path\to\file.doc</artwork></figure> would become <figure><artwork type="inline">
 file:////server.example.com/Share/path/to/file.doc
        \_________________________________________/
                   translated UNC path</artwork></figure>
         </t>
-        <t>According to <xref target="RFC3986"/>, a URI that does not contain an authority component cannot begin with two slash characters ("//").  Therefore a file URI that includes a UNC path MUST include an authority component.</t>
-        <t>Note that the <spanx type="verb">hostname</spanx> part of a UNC path refers to the server or domain hosting the shared resource, and is usually different from the <spanx type="verb">host</spanx> part of the file URI, which describes the machine from which the UNC hostname can be resolved.</t>
-        <t>The file URI scheme is unusual in that it does not specify an Internet protocol or access method for shared files; as such, its utility in network protocols between hosts is limited.</t>
+        <t>According to <xref target="RFC3986"/>, a URI that does not contain an authority component cannot begin with two slash characters ("//").  Therefore a &file; URI that includes a UNC path MUST include an authority component.</t>
+        <t>Note that the <spanx type="verb">hostname</spanx> part of a UNC path refers to the server or domain hosting the shared resource, and is usually different from the <spanx type="verb">host</spanx> part of the &file; URI, which describes the machine from which the UNC hostname can be resolved.</t>
+        <t>The &file-URI-scheme; is unusual in that it does not specify an Internet protocol or access method for shared files; as such, its utility in network protocols between hosts is limited.</t>
       </section>
-      <section title="Character sets and encodings">
-        <t>Local file systems sometimes use many different encodings for representing file names.  The URI syntax defined in <xref target="RFC3986"/> provides a method of encoding data, presumably for the sake of identifying a resource, as a sequence of characters.  The URI characters are, in turn, frequently encoded as octets for transport or presentation.  This specification does not mandate any particular character encoding for mapping between URI characters and the octets used to store or transmit those characters, however for interoperability sake, it would be preferable for file URI libraries to translate the native character encoding for file names to and from Unicode.</t>
+      <section title="Namespaces" anchor="namespaces">
+        <t>The Microsoft Windows API defines <xref target="Win32-Namespaces">Win32 Namespaces</xref> for interacting with files and devices using Windows API functions.  These namespaced paths are prefixed by <spanx type="verb">\\?\</spanx> for Win32 File Namespaces and <spanx type="verb">\\.\</spanx> for Win32 Device Namespaces.  There is also a special case for UNC file paths <xref target="MS-DTYP"/> in Win32 File Namespaces, using the prefix <spanx type="verb">\\?\UNC\</spanx>.</t>
+        <!--
+            \\?\literal-path
+            \\?\UNC\server\share\literal-path
+            \\.\COMx
+        -->
+        <t>This document does not define a mechanism for encoding namespaced file paths into &file; URIs.</t>
+      </section>
+      <section title="Character sets and encodings" anchor="encoding">
+        <t>Local file systems sometimes use many different encodings for representing file names.  The URI syntax defined in <xref target="RFC3986"/> provides a method of encoding data, presumably for the sake of identifying a resource, as a sequence of characters.  The URI characters are, in turn, frequently encoded as octets for transport or presentation.  This specification does not mandate any particular character encoding for mapping between URI characters and the octets used to store or transmit those characters, however for the sake of interoperability, &file; URI libraries &MAY; translate the native character encoding for file names to and from their equivalent Unicode representation <xref target="UNICODE"/> encoded as <xref target="RFC3629">UTF-8</xref> and then percent-encoded into valid <xref target="RFC20">ASCII</xref>.</t>
+        <t>A protocol or system that utilises the &file-URI-scheme; &MAY; restrict the encoding of &file; URIs it uses, and &SHOULD; declare such restrictions.  If no such declaration is given, implementations &SHOULD; expect percent-encoded UTF-8 Unicode, as described above.</t>
+        <t><cref>Ed. Note: This section requires rewriting.</cref></t>
       </section>
     </section>
     <section title="Security Considerations" anchor="security">
       <t>There are many security considerations for URI schemes discussed in <xref target="RFC3986"/>.</t>
-      <t>File access and the granting of privileges for specific operations are complex topics, and the use of file URIs can complicate the security model in effect for file privileges.  Under no circumstance should software using file URIs grant greater access than would be available for other file access methods.</t>
+      <t>File access and the granting of privileges for specific operations are complex topics, and the use of &file; URIs can complicate the security model in effect for file privileges.  Under no circumstance should software using &file; URIs grant greater access than would be available for other file access methods.</t>
     </section>
-    <section title="IANA Considerations" anchor="iana">
-      <t>This document does not modify the existing entry in the <xref target="IANA">URI Schemes registry</xref>, except by updating its reference RFC.</t>
+    <section title="IANA Considerations" anchor="iana-considerations">
+      <t>This document does not modify the existing entry in the <xref target="IANA-URI-Schemes">URI Schemes registry</xref>, except by updating its reference RFC.</t>
+    </section>
+    <section title="Acknowledgements">
+      <t>This specification is derived from <xref target="RFC1738">RFC 1738</xref>, <xref target="RFC3986">RFC 3986</xref>, and <xref target="I-D.draft-hoffman-file-uri">I-D draft-hoffman-file-uri (expired)</xref>; the acknowledgements in those documents still apply.</t>
     </section>
   </middle>
   <back>
@@ -137,6 +191,36 @@ file:////server.example.com/Share/path/to/file.doc
       &rfc3986;
     </references>
     <references title="Informative References">
+      <reference anchor='I-D.draft-hoffman-file-uri'>
+        <front>
+          <title>The file URI Scheme</title>
+          <author initials='P.' surname='Hoffman' fullname='Paul Hoffman'>
+            <organization>VPN Consortium</organization>
+            <address>
+              <postal>
+                <street>127 Segre Place</street>
+                <city>Santa Cruz</city>
+                <region>CA</region>
+                <code>95060</code>
+              </postal>
+            </address>
+          </author>
+          <date month='January' year='2005' />
+        </front>
+        <seriesInfo name='Internet-Draft' value='draft-hoffman-file-uri-03' />
+        <format type='TXT' target='http://www.ietf.org/internet-drafts/draft-hoffman-file-uri-03.txt' />
+      </reference>
+      <reference anchor="RFC20">
+        <front>
+          <title abbrev="ASCII">ASCII format for Network Interchange</title>
+          <author initials="V." surname="Cerf" fullname="Vint Cerf">
+            <organization>UCLA</organization>
+          </author>
+          <date year="1969" month="October"/>
+        </front>
+        <seriesInfo name="RFC" value="20"/>
+        <format type="TXT" target="http://tools.ietf.org/rfc/rfc20.txt"/>
+      </reference>
       <reference anchor="RFC791">
         <front>
           <title abbrev="Internet Protocol (IP)">Internet Protocol - DARPA Internet Program, Protocol Specification</title>
@@ -158,25 +242,7 @@ file:////server.example.com/Share/path/to/file.doc
       </reference>
       &rfc1630;
       &rfc1738;
-      <reference anchor='I-D.draft-hoffman-file-uri'>
-        <front>
-          <title>The file URI Scheme</title>
-          <author initials='P.' surname='Hoffman' fullname='Paul Hoffman'>
-            <organization>VPN Consortium</organization>
-            <address>
-              <postal>
-                <street>127 Segre Place</street>
-                <city>Santa Cruz</city>
-                <region>CA</region>
-                <code>95060</code>
-              </postal>
-            </address>
-          </author>
-          <date month='January' year='2005' />
-        </front>
-        <seriesInfo name='Internet-Draft' value='draft-hoffman-file-uri-03' />
-        <format type='TXT' target='http://www.ietf.org/internet-drafts/draft-hoffman-file-uri-03.txt' />
-      </reference>
+      &rfc3629;
       <reference anchor="WHATWG-URL" target="http://url.spec.whatwg.org/">
         <front>
           <title>URL Living Standard</title>
@@ -214,16 +280,34 @@ file:////server.example.com/Share/path/to/file.doc
           <date year="2013" month="January"/>
         </front>
       </reference>
-      <reference anchor="IANA" target="http://www.iana.org/assignments/uri-schemes/uri-schemes.xml">
+      <reference anchor="IANA-URI-Schemes" target="http://www.iana.org/assignments/uri-schemes/uri-schemes.xml">
         <front>
           <title abbrev='URI Schemes registry'>Uniform Resource Identifier (URI) Schemes registry</title>
           <author>
-            <organization>IANA</organization>
+            <organization abbrev="IANA">Internet Assigned Numbers Authority</organization>
           </author>
           <date year='2013' month='June' />
         </front>
         <format type='TXT' octets='20046' target='http://www.iana.org/assignments/uri-schemes/uri-schemes.txt' />
         <format type='XML' octets='32231' target='http://www.iana.org/assignments/uri-schemes/uri-schemes.xml' />
+      </reference>
+      <reference anchor="UNICODE" target="http://www.unicode.org/versions/Unicode6.1.0/">
+        <front>
+          <title>The Unicode Standard, Version 6.1</title>
+          <author>
+            <organization>The Unicode Consortium</organization>
+          </author>
+          <date year="2012"/>
+        </front>
+      </reference>
+      <reference anchor="Win32-Namespaces" target="http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#namespaces">
+        <front>
+          <title>Naming Files, Paths, and Namespaces</title>
+          <author>
+            <organization abbrev="MSDN">Microsoft Developer Network</organization>
+          </author>
+          <date year="2013" month="June"/>
+        </front>
       </reference>
       <reference anchor="github" target="https://github.com/phluid61/file-uri-scheme">
         <front>
