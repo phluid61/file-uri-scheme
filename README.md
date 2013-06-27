@@ -18,6 +18,10 @@ Other Resources
 * http://url.spec.whatwg.org/
 * http://suika.fam.cx/~wakaba/wiki/sw/n/file has additional points but in Japanese
 
+Archives and Other Projects
+* <http://www.w3.org/Search/Mail/Public/search?keywords=file&hdr-1-name=from&hdr-1-query=Hoffman&index-grp=Public_FULL&index-type=t&type-index=uri>
+* <http://offset.skew.org/wiki/URI/File_scheme>
+
 Notes to self
 -------------
 
