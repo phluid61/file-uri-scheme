@@ -99,8 +99,9 @@
       <t>Finally the WHATWG defines a <xref target="WHATWG-URL">living URL standard</xref>, which includes algorithms for interpreting file URIs.</t>
     </section>
     <section title="Scheme Definition" anchor="scheme">
-      <t>The &file-URI-scheme; is used to designate files accessible on a particular host computer.  This scheme, unlike most other URI schemes, does not designate a resource that is universally accessible over the Internet.</t>
-      <t>The &file-URI-scheme; has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular filesystem.  This document attempts to resolve those problems, and define a standard scheme which is interoperable between different extant and future implementations.  Additionally, it aims to ease implementation by conforming to a general syntax that allows existing machinery to parse &file; URIs.</t>
+      <t>The &file-URI-scheme; is used to identify files accessible on a particular host computer, where a <spanx>file</spanx> is a named resource which can be accessed through the computer's filesystem interface.  This scheme, unlike most other URI schemes, does not identify a resource that is universally accessible over the Internet.</t>
+      <t>Note well that "file" refers to filesystem names from the perspective of the user of a reference, rather than in relation to a globally-defined naming authority, so care should be taken to ensure that such references are actually intended to be interpreted in relation to the user's filesystem interface.</t>
+      <t>The &file-URI-scheme; has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular filesystem.  This document attempts to resolve those problems, and define a standard scheme which is interoperable between different extant and future implementations.  Additionally, it aims to ease implementation by conforming to a general syntax that allows existing URI parsing machinery to parse &file; URIs.</t>
       <t>Note that &file; and &ftp; URIs are not the same, even when the target of the &ftp; URI is the local host.</t>
       <t>The syntax of a &file; URI conforms with the generic syntax presented in <xref target="RFC3986"/>, with the following components:
         <list style="hanging">
@@ -113,12 +114,14 @@
           <t hangText="path">
             The hierarchical directory path to the file, using the slash character ("/") to separate directories.  Implementations &SHOULD; translate between the URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
             <vspace blankLines="1"/>
-            Some systems allow &file; URIs to point to directories.  In this case, there is usually (but not always) a terminating slash character, such as in:
+            Some systems allow &file; URIs to point to directories.  In this case, the path usually (but not always) includes a terminating slash character, such as in:
             <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
           </t>
+          <t hangText="query">The query component contains non-hierarchical data that, along with data in the path component, serves to identify a file.  For example, in a versioning file system, the query component might be used to refer to a specific version of a file.</t>
+          <t hangText="fragment">Because the &file-URI-scheme; does not define a mechanism for retrieving a representation of a &file; URI, the semantics of a fragment component are considered unknown and remain undefined by this specification.  A protocol or system that utilises the &file-URI-scheme; &MAY; define its own semantics for fragment components in &file; URIs used in that protocol or system.</t>
         </list>
       </t>
-      <t>Because the &file-URI-scheme; does not define a retrieval mechanism for dereferencing a &file; URI, the semantics of a query or fragment component are considered unknown and are effectively unconstrained.  A protocol or system that utilises the &file-URI-scheme; &MAY; define its own semantics for query and/or fragment components for &file; URIs it uses.</t>
+      <t>Previous definitions of the &file-URI-scheme; required two slashes between the scheme and path, so for interoperability implementations &SHOULD; include an authority component in any &file; URIs they generate.</t>
       <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; attempt to maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
     </section>
     <section title="Implementation Notes" anchor="implementation">
@@ -150,6 +153,7 @@ file:///c/TMP/test.txt</artwork></figure>
         <t>Note that some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the authority component with the drive specification.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
       </section>
       <section title="UNC File Paths" anchor="unc-file-paths">
+        <!-- TODO: There are two way of encoding a UNC path into a file URI. The right way (below), and the way everyone else does it (...)... -->
         <t>File names encoded using the <xref target="MS-DTYP">Universal Naming Convention (UNC)</xref>, for example Windows shares accessed via the <xref target="MS-SMB2">SMB/CIFS protocol</xref>, &SHOULD; be translated entirely into the path segment of a &file; URI, including both leading slashes.  For example, the UNC path <figure><artwork type="inline">\\server.example.com\Share\path\to\file.doc</artwork></figure> would become <figure><artwork type="inline">
 file:////server.example.com/Share/path/to/file.doc
        \_________________________________________/
