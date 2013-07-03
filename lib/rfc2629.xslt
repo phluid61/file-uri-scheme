@@ -1825,7 +1825,7 @@
       </xsl:if>
 
       <xsl:if test="front/date/@year != ''">
-        <xsl:if test="string(number(front/date/@year)) = 'NaN'">
+        <xsl:if test="front/date/@year != 'n.d.' and string(number(front/date/@year)) = 'NaN'">
           <xsl:call-template name="warning">
             <xsl:with-param name="msg">date/@year should be a number: '<xsl:value-of select="front/date/@year"/>' in reference '<xsl:value-of select="@anchor"/>'</xsl:with-param>
           </xsl:call-template>
