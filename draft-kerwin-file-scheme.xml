@@ -4,8 +4,10 @@
   <!ENTITY rfc1630 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1630.xml'>
   <!ENTITY rfc1738 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1738.xml'>
   <!ENTITY rfc2119 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml'>
+  <!ENTITY rfc3530 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3530.xml'>
   <!ENTITY rfc3629 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3629.xml'>
   <!ENTITY rfc3986 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml'>
+  <!ENTITY rfc5234 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml'>
 
   <!ENTITY MAY '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">MAY</bcp14>'>
   <!ENTITY MUST '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">MUST</bcp14>'>
@@ -19,8 +21,8 @@
   <!ENTITY SHOULD-NOT '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">SHOULD NOT</bcp14>'>
 
   <!ENTITY file-URI-scheme 'file URI scheme'>
-  <!ENTITY file '<spanx>file:</spanx>'>
-  <!ENTITY ftp '<spanx>ftp:</spanx>'>
+  <!ENTITY file '<spanx>file</spanx>'>
+  <!ENTITY ftp '<spanx>ftp</spanx>'>
 
   <!--ENTITY rfc3986-path '<xref target="RFC3986" x:fmt="of" x:rel="#path"/>'-->
   <!ENTITY rfc3986-path '<eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#path">Section 3.3</eref> of <xref target="RFC3986"/>'>
@@ -34,7 +36,7 @@
 <?rfc toc="yes" ?>
 <?rfc strict="yes"?>
 <?rfc symrefs="yes" ?>
-<?rfc sortrefs="no" ?>
+<?rfc sortrefs="yes" ?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no" ?>
 <?rfc linkmailto="no" ?>
@@ -112,16 +114,20 @@
             A host name, if supplied, is intended to inform a client on a remote machine that it cannot access the file system, or perhaps to use some other mechanism to access the file.  It does not imply that the file should be accessible over a network connection.
           </t>
           <t hangText="path">
-            The hierarchical directory path to the file, using the slash character ("/") to separate directories.  Implementations &SHOULD; translate between the URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
+            The hierarchical directory path to the file, using the slash ("/") character to separate directories.  Implementations &SHOULD; translate between the URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
             <vspace blankLines="1"/>
             Some systems allow &file; URIs to point to directories.  In this case, the path usually (but not always) includes a terminating slash character, such as in:
             <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
           </t>
-          <t hangText="query">The query component contains non-hierarchical data that, along with data in the path component, serves to identify a file.  For example, in a versioning file system, the query component might be used to refer to a specific version of a file.</t>
+          <t hangText="query">
+            The query component contains non-hierarchical data that, along with data in the path component, serves to identify a file.  For example, in a versioning file system, the query component might be used to refer to a specific version of a file.
+            <vspace blankLines="1"/>
+            Few implementations are known to use or support query components.
+          </t>
           <t hangText="fragment">Because the &file-URI-scheme; does not define a mechanism for retrieving a representation of a &file; URI, the semantics of a fragment component are considered unknown and remain undefined by this specification.  A protocol or system that utilises the &file-URI-scheme; &MAY; define its own semantics for fragment components in &file; URIs used in that protocol or system.</t>
         </list>
       </t>
-      <t>Previous definitions of the &file-URI-scheme; required two slashes between the scheme and path, so for interoperability implementations &SHOULD; include an authority component in any &file; URIs they generate.</t>
+      <t>Previous definitions of the &file-URI-scheme; required two slashes between the scheme and path, so implementations may wish to include an authority component in any &file; URIs they generate, in order to remain interoperable.</t>
       <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; attempt to maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
     </section>
     <section title="Implementation Notes" anchor="implementation">
@@ -132,9 +138,9 @@
       </section>
       <section title="Relative file paths" anchor="relative-paths">
         <t>
-          As relative references are resolved into their respective (absolute) target URIs, according to &rfc3986-reference-resolution;, before any dereferencing can take place, this document does not describe that resolution.  However, a fully resolved &file; URI may contain a non-absolute file path.  For example, the URI:
+          As relative references are resolved into their respective (absolute) target URIs according to &rfc3986-reference-resolution;, this document does not describe that resolution.  However, a fully resolved &file; URI may contain a non-absolute file path.  For example, the URI:
           <figure><artwork type="inline">file:a/b/c</artwork></figure>
-          would be interpreted as file <spanx>c</spanx>, in directory <spanx>b</spanx>, in directory <spanx>a</spanx>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no apparent indication of the location of the directory <spanx>a</spanx> on that machine.  By convention an absolute file path would begin with a slash character ("/") on a Unix-based system, or a drive letter (e.g. "c:\") on a Microsoft Windows system, etc.
+          would be interpreted as file <spanx>c</spanx>, in directory <spanx>b</spanx>, in directory <spanx>a</spanx>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no indication of the location of the directory <spanx>a</spanx> on that machine.  By convention an absolute file path would begin with a slash ("/") character on a Unix-based system, or a drive letter (e.g. "c:\") on a Microsoft Windows system, etc.
         </t>
         <t>Resolution of relative file paths is left undefined by this specification.</t>
       </section>
@@ -142,40 +148,52 @@
         <t>Historically there has been considerable difference, in practice, for handling of the syntax for the "top" of the hierarchy.  The &file; URI syntax provides one simple place for designating the root of the file hierachy, and implementations have diverged, even on the same platform, sometimes even within a single application.</t>
         <t>For example, Microsoft DOS- and Windows-based systems support the notion of a "drive letter", a single character which represents a (virtual) drive, mount point, or device.  Native representations of file paths start with the drive letter, a colon, and then the path; e.g., <spanx type="verb">c:\TMP\test.txt</spanx>.</t>
         <t>
-          Drive letters are mapped into the top of a &file; URI in various ways.  On systems running some versions of Microsoft Windows, the drive letter may be specified with a colon character (":"), however sometimes the colon is replaced with a pipe character ("|"), and in some implementations the colon is omitted entirely.  The three representations &MAY; be considered equivalent, and any implementation which could interact with a Microsoft Windows environment &SHOULD; interpret a single letter, optionally followed by a colon or pipe character, in the first segment of the path as a drive letter.  For example, the following URIs:
+          Drive letters are mapped into the top of a &file; URI in various ways.  On systems running some versions of Microsoft Windows, the drive letter may be specified with a colon (":") character, however sometimes the colon is replaced with a pipe ("|") character, and in some implementations the colon is omitted entirely.  The three representations &MAY; be considered equivalent, and any implementation which could interact with a Microsoft Windows environment &SHOULD; interpret a single letter, optionally followed by a colon or pipe character, in the first segment of the path as a drive letter.  For example, the following URIs:
           <figure><artwork type="inline">file:///c:/TMP/test.txt
 file:///c|/TMP/test.txt
 file:///c/TMP/test.txt</artwork></figure>
           when interpreted on the same machine, would refer to the same file:
           <figure><artwork type="inline">c:\TMP\test.txt</artwork></figure>
         </t>
-        <t>Implementations &SHOULD; use a colon character (":") to specify drive letters when generating URIs.</t>
-        <t>Note that some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the authority component with the drive specification.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
+        <t>Implementations &SHOULD; use a colon (":") character to specify drive letters when generating URIs.</t>
+        <t>Note that some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the authority component with the drive specification; for example, <spanx type="verb">file://c:/TMP/test.txt</spanx>.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
       </section>
       <section title="UNC File Paths" anchor="unc-file-paths">
-        <!-- TODO: There are two way of encoding a UNC path into a file URI. The right way (below), and the way everyone else does it (...)... -->
-        <t>File names encoded using the <xref target="MS-DTYP">Universal Naming Convention (UNC)</xref>, for example Windows shares accessed via the <xref target="MS-SMB2">SMB/CIFS protocol</xref>, &SHOULD; be translated entirely into the path segment of a &file; URI, including both leading slashes.  For example, the UNC path <figure><artwork type="inline">\\server.example.com\Share\path\to\file.doc</artwork></figure> would become <figure><artwork type="inline">
+        <t>The Microsoft Windows <xref target="MS-DTYP">Universal Naming Convention (UNC)</xref> defines a convention for specifying the location of resources such as shared files or devices, for example Windows shares accessed via the <xref target="MS-SMB2">SMB/CIFS protocol</xref>.  The general structure of a UNC file path, given in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, is:
+          <figure><artwork type="inline">
+UNC        = "\\" hostname "\" sharename *( "\" objectname )
+hostname   = &lt;NetBIOS name, FQDN, or IP address of a server&gt;
+sharename  = &lt;name of a share or resource to be accessed&gt;
+objectname = &lt;the name of an object&gt;
+          </artwork></figure>
+          Note that this syntax description is non-normative.
+        </t>
+        <t>
+          The canonical representation of a UNC file path as a &file; URI copies the UNC <spanx>hostname</spanx> into the URI <spanx>host</spanx> field, and the UNC <spanx>sharename</spanx> and <spanx>objectname</spanx>s, concatenated with forward slash ("/") characters, into the <spanx>path</spanx>.  For example, the following UNC path:
+          <figure><artwork type="inline">\\server.example.com\Share\path\to\file.doc</artwork></figure>
+          is represented as a &file; URI canonically as:
+          <figure><artwork type="inline">
+file://server.example.com/Share/path/to/file.doc
+       \________________/\_____________________/
+            hostname      sharename+objectnames</artwork></figure></t>
+      <t>
+        Historically some implementations have translated UNC file paths entirely into the <spanx>path</spanx> segment of a &file; URI, including both leading slashes.  For example, the UNC path:
+        <figure><artwork type="inline">\\server.example.com\Share\path\to\file.doc</artwork></figure>
+        might be translated as:
+        <figure><artwork type="inline">
 file:////server.example.com/Share/path/to/file.doc
        \_________________________________________/
                   translated UNC path</artwork></figure>
-        </t>
-        <t>According to <xref target="RFC3986"/>, a URI that does not contain an authority component cannot begin with two slash characters ("//").  Therefore a &file; URI that includes a UNC path MUST include an authority component.</t>
-        <t>Note that the <spanx type="verb">hostname</spanx> part of a UNC path refers to the server or domain hosting the shared resource, and is usually different from the <spanx type="verb">host</spanx> part of the &file; URI, which describes the machine from which the UNC hostname can be resolved.</t>
-        <t>The &file-URI-scheme; is unusual in that it does not specify an Internet protocol or access method for shared files; as such, its utility in network protocols between hosts is limited.</t>
+        An implementation receiving such a URI &SHOULD; convert it to the canonical representation before processing or forwarding it.</t>
+      <t>The &file-URI-scheme; is unusual in that it does not specify an Internet protocol or access method for shared files; as such, its utility in network protocols between hosts is limited.  Examples of file server protocols that do define such access methods include <xref target="MS-SMB2">SMB/CIFS</xref>, <xref target="RFC3530">NFS</xref>, and <xref target="NOVELL">NCP</xref>.</t>
       </section>
       <section title="Namespaces" anchor="namespaces">
-        <t>The Microsoft Windows API defines <xref target="Win32-Namespaces">Win32 Namespaces</xref> for interacting with files and devices using Windows API functions.  These namespaced paths are prefixed by <spanx type="verb">\\?\</spanx> for Win32 File Namespaces and <spanx type="verb">\\.\</spanx> for Win32 Device Namespaces.  There is also a special case for UNC file paths <xref target="MS-DTYP"/> in Win32 File Namespaces, using the prefix <spanx type="verb">\\?\UNC\</spanx>.</t>
-        <!--
-            \\?\literal-path
-            \\?\UNC\server\share\literal-path
-            \\.\COMx
-        -->
-        <t>This document does not define a mechanism for encoding namespaced file paths into &file; URIs.</t>
+        <t>The Microsoft Windows API defines <xref target="Win32-Namespaces">Win32 Namespaces</xref> for interacting with files and devices using Windows API functions.  These namespaced paths are prefixed by <spanx type="verb">\\?\</spanx> for Win32 File Namespaces and <spanx type="verb">\\.\</spanx> for Win32 Device Namespaces.  There is also a special case for UNC file paths <xref target="MS-DTYP"/> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <spanx type="verb">\\?\UNC\</spanx>.</t>
+        <t>This document does not define a mechanism for translating namespaced file paths into &file; URIs.</t>
       </section>
       <section title="Character sets and encodings" anchor="encoding">
         <t>Local file systems sometimes use many different encodings for representing file names.  The URI syntax defined in <xref target="RFC3986"/> provides a method of encoding data, presumably for the sake of identifying a resource, as a sequence of characters.  The URI characters are, in turn, frequently encoded as octets for transport or presentation.  This specification does not mandate any particular character encoding for mapping between URI characters and the octets used to store or transmit those characters, however for the sake of interoperability, &file; URI libraries &MAY; translate the native character encoding for file names to and from their equivalent Unicode representation <xref target="UNICODE"/> encoded as <xref target="RFC3629">UTF-8</xref> and then percent-encoded into valid <xref target="RFC20">ASCII</xref>.</t>
-        <t>A protocol or system that utilises the &file-URI-scheme; &MAY; restrict the encoding of &file; URIs it uses, and &SHOULD; declare such restrictions.  If no such declaration is given, implementations &SHOULD; expect percent-encoded UTF-8 Unicode, as described above.</t>
-        <t><cref>Ed. Note: This section requires rewriting.</cref></t>
+        <t>A protocol or system that utilises the &file-URI-scheme; &MAY; restrict the encoding of &file; URIs used in that protocol or system, and &SHOULD; declare such restrictions if they exist.  If no such declaration is given, implementations &SHOULD; default to percent-encoded UTF-8 Unicode, as described above.</t>
       </section>
     </section>
     <section title="Security Considerations" anchor="security">
@@ -246,7 +264,9 @@ file:////server.example.com/Share/path/to/file.doc
       </reference>
       &rfc1630;
       &rfc1738;
+      &rfc3530;
       &rfc3629;
+      &rfc5234;
       <reference anchor="WHATWG-URL" target="http://url.spec.whatwg.org/">
         <front>
           <title>URL Living Standard</title>
@@ -272,6 +292,18 @@ file:////server.example.com/Share/path/to/file.doc
           <date year="2013" month="January"/>
         </front>
       </reference>
+      <!--reference anchor="MS-SMB" target="http://msdn.microsoft.com/en-us/library/cc246231.aspx">
+        <front>
+          <title>Server Message Block (SMB) Protocol</title>
+          <author>
+            <organization>Microsoft Open Specifications</organization>
+            <address>
+              <uri>http://www.microsoft.com/openspecifications/en/us/default.aspx</uri>
+            </address>
+          </author>
+          <date year="2013" month="January"/>
+        </front>
+      </reference-->
       <reference anchor="MS-SMB2" target="http://msdn.microsoft.com/en-us/library/cc246482.aspx">
         <front>
           <title>Server Message Block (SMB) Protocol Versions 2 and 3</title>
@@ -282,6 +314,18 @@ file:////server.example.com/Share/path/to/file.doc
             </address>
           </author>
           <date year="2013" month="January"/>
+        </front>
+      </reference>
+      <reference anchor="NOVELL" target="http://www.novell.com/developer/ndk/netware_core_protocols.html">
+        <front>
+          <title>NetWare Core Protocols</title>
+          <author>
+            <organization>Novell</organization>
+            <address>
+              <uri>http://www.novell.com/</uri>
+            </address>
+          </author>
+          <date year="2013"/>
         </front>
       </reference>
       <reference anchor="IANA-URI-Schemes" target="http://www.iana.org/assignments/uri-schemes/uri-schemes.xml">
