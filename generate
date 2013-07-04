@@ -1,18 +1,27 @@
 #!/bin/bash --
 
 NAME=draft-kerwin-file-scheme
-VERSION=05
+VERSION=06
 
+# Create -XX version, which is identical but for the version number.
+sed -e "s/$NAME-latest/$NAME-$VERSION/" < $NAME.xml > $NAME-$VERSION.xml
+echo "Generated $NAME-$VERSION.xml"
+echo ""
+
+# Create the -latest version, which has all entities resolved.
 xmllint $NAME.xml --loaddtd --noent > $NAME-latest.xml
 echo "Generated $NAME-latest.xml"
-
+# Convert -latest version to HTML
 xsltproc -o $NAME-latest.html --path ".:lib" rfc2629.xslt $NAME-latest.xml
 echo "Generated $NAME-latest.html"
+echo ""
 
+# Create xml2rfc version, which has a lot of good bits hacked out.
 sed -e 's/ x:maturity-level="draft"//' \
 	-e 's/ xmlns:x="http:\/\/purl\.org\/net\/xml2rfc\/ext"//' \
 	-e 's/<x:feedback .*>//' \
 	-e "s/$NAME-latest/$NAME-$VERSION/" \
-	< $NAME-latest.xml > $NAME-$VERSION.xml
-echo "Generated $NAME-$VERSION.xml"
+	< $NAME-latest.xml > $NAME-$VERSION.xml2rfc.xml
+echo "Generated $NAME-$VERSION.xml2rfc.xml"
+echo "This version may require more edits."
 
