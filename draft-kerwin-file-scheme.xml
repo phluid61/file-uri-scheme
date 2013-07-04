@@ -99,7 +99,7 @@
         </t>
         <t>Finally the WHATWG defines a <xref target="WHATWG-URL">living URL standard</xref>, which includes algorithms for interpreting file URIs.</t>
       </section>
-      <section title="Conventions and Terminology">
+      <section title="Conventions and Terminology" anchor="conventions">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
       </section>
     </section>
