@@ -60,8 +60,16 @@
       The file URI Scheme
     </title>
     <author surname="Kerwin" fullname="Matthew Kerwin" initials="M. V.">
+      <organization abbrev="QUT">Queensland University of Technology</organization>
       <address>
-        <email>matthew@kerwin.net.au</email>
+        <postal>
+          <street>Victoria Park Rd</street>
+          <city>Kelvin Grove</city>
+          <region>QLD</region>
+          <code>4059</code>
+          <country>Australia</country>
+        </postal>
+        <email>matthew.kerwin@qut.edu.au</email>
       </address>
     </author>
     <date month="June" year="2013" />
