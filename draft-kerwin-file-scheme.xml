@@ -20,6 +20,8 @@
   <!ENTITY SHOULD '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">SHOULD</bcp14>'>
   <!ENTITY SHOULD-NOT '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">SHOULD NOT</bcp14>'>
 
+  <!ENTITY NON-NORMATIVE '<t><spanx>This section is non-normative.</spanx></t>'>
+
   <!ENTITY file-URI-scheme 'file URI scheme'>
   <!ENTITY file '<spanx>file</spanx>'>
   <!ENTITY ftp '<spanx>ftp</spanx>'>
@@ -78,27 +80,28 @@
     <section title="Introduction" anchor="intro">
       <t>URIs were previously defined in <xref target="RFC1738"/>, which was updated by <xref target="RFC3986"/>.  Those documents also specify how to define schemes for URIs.</t>
       <t>The first definition for many URI schemes appeared in <xref target="RFC1738"/>.  Because that document has been made obsolete, this document copies the &file-URI-scheme; from it to allow that material to remain on standards track.</t>
+      <section title="History" anchor="history">
+        &NON-NORMATIVE;
+        <t>The &file-URI-scheme; was first defined in <xref target="RFC1630"/>, which, being an informational RFC, does not specify an Internet standard.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with the <xref target="IANA-URI-Schemes">Internet Assigned Numbers Authority (IANA)</xref>;  however the latter definition omitted certain language included by former that clarified aspects such as:
+          <list style="symbols">
+            <t>the use of slashes to donate boundaries between directory levels of a hierarchical file system;</t>
+            <t>the requirement that client software convert the &file; URI into a file name in the local file name conventions;</t>
+            <t>a justification for defining the scheme.</t>
+          </list>
+        </t>
+        <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the &file-URI-scheme; on standards track when <xref target="RFC1738"/> was made obsolete, but that draft expired in 2005.  It enumerated concerns arising from the various, often conflicting implementations of the scheme.  It serves as the basis of this document.</t>
+        <t>The &file-URI-scheme; defined in <xref target="RFC1738"/> is referenced three times in the current <xref target="RFC3986">URI Generic Syntax standard</xref>, despite the former's obsoletion:
+          <list style="numbers">
+            <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#overview">Section 1.1</eref> uses "file:///etc/hosts" as an example for identifying a resource in relation to the end-user's local context.</t>
+            <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#hierarchical">Section 1.2.3</eref> mentions the "file" scheme regarding relative references.</t>
+            <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#host">Section 3.2.2</eref> says that '...the "file" URI scheme is defined so that no authority, an empty host, and "localhost" all mean the end-user's machine...'.</t>
+          </list>
+        </t>
+        <t>Finally the WHATWG defines a <xref target="WHATWG-URL">living URL standard</xref>, which includes algorithms for interpreting file URIs.</t>
+      </section>
       <section title="Conventions and Terminology">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
       </section>
-    </section>
-    <section title="History" anchor="history">
-      <t>The &file-URI-scheme; was first defined in <xref target="RFC1630"/>, an informational RFC which does not specify an Internet standard of any kind.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with the <xref target="IANA-URI-Schemes">Internet Assigned Numbers Authority (IANA)</xref>;  however the latter definition omitted certain language included by former that clarified aspects such as:
-        <list style="symbols">
-          <t>the use of slashes to donate boundaries between directory levels of a hierarchical file system</t>
-          <t>the requirement that client software convert the &file; URL into a file name in the local file name conventions</t>
-          <t>a justification for defining the scheme.</t>
-        </list>
-      </t>
-      <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the &file-URI-scheme; on standards track when <xref target="RFC1738"/> was made obsolete, but that draft expired in 2005.  It enumerated concerns arising from the various, often conflicting implementations of the scheme.</t>
-      <t>The &file-URI-scheme; defined in <xref target="RFC1738"/> is referenced three times in the current <xref target="RFC3986">URI Generic Syntax standard</xref>, despite the former's obsoletion:
-        <list style="numbers">
-          <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#overview">Section 1.1</eref> uses "file:///etc/hosts" as an example</t>
-          <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#hierarchical">Section 1.2.3</eref> mentions the "file" scheme regarding relative references</t>
-          <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#host">Section 3.2.2</eref> says that '...the "file" URI scheme is defined so that no authority, an empty host, and "localhost" all mean the end-user's machine...'.</t>
-        </list>
-      </t>
-      <t>Finally the WHATWG defines a <xref target="WHATWG-URL">living URL standard</xref>, which includes algorithms for interpreting file URIs.</t>
     </section>
     <section title="Scheme Definition" anchor="scheme">
       <t>The &file-URI-scheme; is used to identify files accessible on a particular host computer, where a <spanx>file</spanx> is a named resource which can be accessed through the computer's filesystem interface.  This scheme, unlike most other URI schemes, does not identify a resource that is universally accessible over the Internet.</t>
