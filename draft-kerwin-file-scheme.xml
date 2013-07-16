@@ -7,7 +7,9 @@
   <!ENTITY rfc3530 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3530.xml'>
   <!ENTITY rfc3629 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3629.xml'>
   <!ENTITY rfc3986 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml'>
+  <!ENTITY rfc4395 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.4395.xml'>
   <!ENTITY rfc5234 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml'>
+  <!ENTITY rfc6874 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6874.xml'>
 
   <!ENTITY MAY '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">MAY</bcp14>'>
   <!ENTITY MUST '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">MUST</bcp14>'>
@@ -25,6 +27,8 @@
   <!ENTITY file-URI-scheme 'file URI scheme'>
   <!ENTITY file '<spanx>file</spanx>'>
   <!ENTITY ftp '<spanx>ftp</spanx>'>
+
+  <!ENTITY rfcXXXX 'RFC XXXX.  <note title="Note to RFC Editor">please replace XXXX with the number issued to this document.</note>'>
 
   <!--ENTITY rfc3986-path '<xref target="RFC3986" x:fmt="of" x:rel="#path"/>'-->
   <!ENTITY rfc3986-path '<eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#path">Section 3.3</eref> of <xref target="RFC3986"/>'>
@@ -115,6 +119,7 @@
       <t>The &file-URI-scheme; is used to identify files accessible on a particular host computer, where a <spanx>file</spanx> is a named resource which can be accessed through the computer's filesystem interface.  This scheme, unlike most other URI schemes, does not identify a resource that is universally accessible over the Internet.</t>
       <t>Note well that "file" refers to filesystem names from the perspective of the user of a reference, rather than in relation to a globally-defined naming authority, so care should be taken to ensure that such references are actually intended to be interpreted in relation to the user's filesystem interface.</t>
       <t>The &file-URI-scheme; has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular filesystem.  This document attempts to resolve those problems, and define a standard scheme which is interoperable between different extant and future implementations.  Additionally, it aims to ease implementation by conforming to a general syntax that allows existing URI parsing machinery to parse &file; URIs.</t>
+      <!-- File URLs are rarely used in Web pages on the Internet, since they make the assumption that such a file exists on the client's computer. The host specifier can be used to retrieve a file from an external source, although no specific file-retrieval protocol is specified; and using it should result in a message that informs the user that no mechanism to access that machine is available. -->
       <t>Note that &file; and &ftp; URIs are not the same, even when the target of the &ftp; URI is the local host.</t>
       <t>The syntax of a &file; URI conforms with the generic syntax presented in <xref target="RFC3986"/>, with the following components:
         <list style="hanging">
@@ -142,6 +147,7 @@
       <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; attempt to maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
     </section>
     <section title="Implementation Notes" anchor="implementation">
+      <!-- http://blogs.msdn.com/b/freeassociations/archive/2005/05/19/420059.aspx -->
       <section title="Hierarchical Structure" anchor="hierarchy">
         <t>Most implementations of the &file-URI-scheme; do a reasonable job of mapping the hierarchical part of a directory structure into the slash ("/") delimited hierarchy of the URI syntax, independent of the native platform's delimiter.</t>
         <t>For example, on Microsoft Windows platforms, it is typical that the file system presents backslash ("\") as the file delimeter for file names, yet the URI's forward slash ("/") can be used in &file; URIs.  Similarly, on (some) Macintosh OS versions, at least in some contexts, the colon (":") is used as the delimiter in the native presentation of file path names.  Unix systems natively use the same forward slash ("/") delimiter for hierarchy, so there is a closer mapping between &file; URI paths and native path names.</t>
@@ -212,7 +218,59 @@ file:////server.example.com/Share/path/to/file.doc
       <t>File access and the granting of privileges for specific operations are complex topics, and the use of &file; URIs can complicate the security model in effect for file privileges.  Under no circumstance should software using &file; URIs grant greater access than would be available for other file access methods.</t>
     </section>
     <section title="IANA Considerations" anchor="iana-considerations">
-      <t>This document does not modify the existing entry in the <xref target="IANA-URI-Schemes">URI Schemes registry</xref>, except by updating its reference RFC.</t>
+      <t>In accordance with the guidelines and registration procedures for new URI schemes <xref target="RFC4395"/>, this section provides the information needed to update the registration of the &file-URI-scheme;.</t>
+      <section title="URI Scheme Name">
+        <t>file</t>
+      </section>
+      <section title="Status">
+        <t>permanent</t>
+      </section>
+      <section title="URI Scheme Syntax">
+        <t>The &file; URI syntax is defined here in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, borrowing the 'host' and 'path-absolute' rules from <xref target="RFC3986"/> (updated by <xref target="RFC6874"/>).</t>
+        <figure>
+          <artwork type="inline">
+fileURI       = "file" ":" [ authpart ] path-absolute
+authpart      = "//" [ hostpart ]
+hostpart      = "" / "localhost" / host
+          </artwork>
+        </figure>
+      </section>
+      <section title="URI Scheme Semantics">
+        <t>The &file-URI-scheme; identifies files on a computer system.  It is used only for identification, not interaction.  A protocol that employs the &file-URI-scheme; is responsible for specifying how a &file; URI is dereferenced in the context of that protocol.  There is no media type associated with the &file-URI-scheme;.</t>
+        <!-- A system that implements the file URI scheme is responsible for translating file URIs to and from local file system conventions, and defining its own access mechanisms to those files. -->
+      </section>
+      <section title="Encoding Considerations">
+        <t>See Section 3.6 of &rfcXXXX;</t>
+        <t>As specified in <xref target="RFC3986"/>, the file URI scheme allows any character from the Unicode repertoire <xref target="UNICODE"/> encoded as <xref target="RFC3629">UTF-8</xref> and then percent-encoded into valid <xref target="RFC20">ASCII</xref>.</t>
+      </section>
+      <section title="Applications/Protocols That Use This URI Scheme Name">
+        <t>Web browsers:</t>
+        <list style="symbols">
+          <t>Mozilla Firefox <!-- https://hg.mozilla.org/mozilla-central/file/5976b9c673f8/netwerk/protocol/file --></t>
+          <t>Chromium <!-- http://src.chromium.org/viewvc/chrome/trunk/src/url/url_file.h --></t>
+          <t>Internet Explorer <!-- since 4 --></t>
+        </list>
+        <t>Other applications/protocols:</t>
+        <list style="symbols">
+          <t>Windows API <!-- http://blogs.msdn.com/b/ie/archive/2006/12/06/file-uris-in-windows.aspx --></t>
+          <t>Perl LWP <!-- http://cpansearch.perl.org/src/GAAS/libwww-perl-6.05/lib/LWP/Protocol/file.pm --></t>
+        </list>
+      </section>
+      <section title="Interoperability Considerations">
+        <t></t>
+      </section>
+      <section title="Security Considerations">
+        <t>See Section 4 of &rfcXXXX;</t>
+      </section>
+      <section title="Contact">
+        <t>Matthew Kerwin, matthew@kerwin.net.au</t>
+      </section>
+      <section title="Author/Change Controller">
+        <t>This scheme is registered under the IETF tree.  As such, the IETF maintains change control.</t>
+      </section>
+      <section title="References">
+        <t></t>
+      </section>
     </section>
     <section title="Acknowledgements">
       <t>This specification is derived from <xref target="RFC1738">RFC 1738</xref>, <xref target="RFC3986">RFC 3986</xref>, and <xref target="I-D.draft-hoffman-file-uri">I-D draft-hoffman-file-uri (expired)</xref>; the acknowledgements in those documents still apply.</t>
@@ -222,6 +280,7 @@ file:////server.example.com/Share/path/to/file.doc
     <references title="Normative References">
       &rfc2119;
       &rfc3986;
+      &rfc6874;
     </references>
     <references title="Informative References">
       <reference anchor='I-D.draft-hoffman-file-uri'>
@@ -277,6 +336,7 @@ file:////server.example.com/Share/path/to/file.doc
       &rfc1738;
       &rfc3530;
       &rfc3629;
+      &rfc4395;
       &rfc5234;
       <reference anchor="WHATWG-URL" target="http://url.spec.whatwg.org/">
         <front>
@@ -293,7 +353,7 @@ file:////server.example.com/Share/path/to/file.doc
       </reference>
       <reference anchor="MS-DTYP" target="http://msdn.microsoft.com/en-us/library/gg465305.aspx">
         <front>
-          <title>Windows Data Types, Section 2.2.56 UNC</title>
+          <title>Windows Data Types, 2.2.56 UNC</title>
           <author>
             <organization>Microsoft Open Specifications</organization>
             <address>
