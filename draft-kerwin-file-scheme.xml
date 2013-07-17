@@ -4,8 +4,8 @@
   <!-- Metadata -->
   <!ENTITY title 'The &#x27;file&#x27; URI Scheme'>
   <!ENTITY title-abbrev '&#x27;file&#x27; Scheme'>
-  <!--ENTITY rfcXXXX 'RFC XXXX.  <x:note xmlns:x="http://purl.org/net/xml2rfc/ext" title="Note to RFC Editor"><t>please replace XXXX with the number issued to this document.</t></x:note>'-->
-  <!ENTITY rfcXXXX 'RFC XXXX.  [Note to RFC Editor: please replace XXXX with the number issued to this document.]'>
+  <!ENTITY rfc 'RFC XXXX'>
+  <!ENTITY rfcXXXX '[Note to RFC Editor: please replace XXXX with the number issued to this document.]'>
 
   <!-- References -->
   <!ENTITY rfc1630 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1630.xml'>
@@ -104,9 +104,8 @@
         &NON-NORMATIVE;
         <t>The &file-URI-scheme; was first defined in <xref target="RFC1630"/>, which, being an informational RFC, does not specify an Internet standard.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with the <xref target="IANA-URI-Schemes">Internet Assigned Numbers Authority (IANA)</xref>;  however that definition omitted certain language included by former that clarified aspects such as:
           <list style="symbols">
-            <t>the use of slashes to donate boundaries between directory levels of a hierarchical file system;</t>
-            <t>the requirement that client software convert the &file; URI into a file name in the local file name conventions;</t>
-            <t>a justification for defining the scheme.</t>
+            <t>the use of slashes to donate boundaries between directory levels of a hierarchical file system; and</t>
+            <t>the requirement that client software convert the &file; URI into a file name in the local file name conventions.</t>
           </list>
         </t>
         <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the &file-URI-scheme; on standards track when <xref target="RFC1738"/> was made obsolete, but that draft expired in 2005.  It enumerated concerns arising from the various, often conflicting implementations of the scheme.  It serves as the basis of this document.</t>
@@ -155,7 +154,7 @@
               <vspace blankLines="1"/>
               Few implementations are known to use or support query components.
             </t>
-            <t hangText="fragment">Because the &file-URI-scheme; does not define a mechanism for retrieving a representation of a &file; URI, the semantics of a fragment component are considered unknown and remain undefined by this specification.  A protocol that employs &file; URIs &MAY; define its own semantics for fragment components in the context of that protocol.</t>
+            <t hangText="fragment">The semantics of a fragment component are undefined by this specification.  A protocol that employs &file; URIs &MAY; define its own semantics for fragment components in the context of that protocol.</t>
           </list>
         </t>
         <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
@@ -176,7 +175,7 @@
           <figure><artwork type="inline">file:a/b/c</artwork></figure>
           would be parsed and interpreted as: file <spanx>c</spanx>, in directory <spanx>b</spanx>, in directory <spanx>a</spanx>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no indication of the location of the directory <spanx>a</spanx> on that machine.  By convention an absolute file path would begin with a slash ("/") character on a Unix-based system, or a drive letter (e.g. "c:\") on a Microsoft Windows system, etc.
         </t>
-        <t>Resolution of relative file paths is left undefined by this specification.</t>
+        <t>Resolution of relative file paths is undefined by this specification.  A protocol that employs &file; URIs &MAY; define its own rules for resolution of relative file paths in the context of that protocol.</t>
       </section>
       <section title="Drives, drive letters, mount points, file system root" anchor="drive-letters">
         <t>Historically there has been considerable difference, in practice, for handling of the syntax for the "top" of the hierarchy.  The &file; URI syntax provides one simple place for designating the root of the file hierachy, and implementations have diverged, even on the same platform, sometimes even within a single application.</t>
@@ -189,7 +188,7 @@ file:///c/TMP/test.txt</artwork></figure>
           when interpreted on the same machine, would refer to the same file:
           <figure><artwork type="inline">c:\TMP\test.txt</artwork></figure>
         </t>
-        <t>Implementations &SHOULD; use a colon (":") character to specify drive letters when generating URIs.</t>
+        <t>Implementations &SHOULD; use a colon (":") character to specify drive letters when generating URIs for Windows- and DOS-based systems.</t>
         <t>Note that some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the authority component with the drive specification; for example, <spanx type="verb">file://c:/TMP/test.txt</spanx>.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
       </section>
       <section title="UNC File Paths" anchor="unc-file-paths">
@@ -199,8 +198,7 @@ UNC        = "\\" hostname "\" sharename *( "\" objectname )
 hostname   = &lt;NetBIOS name, FQDN, or IP address of a server&gt;
 sharename  = &lt;name of a share or resource to be accessed&gt;
 objectname = &lt;the name of an object&gt;
-          </artwork></figure>
-          Note that this syntax description is non-normative.
+          </artwork><postamble>Note that this syntax description is non-normative.</postamble></figure>
         </t>
         <t>
           The canonical representation of a UNC file path as a &file; URI copies the UNC <spanx>hostname</spanx> into the URI <spanx>host</spanx> field, and the UNC <spanx>sharename</spanx> and <spanx>objectname</spanx>s, concatenated with forward slash ("/") characters, into the <spanx>path</spanx>.  For example, the following UNC path:
@@ -227,7 +225,7 @@ file://///server.example.com/Share/path/to/file.doc
       </section>
       <section title="Namespaces" anchor="namespaces">
         <t>The Microsoft Windows API defines <xref target="Win32-Namespaces">Win32 Namespaces</xref> for interacting with files and devices using Windows API functions.  These namespaced paths are prefixed by <spanx type="verb">\\?\</spanx> for Win32 File Namespaces and <spanx type="verb">\\.\</spanx> for Win32 Device Namespaces.  There is also a special case for UNC file paths <xref target="MS-DTYP"/> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <spanx type="verb">\\?\UNC\</spanx>.</t>
-        <t>This document does not define a mechanism for translating namespaced file paths into &file; URIs.</t>
+        <t>This specification does not define a mechanism for translating namespaced file paths into &file; URIs.</t>
       </section>
     </section>
     <section title="Encoding and Character Set Considerations" anchor="encoding">
@@ -280,22 +278,22 @@ path-abs-win  = drive-letter path-absolute
 drive-letter  = ALPHA [ drive-marker ]
 drive-marker  = ":" / "|"
 ]]></artwork>
-          <postamble>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component.  See <xref target="drive-letters"/> of &rfcXXXX;</postamble>
+          <postamble>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component.  See <xref target="drive-letters"/> of &rfc;.  &rfcXXXX;</postamble>
         </figure>
       </section>
       <section title="URI Scheme Semantics" anchor="iana.semantics">
-        <t>See <xref target="scheme"/> of &rfcXXXX;</t>
+        <t>See <xref target="scheme"/> of &rfc;.  &rfcXXXX;</t>
         <!--t>There is no media type associated with the &file-URI-scheme;.</t-->
       </section>
       <section title="Encoding Considerations" anchor="iana.encoding">
-        <t>See <xref target="encoding"/> of &rfcXXXX;</t>
+        <t>See <xref target="encoding"/> of &rfc;.  &rfcXXXX;</t>
       </section>
       <section title="Applications/Protocols That Use This URI Scheme Name" anchor="iana.implementations">
         <t>Web browsers:
           <list style="symbols">
             <t>Firefox
               <list style="empty">
-                <t>Note: Firefox has a different interpretation of RFC 1738 than the rest of the world (See: <eref target="https://bugzilla.mozilla.org/show_bug.cgi?id=107540">Bugzilla#107540</eref>), which affects UNC paths.</t>
+                <t>Note: Firefox has a unique interpretation of RFC 1738 (See: <eref target="https://bugzilla.mozilla.org/show_bug.cgi?id=107540">Bugzilla#107540</eref>), which affects UNC paths.</t>
                 <!--t><eref target="https://hg.mozilla.org/mozilla-central/file/5976b9c673f8/netwerk/protocol/file">source code repository</eref></t-->
               </list>
             </t>
@@ -311,12 +309,10 @@ drive-marker  = ":" / "|"
         <t>Other applications/protocols:
           <list style="symbols">
             <t>Windows API
-              <t>
-                <list style="empty">
-                  <t><eref target="http://msdn.microsoft.com/en-us/library/windows/desktop/bb773581(v=vs.85).aspx">PathCreateFromUrl function</eref>, MSDN</t>
-                  <t><eref target="http://msdn.microsoft.com/en-us/library/windows/desktop/bb773773(v=vs.85).aspx">UrlCreateFromPath function</eref>, MSDN</t>
-                </list>
-              </t>
+              <list style="empty">
+                <t><eref target="http://msdn.microsoft.com/en-us/library/windows/desktop/bb773581(v=vs.85).aspx">PathCreateFromUrl function</eref>, MSDN</t>
+                <t><eref target="http://msdn.microsoft.com/en-us/library/windows/desktop/bb773773(v=vs.85).aspx">UrlCreateFromPath function</eref>, MSDN</t>
+              </list>
             </t>
             <t>Perl LWP
               <!--list style="empty">
@@ -327,11 +323,11 @@ drive-marker  = ":" / "|"
         </t>
       </section>
       <section title="Interoperability Considerations" anchor="iana.interop">
-        <t>Due to the convoluted history of the &file-URI-scheme; there a many, varied implementations in existence.  Many have converged over time, forming a few kernels of closely-related functionality, and [this document attempts to accommodate them all.  However, there will always be exceptions, and this is recognised.]</t>
+        <t>Due to the convoluted history of the &file-URI-scheme; there a many, varied implementations in existence.  Many have converged over time, forming a few kernels of closely-related functionality, and &rfc; attempts to accommodate such common functionality.  &rfcXXXX;  However there will always be exceptions, and this fact is recognised.</t>
         <!--t><eref target="http://blogs.msdn.com/b/ie/archive/2006/12/06/file-uris-in-windows.aspx">IE Blog</eref></t-->
       </section>
       <section title="Security Considerations" anchor="iana.security">
-        <t>See Section 4 of &rfcXXXX;</t>
+        <t>See Section 4 of &rfc;  &rfcXXXX;</t>
       </section>
       <section title="Contact" anchor="iana.contact">
         <t>Matthew Kerwin, matthew@kerwin.net.au</t>
