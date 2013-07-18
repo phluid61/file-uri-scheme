@@ -3,7 +3,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!-- Metadata -->
   <!ENTITY title 'The &#x27;file&#x27; URI Scheme'>
-  <!ENTITY title-abbrev '&#x27;file&#x27; Scheme'>
+  <!ENTITY title-abbrev '&#x27;file&#x27; URI'>
   <!ENTITY rfc 'RFC XXXX'>
   <!ENTITY rfcXXXX '[Note to RFC Editor: please replace XXXX with the number issued to this document.]'>
 
