@@ -158,7 +158,7 @@
           </list>
         </t>
         <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
-        <t>See <xref target="iana.syntax"/> for a formal discussion of syntax.</t>
+        <t>See <xref target="iana.syntax"/> for a formal syntax definition.</t>
         <t>Previous definitions of the &file-URI-scheme; required two slashes between the scheme and path, so implementations that wish to remain interoperable with older implementations ought to include an authority component in any &file; URIs they generate.</t>
       </section>
     </section>
@@ -229,7 +229,7 @@ file://///server.example.com/Share/path/to/file.doc
       </section>
     </section>
     <section title="Encoding and Character Set Considerations" anchor="encoding">
-      <t>As specified in <xref target="RFC3986"/>, the &file-URI-scheme; allows any character from the <xref target="UNICODE">Unicode repertoire</xref> encoded as <xref target="RFC3629">UTF-8</xref> and then percent-encoded in valid <xref target="RFC20">ASCII</xref>.</t>
+      <t>As specified in <xref target="RFC3986"/>, the &file-URI-scheme; allows any character from the <xref target="ISO10646">Universal Character Set (UCS)</xref> encoded as <xref target="RFC3629">UTF-8</xref> and then percent-encoded in valid <xref target="RFC20">ASCII</xref>.</t>
       <t>If the local file system uses a known non-Unicode character encoding, the file path &SHOULD; be converted to a sequence of Unicode characters normalized according to Normalization Form C (NFC, <xref target="UTR15"/>).</t>
       <t>Before applying any percent-encoding, an application MUST ensure the following about the string that is used as input to the URI-construction process:
         <list style="symbols">
@@ -362,7 +362,17 @@ drive-marker  = ":" / "|"
       &rfc5890;
       &rfc5892;
       &rfc6874;
-      <reference anchor="UNICODE" target="http://www.unicode.org/versions/Unicode6.2.0/">
+      <reference anchor="ISO10646">
+        <front>
+          <title abbrev="UCS">Information Technology - Universal Multiple-Octet Coded Character Set (UCS)</title>
+          <author>
+            <organization>International Organization for Standardization</organization>
+          </author>
+          <date year="2003" month="December"/>
+          <seriesInfo name="ISO/IEC" value="10646:2003"/>
+        </front>
+      </reference>
+      <!--reference anchor="UNICODE" target="http://www.unicode.org/versions/Unicode6.2.0/">
         <front>
           <title>The Unicode Standard, Version 6.2</title>
           <author>
@@ -370,7 +380,7 @@ drive-marker  = ":" / "|"
           </author>
           <date year="2012"/>
         </front>
-      </reference>
+      </reference-->
       <reference anchor="UTR15" target="http://www.unicode.org/reports/tr15/tr15-37.html">
         <front>
           <title>Unicode Normalization Forms</title>
