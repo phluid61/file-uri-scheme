@@ -4,8 +4,8 @@
 
 Network Working Group                                          M. Kerwin
 Internet-Draft                                                       QUT
-Intended status: Standards Track                           July 18, 2013
-Expires: January 19, 2014
+Intended status: Standards Track                           July 29, 2013
+Expires: January 30, 2014
 
 
                          The 'file' URI Scheme
