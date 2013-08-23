@@ -123,43 +123,74 @@
       </section>
     </section>
     <section title="Scheme Definition" anchor="scheme">
-      <t>The &file-URI-scheme; is used to identify and retrieve <spanx>files</spanx> accessible on a particular host computer, where a "file" is a named resource which can be accessed through the computer's filesystem interface.</t>
-      <t>The mechanism for retrieving a representation of a dereferenced &file; URI is through the computer's filesystem interface; for example using the POSIX <spanx style="verb">open</spanx>, <spanx style="verb">read</spanx> and <spanx style="verb">close</spanx> functions <xref target="POSIX"/>.</t>
+      <t>The &file-URI-scheme; is used to identify and retrieve <spanx>files</spanx> accessible on a particular host computer, where a "file" is a named resource which can be accessed through the computer's filesystem interface.  These file names are interpreted from the perspective of the user of a reference, rather than in relation to a globally-defined naming authority, so care ought to be taken when distributing &file; URIs to ensure that such references are actually intended to be interpreted in relation to the end user's filesystem interface.</t>
       <t>This scheme, unlike most other URI schemes, does not identify a resource that is universally accessible over the Internet.</t>
-      <t>Note well that "file" refers to filesystem names from the perspective of the user of a reference, rather than in relation to a globally-defined naming authority, so care ought to be taken when distributing &file; URIs to ensure that such references are actually intended to be interpreted in relation to the user's filesystem interface.</t>
-      <!-- File URLs are rarely used in Web pages on the Internet, since they make the assumption that such a file exists on the client's computer. The host specifier can be used to retrieve a file from an external source, although no specific file-retrieval protocol is specified; and using it ought to result in a message that informs the user that no mechanism to access that machine is available. -->
+      <t>The mechanism for retrieving a representation of a dereferenced &file; URI is through the computer's filesystem interface; for example using the POSIX <spanx style="verb">open</spanx>, <spanx style="verb">read</spanx> and <spanx style="verb">close</spanx> functions <xref target="POSIX"/>.</t>
       <t>Also note that &file; and &ftp; URIs are not the same, even when the target of the &ftp; URI is the local host.</t>
-      <section title="Syntax" anchor="syntax">
-        <t>The syntax of a &file; URI conforms with the generic syntax presented in <xref target="RFC3986"/>, with the following components:
+      <section title="Components" anchor="components">
+        <t>The &file-URI-scheme; conforms with the generic structure defined in <xref target="RFC3986"/>, and can be described in terms of its components:
           <list style="hanging">
-            <t hangText="scheme name">The literal value <spanx style="verb">file</spanx></t>
-            <t hangText="authority">
-              If present, either the fully qualified domain name of the system on which the file is accessible;  or one of the special values <spanx style="verb">localhost</spanx> or the empty string ("").
+            <t hangText="Scheme">The literal value <spanx style="verb">file</spanx></t>
+            <t hangText="Authority">
+              The authority component of a &file; URI describes the machine or system on which the file is accessible.  If the authority refers to a remote system, from the point of view of the user of the URI, the implication is that the file system cannot be accessed, or perhaps that some other mechanism must be used to access the file.  It does not imply that the file ought to be accessible over a network connection.  No retrieval mechanism for files stored on a remote machine is defined by this specification.
+              <vspace blankLines="1"/>
+              The authority component is optional in a &file; URI.
+              <vspace blankLines="1"/>
+              If present it is either: one of the special values <spanx style="verb">localhost</spanx> or the empty string (""); or the host name of the system on which the file is accessible.
               <vspace blankLines="1"/>
               If the authority component is omitted, or has either of the special values <spanx style="verb">localhost</spanx> or the empty string (""), it is interpreted as "the machine from which the URI is being interpreted".
-              <vspace blankLines="1"/>
-              A host name, if supplied, is typically intended to inform a client on a remote machine that it cannot access the file system, or perhaps to use some other mechanism to access the file.  It does not imply that the file ought to be accessible over a network connection.
-              <vspace blankLines="1"/>
-              No retrieval mechanism for files stored on a remote machine is defined by this specification.
             </t>
-            <t hangText="path">
-              The hierarchical directory path to the file, using the slash ("/") character to separate directories.  Implementations &SHOULD; translate between the slash-separated URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
+            <t hangText="Path">
+              The path component of a &file; URI describes the hierarchical directory path to the file, using the slash ("/") character to separate directories.  Implementations &SHOULD; translate between the slash-separated URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
               <vspace blankLines="1"/>
               Some systems allow &file; URIs to refer to directories.  In this case, the path usually (but not always) includes a terminating slash character, such as in:
               <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
-              The presence of a terminating slash character always indicates that the &file; URI refers to a directory, but the absence of a slash does not necessarily indicate that it refers to a file.  Implementations ought to use other mechanisms to detect directories, if and when such detection is required.
+              The presence of a terminating slash character always indicates that the &file; URI refers to a directory, but the absence of a slash does not necessarily indicate that it refers to a filesystem object other than a directory.  Implementations ought to use other mechanisms to detect directories, if and when such detection is required.
             </t>
-            <t hangText="query">
-              The query component contains non-hierarchical data that, along with data in the path component, serves to identify a file.  For example, in a versioning file system, the query component might be used to refer to a specific version of a file.
+            <t hangText="Query">
+              The query component of a &file; URI contains non-hierarchical data that, along with data in the path component, serves to identify a file.   For example, in a versioning file system, the query component might be used to refer to a specific version of a file.
               <vspace blankLines="1"/>
-              Few implementations are known to use or support query components.
+              Few implementations are known to use or support query components in &file; URIs.
             </t>
-            <t hangText="fragment">The semantics of a fragment component are undefined by this specification.  A protocol that employs &file; URIs &MAY; define its own semantics for fragment components in the context of that protocol.</t>
+            <t hangText="Fragment">
+              The semantics of a fragment component are undefined by this specification.  A protocol that employs &file; URIs &MAY; define its own semantics for fragment components in the context of that protocol.
+            </t>
           </list>
         </t>
-        <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
-        <t>See <xref target="iana.syntax"/> for a formal syntax definition.</t>
         <t>Previous definitions of the &file-URI-scheme; required two slashes between the scheme and path, so implementations that wish to remain interoperable with older implementations ought to include an authority component in any &file; URIs they generate.</t>
+      </section>
+      <section title="Syntax" anchor="syntax">
+        <t>The &file; URI syntax is defined here in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, including the core ABNF syntax rule 'ALPHA' defined by that specification, and borrowing the 'host', 'path-absolute' and 'segment' rules from <xref target="RFC3986"/> (updated by <xref target="RFC6874"/>).</t>
+        <figure>
+          <artwork type="inline"><![CDATA[
+fileURI       = "file" ":" ( auth-file / local-file )
+
+auth-file     = "//" ( host-file / nohost-file )
+
+host-file     = hostpart path-absolute
+                               ;   file://<host>/<path>
+                               ;   file://localhost/<path>
+
+nohost-file   = path-abs       ; begins with "/"
+              / path-abs-win   ; begins with drive-letter
+                               ;   file:///<path>
+                               ;   file:////<bad-UNC-path>
+                               ;   file://c:/<path> *
+
+local-file    = path-absolute  ;   file:/<path>
+              / path-abs-win   ;   file:c:/<path>
+
+hostpart      = "localhost" / host
+
+path-abs      = 1*( "/" segment )
+
+path-abs-win  = drive-letter path-absolute
+drive-letter  = ALPHA [ drive-marker ]
+drive-marker  = ":" / "|"
+]]></artwork>
+          <postamble>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component.  See <xref target="drive-letters"/> of &rfc;.  &rfcXXXX;</postamble>
+        </figure>
+        <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
       </section>
     </section>
     <section title="Implementation Notes" anchor="implementation">
@@ -169,7 +200,10 @@
         <t>For example, on Microsoft Windows platforms, it is typical that the file system presents backslash ("\") as the file delimeter for file names, yet the URI's forward slash ("/") can be used in &file; URIs interpreted on those platforms.  Similarly, on (some) Macintosh OS versions, at least in some contexts, the colon (":") is used as the delimiter in the native presentation of file path names.  Unix systems natively use the same forward slash ("/") delimiter for hierarchy, so there is a closer mapping between &file; URI paths and native path names.</t>
         <t>In accordance with &rfc3986-path;, the path segments <spanx style="verb">.</spanx> and <spanx style="verb">..</spanx>, also known as dot-segments, are only interpreted within the URI path hierarchy and are removed as part of the resolution process (&rfc3986-absolutize;).  Implementations operating on or interacting with systems that allow dot-segments in their native path representation may be required to escape those segments using some other means when translating to and from &file; URIs.</t>
       </section>
-      <section title="Relative file paths" anchor="relative-paths">
+      <section title="Absolute and relative file paths" anchor="absolute-relative-paths">
+        <t>
+          The conventions for specifying absolute file paths differ from system to system.  For example, in a UNIX-based system an absolute file path begins with a slash ("/") character, denoting the root of the filesystem, whereas on a Microsoft DOS- or Windows-based system an absolute file path begins with a drive letter (e.g. "c:\").
+        </t>
         <t>
           As relative references are resolved into their respective (absolute) target URIs according to &rfc3986-reference-resolution;, this document does not describe that resolution.  However, a fully resolved URI may contain a non-absolute path.  For example, using a generic parser, the URI:
           <figure><artwork type="inline">file:a/b/c</artwork></figure>
@@ -251,35 +285,7 @@ file://///server.example.com/Share/path/to/file.doc
         <t>permanent</t>
       </section>
       <section title="URI Scheme Syntax" anchor="iana.syntax">
-        <t>The &file; URI syntax is defined here in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, including the core ABNF syntax rule 'ALPHA' defined by that specifiation, and borrowing the 'host', 'path-absolute' and 'segment' rules from <xref target="RFC3986"/> (updated by <xref target="RFC6874"/>).</t>
-        <figure>
-          <artwork type="inline"><![CDATA[
-fileURI       = "file" ":" ( auth-file / local-file )
-
-auth-file     = "//" ( host-file / no-host-file )
-host-file     = hostpart path-absolute
-                               ;   file://<host>/<path>
-                               ;   file://localhost/<path>
-
-no-host-file  = path-abs       ; begins with "/"
-              / path-abs-win   ; begins with drive-letter
-                               ;   file:///<path>
-                               ;   file:////<bad-UNC-path>
-                               ;   file://c:/<path> *
-
-local-file    = path-absolute  ;   file:/<path>
-              / path-abs-win   ;   file:c:/<path>
-
-hostpart      = "localhost" / host
-
-path-abs      = 1*( "/" segment )
-
-path-abs-win  = drive-letter path-absolute
-drive-letter  = ALPHA [ drive-marker ]
-drive-marker  = ":" / "|"
-]]></artwork>
-          <postamble>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component.  See <xref target="drive-letters"/> of &rfc;.  &rfcXXXX;</postamble>
-        </figure>
+        <t>See <xref target="syntax"/> of &rfc;.  &rfcXXXX;</t>
       </section>
       <section title="URI Scheme Semantics" anchor="iana.semantics">
         <t>See <xref target="scheme"/> of &rfc;.  &rfcXXXX;</t>
