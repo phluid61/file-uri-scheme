@@ -83,7 +83,7 @@
         <email>matthew.kerwin@qut.edu.au</email>
       </address>
     </author>
-    <date month="July" year="2013" />
+    <date month="September" year="2013" />
     <area>Applications</area>
     <keyword>URI</keyword>
     <keyword>scheme</keyword>
@@ -160,7 +160,7 @@
         <t>Previous definitions of the &file-URI-scheme; required two slashes between the scheme and path, so implementations that wish to remain interoperable with older implementations ought to include an authority component in any &file; URIs they generate.</t>
       </section>
       <section title="Syntax" anchor="syntax">
-        <t>The &file; URI syntax is defined here in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, including the core ABNF syntax rule 'ALPHA' defined by that specification, and borrowing the 'host', 'path-absolute' and 'segment' rules from <xref target="RFC3986"/> (updated by <xref target="RFC6874"/>).</t>
+        <t>The &file; URI syntax is defined here in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, including the core ABNF syntax rule 'ALPHA' defined by that specification, and borrowing the 'host', 'path-absolute' and 'segment' rules from <xref target="RFC3986"/> (as updated by <xref target="RFC6874"/>).</t>
         <figure>
           <artwork type="inline"><![CDATA[
 fileURI       = "file" ":" ( auth-file / local-file )
@@ -206,16 +206,14 @@ drive-marker  = ":" / "|"
         </t>
         <t>
           As relative references are resolved into their respective (absolute) target URIs according to &rfc3986-reference-resolution;, this document does not describe that resolution.  However, a fully resolved URI may contain a non-absolute path.  For example, using a generic parser, the URI:
-          <figure><artwork type="inline">file:a/b/c</artwork></figure>
-          would be parsed and interpreted as: file <spanx>c</spanx>, in directory <spanx>b</spanx>, in directory <spanx>a</spanx>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no indication of the location of the directory <spanx>a</spanx> on that machine.  By convention an absolute file path would begin with a slash ("/") character on a Unix-based system, or a drive letter (e.g. "c:\") on a Microsoft Windows system, etc.
+          <figure><artwork type="inline">file:alpha/bravo/charlie</artwork></figure>
+          would be parsed and interpreted as: file <spanx>charlie</spanx>, in directory <spanx>bravo</spanx>, in directory <spanx>alpha</spanx>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no indication of the location of the directory <spanx>alpha</spanx> on that machine.  By convention an absolute file path would begin with a slash ("/") character on a Unix-based system, or a drive letter (e.g. "c:\") on a Microsoft Windows system, etc.
         </t>
         <t>Resolution of relative file paths is undefined by this specification.  A protocol that employs &file; URIs &MAY; define its own rules for resolution of relative file paths in the context of that protocol.</t>
       </section>
-      <section title="Drives, drive letters, mount points, file system root" anchor="drive-letters">
-        <t>Historically there has been considerable difference, in practice, for handling of the syntax for the "top" of the hierarchy.  The &file; URI syntax provides one simple place for designating the root of the file hierachy, and implementations have diverged, even on the same platform, sometimes even within a single application.</t>
-        <t>For example, Microsoft DOS- and Windows-based systems support the notion of a "drive letter", a single character which represents a (virtual) drive, mount point, or device.  Native representations of file paths start with the drive letter, a colon, and then the path; e.g., <spanx style="verb">c:\TMP\test.txt</spanx>.</t>
+      <section title="Drive Letters" anchor="drive-letters">
         <t>
-          Drive letters are mapped into the top of a &file; URI in various ways.  On systems running some versions of Microsoft Windows, the drive letter may be specified with a colon (":") character, however sometimes the colon is replaced with a pipe ("|") character, and in some implementations the colon is omitted entirely.  The three representations &MAY; be considered equivalent, and any implementation which could interact with a Microsoft Windows environment &SHOULD; interpret a single letter, optionally followed by a colon or pipe character, in the first segment of the path as a drive letter.  For example, the following URIs:
+          Historically drive letters have been mapped into the top of a &file; URI in various ways.  On systems running some versions of Microsoft Windows the drive letter may be specified with a colon (":") character, however sometimes the colon is replaced with a pipe ("|") character, and in some implementations the colon is omitted entirely.  The three representations &MAY; be considered equivalent, and any implementation which could interact with a Microsoft Windows environment &SHOULD; interpret a single letter, optionally followed by a colon or pipe character, in the first segment of the path as a drive letter (see the <spanx style="verb">drive-letter</spanx> rule in <xref target="syntax"/>).  For example, the following URIs:
           <figure><artwork type="inline">file:///c:/TMP/test.txt
 file:///c|/TMP/test.txt
 file:///c/TMP/test.txt</artwork></figure>
@@ -336,7 +334,7 @@ file://///server.example.com/Share/path/to/file.doc
         <t>See Section 4 of &rfc;  &rfcXXXX;</t>
       </section>
       <section title="Contact" anchor="iana.contact">
-        <t>Matthew Kerwin, matthew@kerwin.net.au</t>
+        <t>Matthew Kerwin, matthew.kerwin@qut.edu.au</t>
       </section>
       <section title="Author/Change Controller" anchor="iana.author">
         <t>This scheme is registered under the IETF tree.  As such, the IETF maintains change control.</t>
