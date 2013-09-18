@@ -143,6 +143,8 @@
             <t hangText="Path">
               The path component of a &file; URI describes the hierarchical directory path to the file, using the slash ("/") character to separate directories.  Implementations &SHOULD; translate between the slash-separated URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
               <vspace blankLines="1"/>
+              Note that the leading slash, if any, is included in the path value.
+              <vspace blankLines="1"/>
               Some systems allow &file; URIs to refer to directories.  In this case, the path usually (but not always) includes a terminating slash character, such as in:
               <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
               The presence of a terminating slash character always indicates that the &file; URI refers to a directory, but the absence of a slash does not necessarily indicate that it refers to a filesystem object other than a directory.  Implementations ought to use other mechanisms to detect directories, if and when such detection is required.
@@ -190,6 +192,7 @@ drive-marker  = ":" / "|"
 ]]></artwork>
           <postamble>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component.  See <xref target="drive-letters"/> of &rfc;.  &rfcXXXX;</postamble>
         </figure>
+        <t>Note the difference between the <spanx style="verb">path-abs</spanx> and <spanx style="verb">path-absolute</spanx> rules: only the former allows a zero-length first segment followed by a slash, e.g. <spanx style="verb">//foo/bar</spanx></t>
         <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
       </section>
     </section>
@@ -221,7 +224,7 @@ file:///c/TMP/test.txt</artwork></figure>
           <figure><artwork type="inline">c:\TMP\test.txt</artwork></figure>
         </t>
         <t>Implementations &SHOULD; use a colon (":") character to specify drive letters when generating URIs for Windows- and DOS-based systems.</t>
-        <t>Note that some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the authority component with the drive specification; for example, <spanx style="verb">file://c:/TMP/test.txt</spanx>.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
+        <t>Note that the generic URI syntax in <xref target="RFC3986"/> dictates that "if a URI contains an authority component [even if it's a blank authority], then the path component must ... begin with a slash ("/") character."  However some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the URI's authority component with the drive specification; for example, <spanx style="verb">file://c:/TMP/test.txt</spanx>.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
       </section>
       <section title="UNC File Paths" anchor="unc-file-paths">
         <t>The Microsoft Windows <xref target="MS-DTYP">Universal Naming Convention (UNC)</xref> defines a convention for specifying the location of resources such as shared files or devices, for example Windows shares accessed via the <xref target="MS-SMB2">SMB/CIFS protocol</xref>.  The general structure of a UNC file path, given in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, is:
@@ -363,6 +366,7 @@ file://///server.example.com/Share/path/to/file.doc
       &rfc3629;
       &rfc2119;
       &rfc3986;
+      &rfc5234;
       &rfc5890;
       &rfc5892;
       &rfc6874;
@@ -445,7 +449,6 @@ file://///server.example.com/Share/path/to/file.doc
       &rfc1738;
       &rfc3530;
       &rfc4395;
-      &rfc5234;
       <reference anchor="WHATWG-URL" target="http://url.spec.whatwg.org/">
         <front>
           <title>URL Living Standard</title>
