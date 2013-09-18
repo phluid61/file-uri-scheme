@@ -390,7 +390,7 @@ file://///server.example.com/Share/path/to/file.doc
           <title>Unicode Normalization Forms</title>
           <author initials='M.' surname='Davis' fullname='Mark Davis'>
             <address>
-              <email>mailto:markdavis@google.com</email>
+              <email>markdavis@google.com</email>
             </address>
           </author>
           <author initials='K.' surname='Whistler' fullname='Ken Whistler'>
