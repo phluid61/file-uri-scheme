@@ -1,7 +1,7 @@
 #!/bin/bash --
 
 NAME=draft-kerwin-file-scheme
-VERSION=07
+VERSION=08
 
 # Create -XX version, which is identical but for the version number.
 sed -e "s/$NAME-latest/$NAME-$VERSION/" < $NAME.xml > $NAME-$VERSION.xml
