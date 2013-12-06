@@ -276,7 +276,8 @@ file://///server.example.com/Share/path/to/file.doc
     </section>
     <section title="Security Considerations" anchor="security">
       <t>There are many security considerations for URI schemes discussed in <xref target="RFC3986"/>.</t>
-      <t>File access and the granting of privileges for specific operations are complex topics, and the use of &file; URIs can complicate the security model in effect for file privileges.  Under no circumstance should software using &file; URIs grant greater access than would be available for other file access methods.</t>
+      <t>File access and the granting of privileges for specific operations are complex topics, and the use of &file; URIs can complicate the security model in effect for file privileges.  Software using &file; URIs &SHOULD-NOT; grant greater access than would be available for other file access methods.</t>
+      <note title="FIXME">Is this testable or enforceable?  Are any exceptional cases strong enough to justify this not being a &MUST-NOT;?</note>
     </section>
     <section title="IANA Considerations" anchor="iana-considerations">
       <t>In accordance with the guidelines and registration procedures for new URI schemes <xref target="RFC4395"/>, this section provides the information needed to update the registration of the &file-URI-scheme;.</t>
