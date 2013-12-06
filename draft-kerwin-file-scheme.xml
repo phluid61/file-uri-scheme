@@ -143,7 +143,7 @@
             <t hangText="Path">
               The path component of a &file; URI describes the hierarchical directory path to the file, using the slash ("/") character to separate directories.  Implementations &SHOULD; translate between the slash-separated URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
               <vspace blankLines="1"/>
-              Note that the leading slash, if any, is included in the path value.
+              Note that the leading slash, if any, is included in the path value.  This is in accordance with the generic syntax provided in <xref target="RFC3986"/>, but at odds with the definition of the "url-path" given in Section 3.1 of <xref target="RFC1738"/>.
               <vspace blankLines="1"/>
               Some systems allow &file; URIs to refer to directories.  In this case, the path usually (but not always) includes a terminating slash character, such as in:
               <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
@@ -236,28 +236,36 @@ objectname = &lt;the name of an object&gt;
           </artwork><postamble>Note that this syntax description is non-normative.</postamble></figure>
         </t>
         <t>
-          The canonical representation of a UNC file path as a &file; URI copies the UNC <spanx>hostname</spanx> into the URI <spanx>host</spanx> field, and the UNC <spanx>sharename</spanx> and <spanx>objectname</spanx>s, concatenated with forward slash ("/") characters, into the <spanx>path</spanx>.  For example, the following UNC path:
+          There are two prevalent means of representing a UNC file path as a &file; URI, and they differ subtly in their semantics.
+        </t>
+        <t>
+          The first representation of a UNC file path as a &file; URI copies the UNC <spanx>hostname</spanx> into the URI <spanx>host</spanx> field, and the UNC <spanx>sharename</spanx> and <spanx>objectname</spanx>s, concatenated with forward slash ("/") characters, into the <spanx>path</spanx>.  For example, the following UNC path:
           <figure><artwork type="inline">\\server.example.com\Share\path\to\file.doc</artwork></figure>
-          is represented canonically as a &file; URI as:
+          would be represented as a &file; URI as:
           <figure><artwork type="inline">
 file://server.example.com/Share/path/to/file.doc
        \________________/\_____________________/
-            hostname      sharename+objectnames</artwork></figure></t>
-      <t>
-        Historically some implementations have translated UNC file paths entirely into the <spanx>path</spanx> segment of a &file; URI, including both leading slashes, and the Firefox web browser even prefixes the UNC file path with another slash.  For example, the UNC path given above might be translated as:
+            hostname      sharename+objectnames</artwork></figure>
+        The implication of this representation is that, because of the presence of a non-localhost authority, the file path is not accessible using the regular filesystem interface from the machine on which the URI is being interpreted.  As noted in <xref target="components"/>, this doesn't necessarily preclude that the file might be accessible through some other mechanism.
+        </t>
+        <t>The &file-URI-scheme; is unusual in that it does not specify an Internet protocol or access method for shared files; as such, its utility in network protocols between hosts is limited.  Examples of file server protocols that do define such access methods include <xref target="MS-SMB2">SMB/CIFS</xref>, <xref target="RFC3530">NFS</xref>, and <xref target="NOVELL">NCP</xref>.</t>
+        <t>
+          The second representation translates the UNC file path entirely into the <spanx>path</spanx> segment of a &file; URI, including both leading slashes.  For example, the UNC path given above would be represented as a &file; URI as:
         <figure><artwork type="inline">
 file:////server.example.com/Share/path/to/file.doc
        \_________________________________________/
                   translated UNC path</artwork></figure>
-        or even:
+          The implication of this representation is that the full UNC path can be accessed from the machine on which the URI is being interpreted using its regular filesystem interface.
+        </t>
+        <t>
+          It should be noted that <xref target="RFC1738"/>, Section 3.1, explicitly stated that "the "/" between the host (or port) and the url-path is NOT part of the url-path."  So there exists a common variant of the second representation, notably used by the Firefox web browser, that includes a fifth slash between the protocol identifier and the hostname.  For example:
         <figure><artwork type="inline">
 file://///server.example.com/Share/path/to/file.doc
        |\_________________________________________/
        |           translated UNC path
        extra slash</artwork></figure>
-        An implementation receiving such a URI &SHOULD; convert it to the canonical representation before processing it.
-      </t>
-      <t>The &file-URI-scheme; is unusual in that it does not specify an Internet protocol or access method for shared files; as such, its utility in network protocols between hosts is limited.  Examples of file server protocols that do define such access methods include <xref target="MS-SMB2">SMB/CIFS</xref>, <xref target="RFC3530">NFS</xref>, and <xref target="NOVELL">NCP</xref>.</t>
+          Semantically this is considered identical to the representation with four slashes, given above.
+        </t>
       </section>
       <section title="Namespaces" anchor="namespaces">
         <t>The Microsoft Windows API defines <xref target="Win32-Namespaces">Win32 Namespaces</xref> for interacting with files and devices using Windows API functions.  These namespaced paths are prefixed by <spanx style="verb">\\?\</spanx> for Win32 File Namespaces and <spanx style="verb">\\.\</spanx> for Win32 Device Namespaces.  There is also a special case for UNC file paths <xref target="MS-DTYP"/> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <spanx style="verb">\\?\UNC\</spanx>.</t>
