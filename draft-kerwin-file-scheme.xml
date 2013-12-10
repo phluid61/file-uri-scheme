@@ -89,8 +89,9 @@
         <email>matthew.kerwin@qut.edu.au</email>
       </address>
     </author>
-    <date day="10" month="December" year="2013" />
+    <date year="2013" />
     <area>Applications</area>
+    <workgroup>Independent Submission</workgroup>
     <keyword>URI</keyword>
     <keyword>scheme</keyword>
     <keyword>file</keyword>
