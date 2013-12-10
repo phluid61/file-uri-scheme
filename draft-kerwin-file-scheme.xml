@@ -174,7 +174,7 @@ host-file     = hostpart path-absolute
 nohost-file   = path-abs       ; begins with "/"
               / path-abs-win   ; begins with drive-letter
                                ;   file:///<path>
-                               ;   file:////<bad-UNC-path>
+                               ;   file:////<UNC-path>
                                ;   file://c:/<path> *
 
 local-file    = path-absolute  ;   file:/<path>
