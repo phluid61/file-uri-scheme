@@ -143,9 +143,9 @@
               <vspace blankLines="1"/>
               Note that the leading slash, if any, is included in the path value.  This is in accordance with the generic syntax provided in <xref target="RFC3986"/>, but at odds with the definition of the "url-path" given in <eref target="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</eref> of <xref target="RFC1738"/>.  See discussions in <xref target="implementation"/> for the effect this has on Microsoft DOS and Windows drive letters, and on UNC file paths.
               <vspace blankLines="1"/>
-              Some systems allow &file; URIs to refer to directories.  In this case, the path usually (but not always) includes a terminating slash character, such as in:
+              Some systems allow &file; URIs to refer to directories.  In this case, implementations &MAY; include a terminating slash character in the path, such as in:
               <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
-              The presence of a terminating slash character always indicates that the &file; URI refers to a directory, but the absence of a slash does not necessarily indicate that it refers to a filesystem object other than a directory.  Implementations ought to use other mechanisms to detect directories, if and when such detection is required.
+              The presence of a terminating slash character always indicates that the &file; URI refers to a directory, but the absence of a slash does not necessarily indicate that it refers to a filesystem object other than a directory.  Implementations &MUST-NOT; include a trailing slash in any &file; URIs they generate that do not refer to a directory, and ought to use other mechanisms to detect directories in any &file; URIs they receive, if and when such detection is required.
             </t>
             <t hangText="Query">
               The query component of a &file; URI contains non-hierarchical data that, along with data in the path component, serves to identify a file.   For example, in a versioning file system, the query component might be used to refer to a specific version of a file.
