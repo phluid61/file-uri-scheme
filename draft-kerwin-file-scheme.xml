@@ -269,7 +269,7 @@ file:////server.example.com/Share/path/to/file.doc
         </t>
         <section title="Historical Issues with UNC File Paths" anchor="unc-rfc1738">
           <t>
-            As mentioned in <xref target="leading-slash"/> above, the historical definition of &file; URIs in <xref target="RFC1738"/> excluded the first slash ("/") character after the protocol identifier ("file://") from the file path.  As such there exists a common variant of the second representation above, notably used by the Firefox web browser, that includes a fifth slash between the protocol identifier/authority and the UNC hostname.  For example:
+            As mentioned in <xref target="leading-slash"/>, the historical definition of &file; URIs in <xref target="RFC1738"/> excluded the first slash ("/") character after the protocol identifier ("file://") from the file path.  As such there exists a common variant of the second representation above, notably used by the Firefox web browser, that includes a fifth slash between the protocol identifier/authority and the UNC hostname.  For example:
           <figure><artwork type="inline">
 file://///server.example.com/Share/path/to/file.doc
        |\_________________________________________/
