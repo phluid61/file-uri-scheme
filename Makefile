@@ -4,9 +4,7 @@ saxon ?= java -classpath $(saxpath) net.sf.saxon.Transform -novw -l
 
 names := file-scheme
 drafts := $(addprefix draft-kerwin-,$(names))
-# FIXME:
-#current_ver = $(shell git tag | grep "$(draft)" | sort | tail -1 | awk -F- '{print $$NF}')
-current_ver = 08
+current_ver = $(shell git tag | grep "$(draft)" | sort | tail -1 | awk -F- '{print $$NF}')
 next_ver := $(foreach draft, $(drafts), -$(shell printf "%.2d" $$((1$(current_ver)-99)) ) )
 next := $(join $(drafts),$(next_ver))
 
