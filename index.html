@@ -477,11 +477,15 @@ ul p {
             </ul>
          </li>
          <li><a href="#rfc.section.3">3.</a>&nbsp;&nbsp;&nbsp;<a href="#implementation">Implementation Notes</a><ul>
-               <li><a href="#rfc.section.3.1">3.1</a>&nbsp;&nbsp;&nbsp;<a href="#hierarchy">Hierarchical Structure</a></li>
-               <li><a href="#rfc.section.3.2">3.2</a>&nbsp;&nbsp;&nbsp;<a href="#absolute-relative-paths">Absolute and relative file paths</a></li>
-               <li><a href="#rfc.section.3.3">3.3</a>&nbsp;&nbsp;&nbsp;<a href="#drive-letters">Drive Letters</a></li>
-               <li><a href="#rfc.section.3.4">3.4</a>&nbsp;&nbsp;&nbsp;<a href="#unc-file-paths">UNC File Paths</a></li>
-               <li><a href="#rfc.section.3.5">3.5</a>&nbsp;&nbsp;&nbsp;<a href="#namespaces">Namespaces</a></li>
+               <li><a href="#rfc.section.3.1">3.1</a>&nbsp;&nbsp;&nbsp;<a href="#leading-slash">Leading Slash</a></li>
+               <li><a href="#rfc.section.3.2">3.2</a>&nbsp;&nbsp;&nbsp;<a href="#hierarchy">Hierarchical Structure</a></li>
+               <li><a href="#rfc.section.3.3">3.3</a>&nbsp;&nbsp;&nbsp;<a href="#absolute-relative-paths">Absolute and relative file paths</a></li>
+               <li><a href="#rfc.section.3.4">3.4</a>&nbsp;&nbsp;&nbsp;<a href="#drive-letters">Drive Letters</a></li>
+               <li><a href="#rfc.section.3.5">3.5</a>&nbsp;&nbsp;&nbsp;<a href="#unc-file-paths">UNC File Paths</a><ul>
+                     <li><a href="#rfc.section.3.5.1">3.5.1</a>&nbsp;&nbsp;&nbsp;<a href="#unc-rfc1738">Historical Issues with UNC File Paths</a></li>
+                  </ul>
+               </li>
+               <li><a href="#rfc.section.3.6">3.6</a>&nbsp;&nbsp;&nbsp;<a href="#namespaces">Namespaces</a></li>
             </ul>
          </li>
          <li><a href="#rfc.section.4">4.</a>&nbsp;&nbsp;&nbsp;<a href="#encoding">Encoding and Character Set Considerations</a></li>
@@ -572,8 +576,8 @@ ul p {
          </dd>
          <dt>Path</dt>
          <dd>The path component of a <em>file</em> URI describes the hierarchical directory path to the file, using the slash ("/") character to separate directories. Implementations <em class="bcp14">SHOULD</em> translate between the slash-separated URI syntax and the local system's conventions for specifying file paths, where they
-            differ. (See: <a href="#hierarchy" title="Hierarchical Structure">Section&nbsp;3.1</a>) <br><br> Note that the leading slash, if any, is included in the path value. This is in accordance with the generic syntax provided
-            in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, but at odds with the definition of the "url-path" given in Section 3.1 of <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>. <br><br> Some systems allow <em>file</em> URIs to refer to directories. In this case, the path usually (but not always) includes a terminating slash character, such
+            differ. (See: <a href="#hierarchy" title="Hierarchical Structure">Section&nbsp;3.2</a>) <br><br> Note that the leading slash, if any, is included in the path value. This is in accordance with the generic syntax provided
+            in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, but at odds with the definition of the "url-path" given in <a href="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</a> of <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>. See discussions in <a href="#implementation" title="Implementation Notes">Section&nbsp;3</a> for the effect this has on Microsoft DOS and Windows drive letters, and on UNC file paths. <br><br> Some systems allow <em>file</em> URIs to refer to directories. In this case, the path usually (but not always) includes a terminating slash character, such
             as in: 
             <div id="rfc.figure.u.1"></div><pre class="inline">file:///usr/local/bin/</pre> The presence of a terminating slash character always indicates that the <em>file</em> URI refers to a directory, but the absence of a slash does not necessarily indicate that it refers to a filesystem object
             other than a directory. Implementations ought to use other mechanisms to detect directories, if and when such detection is
@@ -618,98 +622,116 @@ path-abs      = 1*( "/" segment )
 path-abs-win  = drive-letter path-absolute
 drive-letter  = ALPHA [ drive-marker ]
 drive-marker  = ":" / "|"
-</pre><p>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component. See <a href="#drive-letters" title="Drive Letters">Section&nbsp;3.3</a> of RFC XXXX. [Note to RFC Editor: please replace XXXX with the number issued to this document.]
+</pre><p>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component. See <a href="#drive-letters" title="Drive Letters">Section&nbsp;3.4</a> of RFC XXXX. [Note to RFC Editor: please replace XXXX with the number issued to this document.]
       </p>
       <p id="rfc.section.2.2.p.3">Note the difference between the <samp>path-abs</samp> and <samp>path-absolute</samp> rules: only the former allows a zero-length first segment followed by a slash, e.g. <samp>//foo/bar</samp></p>
       <p id="rfc.section.2.2.p.4">Systems exhibit different levels of case-sensitivity. Implementations <em class="bcp14">SHOULD</em> maintain the case of file and directory names when translating <em>file</em> URIs to and from the local system's representation of file paths, and any systems or devices that transport <em>file</em> URIs <em class="bcp14">SHOULD NOT</em> alter the case of <em>file</em> URIs they transport.
       </p>
       <h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a>&nbsp;<a id="implementation" href="#implementation">Implementation Notes</a></h1>
-      <h2 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1</a>&nbsp;<a id="hierarchy" href="#hierarchy">Hierarchical Structure</a></h2>
-      <p id="rfc.section.3.1.p.1">Most implementations of the 'file' URI scheme do a reasonable job of mapping the hierarchical part of a directory structure
+      <h2 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1</a>&nbsp;<a id="leading-slash" href="#leading-slash">Leading Slash</a></h2>
+      <p id="rfc.section.3.1.p.1">The historical definition of <em>file</em> URIs stated that "... the "/" between the host (or port) and the url-path is NOT part of the url-path", <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>, <a href="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</a>, and that the "... &lt;host&gt; can be ... the empty string", <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>, <a href="http://tools.ietf.org/html/rfc1738#section-3.10">Section 3.10</a>.
+      </p>
+      <p id="rfc.section.3.1.p.2">The implication of this definition is that absolute file paths in a UNIX-like environment, when encoded as <em>file</em> URIs, ought to have begin with "file:////". This rarely, if ever, eventuated, and historically <em>file</em> URIs interpreted in UNIX-like environments have included the first slash as part of the file path. This is compatible with
+         the updated generic syntax provided in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>.
+      </p>
+      <p id="rfc.section.3.1.p.3">In Microsoft DOS- and Windows-based systems the historical definition resulted in <em>file</em> URIs of the form
+      </p>
+      <div id="rfc.figure.u.3"></div><pre class="inline">file:///c:/path/to/file</pre><p id="rfc.section.3.1.p.5">This structure, with an empty host/authority, can be mapped directly to the the updated generic syntax provided in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a> by omitting the authority entirely; for example:
+      </p>
+      <div id="rfc.figure.u.4"></div><pre class="inline">file:c:/path/to/file</pre><p id="rfc.section.3.1.p.7">However the same is not true for a URI with a non-empty authority. For example:</p>
+      <div id="rfc.figure.u.5"></div><pre class="inline">file://smb.example.com/c:/path/to/file</pre><p id="rfc.section.3.1.p.9">As such, and to maintain interoperability with existing implementations, and with any historically-generated static URIs,
+         implementations likely to interact with Microsoft DOS and Windows file systems <em class="bcp14">SHOULD</em> ignore the leading slash in the path component of any <em>file</em> URIs they receive, where an authority component is included (even if it is blank) and the first path segment is a drive letter.
+      </p>
+      <p id="rfc.section.3.1.p.10">See <a href="#drive-letters" title="Drive Letters">Section&nbsp;3.4</a> below for discussion on recognising drive letters.
+      </p>
+      <h2 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2</a>&nbsp;<a id="hierarchy" href="#hierarchy">Hierarchical Structure</a></h2>
+      <p id="rfc.section.3.2.p.1">Most implementations of the 'file' URI scheme do a reasonable job of mapping the hierarchical part of a directory structure
          into the slash ("/") delimited hierarchy of the URI syntax, independent of the native platform's delimiter.
       </p>
-      <p id="rfc.section.3.1.p.2">For example, on Microsoft Windows platforms, it is typical that the file system presents backslash ("\") as the file delimeter
+      <p id="rfc.section.3.2.p.2">For example, on Microsoft Windows platforms, it is typical that the file system presents backslash ("\") as the file delimeter
          for file names, yet the URI's forward slash ("/") can be used in <em>file</em> URIs interpreted on those platforms. Similarly, on (some) Macintosh OS versions, at least in some contexts, the colon (":")
          is used as the delimiter in the native presentation of file path names. Unix systems natively use the same forward slash ("/")
          delimiter for hierarchy, so there is a closer mapping between <em>file</em> URI paths and native path names.
       </p>
-      <p id="rfc.section.3.1.p.3">In accordance with <a href="http://xml.resource.org/public/rfc/html/rfc3986.html#path">Section 3.3</a> of <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, the path segments <samp>.</samp> and <samp>..</samp>, also known as dot-segments, are only interpreted within the URI path hierarchy and are removed as part of the resolution
+      <p id="rfc.section.3.2.p.3">In accordance with <a href="http://xml.resource.org/public/rfc/html/rfc3986.html#path">Section 3.3</a> of <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, the path segments <samp>.</samp> and <samp>..</samp>, also known as dot-segments, are only interpreted within the URI path hierarchy and are removed as part of the resolution
          process (<a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, <a href="http://xml.resource.org/public/rfc/html/rfc3986.html#absolutize">Section 5.2</a>). Implementations operating on or interacting with systems that allow dot-segments in their native path representation may
          be required to escape those segments using some other means when translating to and from <em>file</em> URIs.
       </p>
-      <h2 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2</a>&nbsp;<a id="absolute-relative-paths" href="#absolute-relative-paths">Absolute and relative file paths</a></h2>
-      <p id="rfc.section.3.2.p.1">The conventions for specifying absolute file paths differ from system to system. For example, in a UNIX-based system an absolute
+      <h2 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3</a>&nbsp;<a id="absolute-relative-paths" href="#absolute-relative-paths">Absolute and relative file paths</a></h2>
+      <p id="rfc.section.3.3.p.1">The conventions for specifying absolute file paths differ from system to system. For example, in a UNIX-based system an absolute
          file path begins with a slash ("/") character, denoting the root of the filesystem, whereas on a Microsoft DOS- or Windows-based
          system an absolute file path begins with a drive letter (e.g. "c:\").
       </p>
-      <p id="rfc.section.3.2.p.2">As relative references are resolved into their respective (absolute) target URIs according to <a href="http://xml.resource.org/public/rfc/html/rfc3986.html#reference-resolution">Section 5</a> of <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, this document does not describe that resolution. However, a fully resolved URI may contain a non-absolute file path. For
+      <p id="rfc.section.3.3.p.2">As relative references are resolved into their respective (absolute) target URIs according to <a href="http://xml.resource.org/public/rfc/html/rfc3986.html#reference-resolution">Section 5</a> of <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, this document does not describe that resolution. However, a fully resolved URI may contain a non-absolute file path. For
          example, using a generic URI parser, the URI: 
       </p>
-      <div id="rfc.figure.u.3"></div><pre class="inline">file:alpha/bravo/charlie</pre><p> might be parsed and interpreted as: file <em>charlie</em>, in directory <em>bravo</em>, in directory <em>alpha</em>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no indication of the location of
+      <div id="rfc.figure.u.6"></div><pre class="inline">file:alpha/bravo/charlie</pre><p> might be parsed and interpreted as: file <em>charlie</em>, in directory <em>bravo</em>, in directory <em>alpha</em>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no indication of the location of
          the directory <em>alpha</em> on that machine. By convention an absolute file path would begin with a slash ("/") character on a Unix-based system, or a
          drive letter (e.g. "c:\") on a Microsoft Windows system, etc.
       </p>
-      <p id="rfc.section.3.2.p.3">Resolution of non-absolute file paths is undefined by this specification. A protocol that employs <em>file</em> URIs <em class="bcp14">MAY</em> define its own rules for resolution of relative file paths in <em>file</em> URIs used in the context of that protocol.
+      <p id="rfc.section.3.3.p.3">Resolution of non-absolute file paths is undefined by this specification. A protocol that employs <em>file</em> URIs <em class="bcp14">MAY</em> define its own rules for resolution of relative file paths in <em>file</em> URIs used in the context of that protocol.
       </p>
-      <h2 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3</a>&nbsp;<a id="drive-letters" href="#drive-letters">Drive Letters</a></h2>
-      <p id="rfc.section.3.3.p.1">Historically drive letters have been mapped into the top of a <em>file</em> URI in various ways. On systems running some versions of Microsoft Windows the drive letter may be specified with a colon
+      <h2 id="rfc.section.3.4"><a href="#rfc.section.3.4">3.4</a>&nbsp;<a id="drive-letters" href="#drive-letters">Drive Letters</a></h2>
+      <p id="rfc.section.3.4.p.1">Historically drive letters have been mapped into the top of a <em>file</em> URI in various ways. On systems running some versions of Microsoft Windows the drive letter may be specified with a colon
          (":") character, however sometimes the colon is replaced with a pipe ("|") character, and in some implementations the colon
          is omitted entirely. The three representations <em class="bcp14">MAY</em> be considered equivalent, and any implementation which could interact with a Microsoft Windows environment <em class="bcp14">SHOULD</em> interpret a single letter, optionally followed by a colon or pipe character, in the first segment of the path as a drive letter
          (see the <samp>drive-letter</samp> rule in <a href="#syntax" title="Syntax">Section&nbsp;2.2</a>). For example, the following URIs: 
       </p>
-      <div id="rfc.figure.u.4"></div><pre class="inline">file:///c:/TMP/test.txt
+      <div id="rfc.figure.u.7"></div><pre class="inline">file:///c:/TMP/test.txt
 file:///c|/TMP/test.txt
 file:///c/TMP/test.txt</pre><p> when interpreted on the same machine, would refer to the same file: </p>
-      <div id="rfc.figure.u.5"></div><pre class="inline">c:\TMP\test.txt</pre><p id="rfc.section.3.3.p.2">Implementations <em class="bcp14">SHOULD</em> use a colon (":") character to specify drive letters when generating URIs for Windows- and DOS-based systems.
+      <div id="rfc.figure.u.8"></div><pre class="inline">c:\TMP\test.txt</pre><p id="rfc.section.3.4.p.2">Implementations <em class="bcp14">SHOULD</em> use a colon (":") character to specify drive letters when generating URIs for Microsoft DOS- and Windows-based systems.
       </p>
-      <p id="rfc.section.3.3.p.3">Note that the generic URI syntax in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a> dictates that "if a URI contains an authority component [even if it's a blank authority], then the path component must ...
+      <p id="rfc.section.3.4.p.3">Note that the generic URI syntax in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a> dictates that "if a URI contains an authority component [even if it's a blank authority], then the path component must ...
          begin with a slash ("/") character." However some systems running some versions of Microsoft Windows are known to omit the
          slash before the drive letter, effectively replacing the URI's authority component with the drive specification; for example, <samp>file://c:/TMP/test.txt</samp>. In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal
          in its receiving behavior" <a href="#RFC791"><cite title="Internet Protocol - DARPA Internet Program, Protocol Specification">[RFC791]</cite></a>) implementations that are likely to encounter such a URI <em class="bcp14">MAY</em> interpret it as a drive letter, but <em class="bcp14">SHOULD NOT</em> generate such URIs.
       </p>
-      <h2 id="rfc.section.3.4"><a href="#rfc.section.3.4">3.4</a>&nbsp;<a id="unc-file-paths" href="#unc-file-paths">UNC File Paths</a></h2>
-      <p id="rfc.section.3.4.p.1">The Microsoft Windows <a href="#MS-DTYP">Universal Naming Convention (UNC)</a> <cite title="Windows Data Types, 2.2.56 UNC">[MS-DTYP]</cite> defines a convention for specifying the location of resources such as shared files or devices, for example Windows shares
+      <h2 id="rfc.section.3.5"><a href="#rfc.section.3.5">3.5</a>&nbsp;<a id="unc-file-paths" href="#unc-file-paths">UNC File Paths</a></h2>
+      <p id="rfc.section.3.5.p.1">The Microsoft Windows <a href="#MS-DTYP">Universal Naming Convention (UNC)</a> <cite title="Windows Data Types, 2.2.56 UNC">[MS-DTYP]</cite> defines a convention for specifying the location of resources such as shared files or devices, for example Windows shares
          accessed via the <a href="#MS-SMB2">SMB/CIFS protocol</a> <cite title="Server Message Block (SMB) Protocol Versions 2 and 3">[MS-SMB2]</cite>. The general structure of a UNC file path, given in <a href="#RFC5234">Augmented Backus-Naur Form (ABNF)</a> <cite title="Augmented BNF for Syntax Specifications: ABNF">[RFC5234]</cite>, is: 
       </p>
-      <div id="rfc.figure.u.6"></div><pre class="inline">UNC        = "\\" hostname "\" sharename *( "\" objectname )
+      <div id="rfc.figure.u.9"></div><pre class="inline">UNC        = "\\" hostname "\" sharename *( "\" objectname )
 hostname   = &lt;NetBIOS name, FQDN, or IP address of a server&gt;
 sharename  = &lt;name of a share or resource to be accessed&gt;
 objectname = &lt;the name of an object&gt;
           </pre><p>Note that this syntax description is non-normative.</p>
-      <p id="rfc.section.3.4.p.2">There are two prevalent means of representing a UNC file path as a <em>file</em> URI, and they differ subtly in their semantics.
+      <p id="rfc.section.3.5.p.2">There are two prevalent means of representing a UNC file path as a <em>file</em> URI, and they differ subtly in their semantics.
       </p>
-      <p id="rfc.section.3.4.p.3">The first representation of a UNC file path as a <em>file</em> URI copies the UNC <em>hostname</em> into the URI <em>host</em> field, and the UNC <em>sharename</em> and <em>objectname</em>s, concatenated with forward slash ("/") characters, into the <em>path</em>. For example, the following UNC path: 
+      <p id="rfc.section.3.5.p.3">The first representation of a UNC file path as a <em>file</em> URI copies the UNC <em>hostname</em> into the URI <em>host</em> field, and the UNC <em>sharename</em> and <em>objectname</em>s, concatenated with forward slash ("/") characters, into the <em>path</em>. For example, the following UNC path: 
       </p>
-      <div id="rfc.figure.u.7"></div><pre class="inline">\\server.example.com\Share\path\to\file.doc</pre><p> would be represented as a <em>file</em> URI as: 
+      <div id="rfc.figure.u.10"></div><pre class="inline">\\server.example.com\Share\path\to\file.doc</pre><p> would be represented as a <em>file</em> URI as: 
       </p>
-      <div id="rfc.figure.u.8"></div><pre class="inline">file://server.example.com/Share/path/to/file.doc
+      <div id="rfc.figure.u.11"></div><pre class="inline">file://server.example.com/Share/path/to/file.doc
        \________________/\_____________________/
             hostname      sharename+objectnames</pre><p> The implication of this representation is that, because of the presence of a non-localhost authority, the file path is not
          accessible using the regular filesystem interface from the machine on which the URI is being interpreted. As noted in <a href="#components" title="Components">Section&nbsp;2.1</a>, this doesn't necessarily preclude that the file might be accessible through some other mechanism.
       </p>
-      <p id="rfc.section.3.4.p.4">The 'file' URI scheme is unusual in that it does not specify an Internet protocol or access method for shared files; as such,
+      <p id="rfc.section.3.5.p.4">The 'file' URI scheme is unusual in that it does not specify an Internet protocol or access method for shared files; as such,
          its utility in network protocols between hosts is limited. Examples of file server protocols that do define such access methods
          include <a href="#MS-SMB2">SMB/CIFS</a> <cite title="Server Message Block (SMB) Protocol Versions 2 and 3">[MS-SMB2]</cite>, <a href="#RFC3530">NFS</a> <cite title="Network File System (NFS) version 4 Protocol">[RFC3530]</cite>, and <a href="#NOVELL">NCP</a> <cite title="NetWare Core Protocols">[NOVELL]</cite>.
       </p>
-      <p id="rfc.section.3.4.p.5">The second representation translates the UNC file path entirely into the <em>path</em> segment of a <em>file</em> URI, including both leading slashes. For example, the UNC path given above would be represented as a <em>file</em> URI as: 
+      <p id="rfc.section.3.5.p.5">The second representation translates the UNC file path entirely into the <em>path</em> segment of a <em>file</em> URI, including both leading slashes. For example, the UNC path given above would be represented as a <em>file</em> URI as: 
       </p>
-      <div id="rfc.figure.u.9"></div><pre class="inline">file:////server.example.com/Share/path/to/file.doc
+      <div id="rfc.figure.u.12"></div><pre class="inline">file:////server.example.com/Share/path/to/file.doc
        \_________________________________________/
                   translated UNC path</pre><p> The implication of this representation is that the full UNC path can be accessed from the machine on which the URI is being
          interpreted using its regular filesystem interface.
       </p>
-      <p id="rfc.section.3.4.p.6">It should be noted that <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>, Section 3.1, explicitly stated that "the "/" between the host (or port) and the url-path is NOT part of the url-path." So
-         there exists a common variant of the second representation, notably used by the Firefox web browser, that includes a fifth
-         slash between the protocol identifier and the hostname. For example: 
+      <h3 id="rfc.section.3.5.1"><a href="#rfc.section.3.5.1">3.5.1</a>&nbsp;<a id="unc-rfc1738" href="#unc-rfc1738">Historical Issues with UNC File Paths</a></h3>
+      <p id="rfc.section.3.5.1.p.1">As mentioned in <a href="#leading-slash" title="Leading Slash">Section&nbsp;3.1</a> above, the historical definition of <em>file</em> URIs in <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a> excluded the first slash ("/") character after the protocol identifier ("file://") from the file path. As such there exists
+         a common variant of the second representation above, notably used by the Firefox web browser, that includes a fifth slash
+         between the protocol identifier/authority and the UNC hostname. For example: 
       </p>
-      <div id="rfc.figure.u.10"></div><pre class="inline">file://///server.example.com/Share/path/to/file.doc
+      <div id="rfc.figure.u.13"></div><pre class="inline">file://///server.example.com/Share/path/to/file.doc
        |\_________________________________________/
        |           translated UNC path
-       extra slash</pre><p> Semantically this is considered identical to the representation with four slashes, given above.</p>
-      <h2 id="rfc.section.3.5"><a href="#rfc.section.3.5">3.5</a>&nbsp;<a id="namespaces" href="#namespaces">Namespaces</a></h2>
-      <p id="rfc.section.3.5.p.1">The Microsoft Windows API defines <a href="#Win32-Namespaces">Win32 Namespaces</a> <cite title="Naming Files, Paths, and Namespaces">[Win32-Namespaces]</cite> for interacting with files and devices using Windows API functions. These namespaced paths are prefixed by <samp>\\?\</samp> for Win32 File Namespaces and <samp>\\.\</samp> for Win32 Device Namespaces. There is also a special case for UNC file paths <a href="#MS-DTYP"><cite title="Windows Data Types, 2.2.56 UNC">[MS-DTYP]</cite></a> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <samp>\\?\UNC\</samp>.
+       extra slash</pre><p> Semantically this is considered identical to the representation with four slashes. Implementations <em class="bcp14">MAY</em> interpret <em>file</em> URIs with five slashes (three between a blank authority and the first non-empty path segment) as a UNC file path, but <em class="bcp14">SHOULD NOT</em> generate such URIs.
       </p>
-      <p id="rfc.section.3.5.p.2">This specification does not define a mechanism for translating namespaced file paths to or from <em>file</em> URIs.
+      <h2 id="rfc.section.3.6"><a href="#rfc.section.3.6">3.6</a>&nbsp;<a id="namespaces" href="#namespaces">Namespaces</a></h2>
+      <p id="rfc.section.3.6.p.1">The Microsoft Windows API defines <a href="#Win32-Namespaces">Win32 Namespaces</a> <cite title="Naming Files, Paths, and Namespaces">[Win32-Namespaces]</cite> for interacting with files and devices using Windows API functions. These namespaced paths are prefixed by <samp>\\?\</samp> for Win32 File Namespaces and <samp>\\.\</samp> for Win32 Device Namespaces. There is also a special case for UNC file paths <a href="#MS-DTYP"><cite title="Windows Data Types, 2.2.56 UNC">[MS-DTYP]</cite></a> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <samp>\\?\UNC\</samp>.
+      </p>
+      <p id="rfc.section.3.6.p.2">This specification does not define a mechanism for translating namespaced file paths to or from <em>file</em> URIs.
       </p>
       <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a>&nbsp;<a id="encoding" href="#encoding">Encoding and Character Set Considerations</a></h1>
       <p id="rfc.section.4.p.1">As specified in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, the 'file' URI scheme allows any character from the <a href="#ISO10646">Universal Character Set (UCS)</a> <cite title="Information Technology - Universal Multiple-Octet Coded Character Set (UCS)">[ISO10646]</cite> encoded as <a href="#RFC3629">UTF-8</a> <cite title="UTF-8, a transformation format of ISO 10646">[RFC3629]</cite> and then percent-encoded in valid <a href="#RFC20">ASCII</a> <cite title="ASCII format for Network Interchange">[RFC20]</cite>.
@@ -753,8 +775,7 @@ objectname = &lt;the name of an object&gt;
       <ul>
          <li>Firefox 
             <ul class="empty">
-               <li>Note: Firefox has a unique interpretation of RFC 1738 (See: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=107540">Bugzilla#107540</a>), which affects UNC paths.
-               </li>
+               <li>Note: Firefox has an interpretation of RFC 1738 which affects UNC paths. See: <a href="#unc-rfc1738" title="Historical Issues with UNC File Paths">Section&nbsp;3.5.1</a>, <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=107540">Bugzilla#107540</a></li>
             </ul> 
          </li>
          <li>Chromium  </li>
@@ -773,6 +794,7 @@ objectname = &lt;the name of an object&gt;
          </li>
          <li>Perl LWP  </li>
       </ul>
+      <p id="rfc.section.6.6.p.3">These lists are non-exhaustive.</p>
       <h2 id="rfc.section.6.7"><a href="#rfc.section.6.7">6.7</a>&nbsp;<a id="iana.interop" href="#iana.interop">Interoperability Considerations</a></h2>
       <p id="rfc.section.6.7.p.1">Due to the convoluted history of the 'file' URI scheme there a many, varied implementations in existence. Many have converged
          over time, forming a few kernels of closely-related functionality, and RFC XXXX attempts to accommodate such common functionality.
