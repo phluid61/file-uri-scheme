@@ -44,15 +44,6 @@
   <!ENTITY file-URI-scheme '&#x27;file&#x27; URI scheme'>
   <!ENTITY file '<spanx>file</spanx>'>
   <!ENTITY ftp '<spanx>ftp</spanx>'>
-
-  <!--ENTITY rfc3986-path '<xref target="RFC3986" x:fmt="of" x:rel="#path"/>'-->
-  <!ENTITY rfc3986-path '<eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#path">Section 3.3</eref> of <xref target="RFC3986"/>'>
-
-  <!--ENTITY rfc3986-reference-resolution '<xref target="RFC3986" x:fmt="of" x:rel="#reference-resolution"/>'-->
-  <!ENTITY rfc3986-reference-resolution '<eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#reference-resolution">Section 5</eref> of <xref target="RFC3986"/>'>
-
-  <!--ENTITY rfc3986-absolutize '<xref target="RFC3986" x:fmt="," x:rel="#absolutize"/>'-->
-  <!ENTITY rfc3986-absolutize '<xref target="RFC3986"/>, <eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#absolutize">Section 5.2</eref>'>
 ]>
 <?rfc toc="yes" ?>
 <?rfc strict="yes"?>
@@ -150,7 +141,7 @@
             <t hangText="Path">
               The path component of a &file; URI describes the hierarchical directory path to the file, using the slash ("/") character to separate directories.  Implementations &SHOULD; translate between the slash-separated URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
               <vspace blankLines="1"/>
-              Note that the leading slash, if any, is included in the path value.  This is in accordance with the generic syntax provided in <xref target="RFC3986"/>, but at odds with the definition of the "url-path" given in Section 3.1 of <xref target="RFC1738"/>.
+              Note that the leading slash, if any, is included in the path value.  This is in accordance with the generic syntax provided in <xref target="RFC3986"/>, but at odds with the definition of the "url-path" given in <eref target="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</eref> of <xref target="RFC1738"/>.  See discussions in <xref target="implementation"/> for the effect this has on Microsoft DOS and Windows drive letters, and on UNC file paths.
               <vspace blankLines="1"/>
               Some systems allow &file; URIs to refer to directories.  In this case, the path usually (but not always) includes a terminating slash character, such as in:
               <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
@@ -204,23 +195,35 @@ drive-marker  = ":" / "|"
       </section>
     </section>
     <section title="Implementation Notes" anchor="implementation">
-      <!-- http://blogs.msdn.com/b/freeassociations/archive/2005/05/19/420059.aspx -->
+      <section title="Leading Slash" anchor="leading-slash">
+        <t>The historical definition of &file; URIs stated that "... the "/" between the host (or port) and the url-path is NOT part of the url-path", <xref target="RFC1738"/>, <eref target="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</eref>, and that the "... &lt;host&gt; can be ... the empty string", <xref target="RFC1738"/>, <eref target="http://tools.ietf.org/html/rfc1738#section-3.10">Section 3.10</eref>.</t>
+        <t>The implication of this definition is that absolute file paths in a UNIX-like environment, when encoded as &file; URIs, ought to have begin with "file:////".  This rarely, if ever, eventuated, and historically &file; URIs interpreted in UNIX-like environments have included the first slash as part of the file path.  This is compatible with the updated generic syntax provided in <xref target="RFC3986"/>.</t>
+        <t>In Microsoft DOS- and Windows-based systems the historical definition resulted in &file; URIs of the form</t>
+        <figure><artwork type="inline">file:///c:/path/to/file</artwork></figure>
+        <t>This structure, with an empty host/authority, can be mapped directly to the the updated generic syntax provided in <xref target="RFC3986"/> by omitting the authority entirely; for example:</t>
+        <figure><artwork type="inline">file:c:/path/to/file</artwork></figure>
+        <t>However the same is not true for a URI with a non-empty authority.  For example:</t>
+        <figure><artwork type="inline">file://smb.example.com/c:/path/to/file</artwork></figure>
+        <t>As such, and to maintain interoperability with existing implementations, and with any historically-generated static URIs, implementations likely to interact with Microsoft DOS and Windows file systems &SHOULD; ignore the leading slash in the path component of any &file; URIs they receive, where an authority component is included (even if it is blank) and the first path segment is a drive letter.</t>
+        <t>See <xref target="drive-letters"/> below for discussion on recognising drive letters.</t>
+      </section>
       <section title="Hierarchical Structure" anchor="hierarchy">
         <t>Most implementations of the &file-URI-scheme; do a reasonable job of mapping the hierarchical part of a directory structure into the slash ("/") delimited hierarchy of the URI syntax, independent of the native platform's delimiter.</t>
         <t>For example, on Microsoft Windows platforms, it is typical that the file system presents backslash ("\") as the file delimeter for file names, yet the URI's forward slash ("/") can be used in &file; URIs interpreted on those platforms.  Similarly, on (some) Macintosh OS versions, at least in some contexts, the colon (":") is used as the delimiter in the native presentation of file path names.  Unix systems natively use the same forward slash ("/") delimiter for hierarchy, so there is a closer mapping between &file; URI paths and native path names.</t>
-        <t>In accordance with &rfc3986-path;, the path segments <spanx style="verb">.</spanx> and <spanx style="verb">..</spanx>, also known as dot-segments, are only interpreted within the URI path hierarchy and are removed as part of the resolution process (&rfc3986-absolutize;).  Implementations operating on or interacting with systems that allow dot-segments in their native path representation may be required to escape those segments using some other means when translating to and from &file; URIs.</t>
+        <t>In accordance with <eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#path">Section 3.3</eref> of <xref target="RFC3986"/>, the path segments <spanx style="verb">.</spanx> and <spanx style="verb">..</spanx>, also known as dot-segments, are only interpreted within the URI path hierarchy and are removed as part of the resolution process (<xref target="RFC3986"/>, <eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#absolutize">Section 5.2</eref>).  Implementations operating on or interacting with systems that allow dot-segments in their native path representation may be required to escape those segments using some other means when translating to and from &file; URIs.</t>
       </section>
       <section title="Absolute and relative file paths" anchor="absolute-relative-paths">
         <t>
           The conventions for specifying absolute file paths differ from system to system.  For example, in a UNIX-based system an absolute file path begins with a slash ("/") character, denoting the root of the filesystem, whereas on a Microsoft DOS- or Windows-based system an absolute file path begins with a drive letter (e.g. "c:\").
         </t>
         <t>
-          As relative references are resolved into their respective (absolute) target URIs according to &rfc3986-reference-resolution;, this document does not describe that resolution.  However, a fully resolved URI may contain a non-absolute file path.  For example, using a generic URI parser, the URI:
+          As relative references are resolved into their respective (absolute) target URIs according to <eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#reference-resolution">Section 5</eref> of <xref target="RFC3986"/>, this document does not describe that resolution.  However, a fully resolved URI may contain a non-absolute file path.  For example, using a generic URI parser, the URI:
           <figure><artwork type="inline">file:alpha/bravo/charlie</artwork></figure>
           might be parsed and interpreted as: file <spanx>charlie</spanx>, in directory <spanx>bravo</spanx>, in directory <spanx>alpha</spanx>, on the machine on which the URI is being interpreted (i.e. localhost); however there is no indication of the location of the directory <spanx>alpha</spanx> on that machine.  By convention an absolute file path would begin with a slash ("/") character on a Unix-based system, or a drive letter (e.g. "c:\") on a Microsoft Windows system, etc.
         </t>
         <t>Resolution of non-absolute file paths is undefined by this specification.  A protocol that employs &file; URIs &MAY; define its own rules for resolution of relative file paths in &file; URIs used in the context of that protocol.</t>
       </section>
+      <!-- http://blogs.msdn.com/b/freeassociations/archive/2005/05/19/420059.aspx -->
       <section title="Drive Letters" anchor="drive-letters">
         <t>
           Historically drive letters have been mapped into the top of a &file; URI in various ways.  On systems running some versions of Microsoft Windows the drive letter may be specified with a colon (":") character, however sometimes the colon is replaced with a pipe ("|") character, and in some implementations the colon is omitted entirely.  The three representations &MAY; be considered equivalent, and any implementation which could interact with a Microsoft Windows environment &SHOULD; interpret a single letter, optionally followed by a colon or pipe character, in the first segment of the path as a drive letter (see the <spanx style="verb">drive-letter</spanx> rule in <xref target="syntax"/>).  For example, the following URIs:
@@ -230,7 +233,7 @@ file:///c/TMP/test.txt</artwork></figure>
           when interpreted on the same machine, would refer to the same file:
           <figure><artwork type="inline">c:\TMP\test.txt</artwork></figure>
         </t>
-        <t>Implementations &SHOULD; use a colon (":") character to specify drive letters when generating URIs for Windows- and DOS-based systems.</t>
+        <t>Implementations &SHOULD; use a colon (":") character to specify drive letters when generating URIs for Microsoft DOS- and Windows-based systems.</t>
         <t>Note that the generic URI syntax in <xref target="RFC3986"/> dictates that "if a URI contains an authority component [even if it's a blank authority], then the path component must ... begin with a slash ("/") character."  However some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the URI's authority component with the drive specification; for example, <spanx style="verb">file://c:/TMP/test.txt</spanx>.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
       </section>
       <section title="UNC File Paths" anchor="unc-file-paths">
@@ -264,15 +267,17 @@ file:////server.example.com/Share/path/to/file.doc
                   translated UNC path</artwork></figure>
           The implication of this representation is that the full UNC path can be accessed from the machine on which the URI is being interpreted using its regular filesystem interface.
         </t>
-        <t>
-          It should be noted that <xref target="RFC1738"/>, Section 3.1, explicitly stated that "the "/" between the host (or port) and the url-path is NOT part of the url-path."  So there exists a common variant of the second representation, notably used by the Firefox web browser, that includes a fifth slash between the protocol identifier and the hostname.  For example:
-        <figure><artwork type="inline">
+        <section title="Historical Issues with UNC File Paths" anchor="unc-rfc1738">
+          <t>
+            As mentioned in <xref target="leading-slash"/> above, the historical definition of &file; URIs in <xref target="RFC1738"/> excluded the first slash ("/") character after the protocol identifier ("file://") from the file path.  As such there exists a common variant of the second representation above, notably used by the Firefox web browser, that includes a fifth slash between the protocol identifier/authority and the UNC hostname.  For example:
+          <figure><artwork type="inline">
 file://///server.example.com/Share/path/to/file.doc
        |\_________________________________________/
        |           translated UNC path
        extra slash</artwork></figure>
-          Semantically this is considered identical to the representation with four slashes, given above.
-        </t>
+            Semantically this is considered identical to the representation with four slashes.  Implementations &MAY; interpret &file; URIs with five slashes (three between a blank authority and the first non-empty path segment) as a UNC file path, but &SHOULD-NOT; generate such URIs.
+          </t>
+        </section>
       </section>
       <section title="Namespaces" anchor="namespaces">
         <t>The Microsoft Windows API defines <xref target="Win32-Namespaces">Win32 Namespaces</xref> for interacting with files and devices using Windows API functions.  These namespaced paths are prefixed by <spanx style="verb">\\?\</spanx> for Win32 File Namespaces and <spanx style="verb">\\.\</spanx> for Win32 Device Namespaces.  There is also a special case for UNC file paths <xref target="MS-DTYP"/> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <spanx style="verb">\\?\UNC\</spanx>.</t>
