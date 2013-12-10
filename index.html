@@ -415,8 +415,8 @@ ul p {
       <meta name="dct.creator" content="Kerwin, M. V.">
       <meta name="dct.identifier" content="urn:ietf:id:draft-kerwin-file-scheme-latest">
       <meta name="dct.issued" scheme="ISO8601" content="2013-12-11">
-      <meta name="dct.abstract" content="This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in . The purpose of this document is to keep the information about the scheme on standards track, since has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.">
-      <meta name="description" content="This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in . The purpose of this document is to keep the information about the scheme on standards track, since has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.">
+      <meta name="dct.abstract" content="This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738. The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.">
+      <meta name="description" content="This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738. The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.">
    </head>
    <body onload="init();">
       <table class="header">
@@ -441,7 +441,9 @@ ul p {
       </table>
       <p class="title">The 'file' URI Scheme<br><span class="filename">draft-kerwin-file-scheme-latest</span></p>
       <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-      <p>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>. The purpose of this document is to keep the information about the scheme on standards track, since <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a> has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.
+      <p>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738. The purpose
+         of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and
+         to promote interoperability by resolving disagreements between various implementations.
       </p>
       <h1 id="rfc.note.1"><a href="#rfc.note.1">Note to Readers</a></h1>
       <p>This draft should be discussed on its <a href="#github">github project page</a> <cite title="file-uri-scheme GitHub repository">[github]</cite>.
@@ -589,8 +591,8 @@ ul p {
          <dd>The semantics of a fragment component are undefined by this specification. A protocol that employs <em>file</em> URIs <em class="bcp14">MAY</em> define its own semantics for fragment components in the context of that protocol.
          </dd>
       </dl>
-      <p id="rfc.section.2.1.p.2">Previous definitions of the 'file' URI scheme required two slashes between the scheme and path, so implementations that wish
-         to remain interoperable with older implementations ought to include an authority component in any <em>file</em> URIs they generate.
+      <p id="rfc.section.2.1.p.2">Previous definitions of the 'file' URI scheme required two (or three) slashes between the scheme and path, so implementations
+         that wish to remain interoperable with older implementations ought to include an authority component in any <em>file</em> URIs they generate. See also: <a href="#leading-slash" title="Leading Slash">Section&nbsp;3.1</a>.
       </p>
       <h2 id="rfc.section.2.2"><a href="#rfc.section.2.2">2.2</a>&nbsp;<a id="syntax" href="#syntax">Syntax</a></h2>
       <p id="rfc.section.2.2.p.1">The <em>file</em> URI syntax is defined here in <a href="#RFC5234">Augmented Backus-Naur Form (ABNF)</a> <cite title="Augmented BNF for Syntax Specifications: ABNF">[RFC5234]</cite>, including the core ABNF syntax rule 'ALPHA' defined by that specification, and borrowing the 'host', 'path-absolute' and
@@ -607,7 +609,7 @@ host-file     = hostpart path-absolute
 nohost-file   = path-abs       ; begins with "/"
               / path-abs-win   ; begins with drive-letter
                                ;   file:///&lt;path&gt;
-                               ;   file:////&lt;bad-UNC-path&gt;
+                               ;   file:////&lt;UNC-path&gt;
                                ;   file://c:/&lt;path&gt; *
 
 local-file    = path-absolute  ;   file:/&lt;path&gt;
@@ -620,7 +622,7 @@ path-abs      = 1*( "/" segment )
 path-abs-win  = drive-letter path-absolute
 drive-letter  = ALPHA [ drive-marker ]
 drive-marker  = ":" / "|"
-</pre><p>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component. See <a href="#drive-letters" title="Drive Letters">Section&nbsp;3.4</a>.
+</pre><p>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component. See: <a href="#drive-letters" title="Drive Letters">Section&nbsp;3.4</a>.
       </p>
       <p id="rfc.section.2.2.p.3">Note the difference between the <samp>path-abs</samp> and <samp>path-absolute</samp> rules: only the former allows a zero-length first segment followed by a slash, e.g. <samp>//foo/bar</samp></p>
       <p id="rfc.section.2.2.p.4">Systems exhibit different levels of case-sensitivity. Implementations <em class="bcp14">SHOULD</em> maintain the case of file and directory names when translating <em>file</em> URIs to and from the local system's representation of file paths, and any systems or devices that transport <em>file</em> URIs <em class="bcp14">SHOULD NOT</em> alter the case of <em>file</em> URIs they transport.
@@ -682,8 +684,7 @@ file:///c/TMP/test.txt</pre><p> when interpreted on the same machine, would refe
       </p>
       <p id="rfc.section.3.4.p.3">Note that the generic URI syntax in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a> dictates that "if a URI contains an authority component [even if it's a blank authority], then the path component must ...
          begin with a slash ("/") character." However some systems running some versions of Microsoft Windows are known to omit the
-         slash before the drive letter, effectively replacing the URI's authority component with the drive specification; for example, <samp>file://c:/TMP/test.txt</samp>. In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal
-         in its receiving behavior" <a href="#RFC791"><cite title="Internet Protocol - DARPA Internet Program, Protocol Specification">[RFC791]</cite></a>) implementations that are likely to encounter such a URI <em class="bcp14">MAY</em> interpret it as a drive letter, but <em class="bcp14">SHOULD NOT</em> generate such URIs.
+         slash before the drive letter, effectively replacing the URI's authority component with the drive specification; for example, <samp>file://c:/TMP/test.txt</samp>. Implementations that are likely to encounter such a URI <em class="bcp14">MAY</em> interpret it as a drive letter, but <em class="bcp14">SHOULD NOT</em> generate such URIs.
       </p>
       <h2 id="rfc.section.3.5"><a href="#rfc.section.3.5">3.5</a>&nbsp;<a id="unc-file-paths" href="#unc-file-paths">UNC File Paths</a></h2>
       <p id="rfc.section.3.5.p.1">The Microsoft Windows <a href="#MS-DTYP">Universal Naming Convention (UNC)</a> <cite title="Windows Data Types, 2.2.56 UNC">[MS-DTYP]</cite> defines a convention for specifying the location of resources such as shared files or devices, for example Windows shares
@@ -748,9 +749,7 @@ objectname = &lt;the name of an object&gt;
       <h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a>&nbsp;<a id="security" href="#security">Security Considerations</a></h1>
       <p id="rfc.section.5.p.1">There are many security considerations for URI schemes discussed in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>.
       </p>
-      <p id="rfc.section.5.p.2">File access and the granting of privileges for specific operations are complex topics, and the use of <em>file</em> URIs can complicate the security model in effect for file privileges. Software using <em>file</em> URIs <em class="bcp14">SHOULD NOT</em> grant greater access than would be available for other file access methods.
-      </p>
-      <p id="rfc.section.5.p.3">[NOTE: Is this testable or enforceable? Are any exceptional cases strong enough to justify this not being a <em class="bcp14">MUST NOT</em>?]
+      <p id="rfc.section.5.p.2">File access and the granting of privileges for specific operations are complex topics, and the use of <em>file</em> URIs can complicate the security model in effect for file privileges. Software using <em>file</em> URIs <em class="bcp14">MUST NOT</em> grant greater access than would be available for other file access methods.
       </p>
       <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a>&nbsp;<a id="iana-considerations" href="#iana-considerations">IANA Considerations</a></h1>
       <p id="rfc.section.6.p.1">In accordance with the guidelines and registration procedures for new URI schemes <a href="#RFC4395"><cite title="Guidelines and Registration Procedures for New URI Schemes">[RFC4395]</cite></a>, this section provides the information needed to update the registration of the 'file' URI scheme.
@@ -918,11 +917,6 @@ objectname = &lt;the name of an object&gt;
          <tr>
             <td class="reference"><b id="RFC4395">[RFC4395]</b></td>
             <td class="top">Hansen, T., Hardie, T., and L. Masinter, “<a href="http://tools.ietf.org/html/rfc4395">Guidelines and Registration Procedures for New URI Schemes</a>”, BCP&nbsp;35, RFC&nbsp;4395, February&nbsp;2006.
-            </td>
-         </tr>
-         <tr>
-            <td class="reference"><b id="RFC791">[RFC791]</b></td>
-            <td class="top">Postel, J., “<a href="http://tools.ietf.org/html/rfc791">Internet Protocol - DARPA Internet Program, Protocol Specification</a>”, RFC&nbsp;791, September&nbsp;1981.
             </td>
          </tr>
          <tr>
