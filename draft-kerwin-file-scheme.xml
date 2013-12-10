@@ -9,7 +9,7 @@
 
   <!-- References -->
   <!ENTITY rfc20   PUBLIC '' 'refs/RFC.20.xml'>
-  <!ENTITY rfc791  PUBLIC '' 'refs/RFC.791.xml'>
+  <!--ENTITY rfc791  PUBLIC '' 'refs/RFC.791.xml'-->
   <!ENTITY rfc1630 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1630.xml'>
   <!ENTITY rfc1738 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1738.xml'>
   <!ENTITY rfc2119 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml'>
@@ -234,7 +234,7 @@ file:///c/TMP/test.txt</artwork></figure>
           <figure><artwork type="inline">c:\TMP\test.txt</artwork></figure>
         </t>
         <t>Implementations &SHOULD; use a colon (":") character to specify drive letters when generating URIs for Microsoft DOS- and Windows-based systems.</t>
-        <t>Note that the generic URI syntax in <xref target="RFC3986"/> dictates that "if a URI contains an authority component [even if it's a blank authority], then the path component must ... begin with a slash ("/") character."  However some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the URI's authority component with the drive specification; for example, <spanx style="verb">file://c:/TMP/test.txt</spanx>.  In line with Postel's robustness principle ("an implementation must be conservative in its sending behavior, and liberal in its receiving behavior" <xref target="RFC791"/>) implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
+        <t>Note that the generic URI syntax in <xref target="RFC3986"/> dictates that "if a URI contains an authority component [even if it's a blank authority], then the path component must ... begin with a slash ("/") character."  However some systems running some versions of Microsoft Windows are known to omit the slash before the drive letter, effectively replacing the URI's authority component with the drive specification; for example, <spanx style="verb">file://c:/TMP/test.txt</spanx>.  Implementations that are likely to encounter such a URI &MAY; interpret it as a drive letter, but &SHOULD-NOT; generate such URIs.</t>
       </section>
       <section title="UNC File Paths" anchor="unc-file-paths">
         <t>The Microsoft Windows <xref target="MS-DTYP">Universal Naming Convention (UNC)</xref> defines a convention for specifying the location of resources such as shared files or devices, for example Windows shares accessed via the <xref target="MS-SMB2">SMB/CIFS protocol</xref>.  The general structure of a UNC file path, given in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, is:
@@ -388,7 +388,7 @@ file://///server.example.com/Share/path/to/file.doc
     </references>
     <references title="Informative References">
       &draft-hoffman-file-uri;
-      &rfc791;
+      <!--&rfc791;-->
       &rfc1630;
       &rfc1738;
       &rfc3530;
