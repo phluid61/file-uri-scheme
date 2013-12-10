@@ -1,7 +1,7 @@
 GitHub Pages for file-uri-scheme
 ================================
 
-HTMLised version of the latest release of [I.D-kerwin-file-scheme](https://datatracker.ietf.org/doc/draft-kerwin-file-scheme/)
+HTMLised version of the ~~latest release~~ working copy of [I.D-kerwin-file-scheme](https://datatracker.ietf.org/doc/draft-kerwin-file-scheme/)
 
 file-uri-scheme
 ---------------
