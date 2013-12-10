@@ -8,6 +8,8 @@
   <!ENTITY rfcXXXX '[Note to RFC Editor: please replace XXXX with the number issued to this document.]'>
 
   <!-- References -->
+  <!ENTITY rfc20   PUBLIC '' 'refs/RFC.20.xml'>
+  <!ENTITY rfc791  PUBLIC '' 'refs/RFC.791.xml'>
   <!ENTITY rfc1630 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1630.xml'>
   <!ENTITY rfc1738 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1738.xml'>
   <!ENTITY rfc2119 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml'>
@@ -19,6 +21,10 @@
   <!ENTITY rfc5890 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5890.xml'>
   <!ENTITY rfc5892 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5892.xml'>
   <!ENTITY rfc6874 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6874.xml'>
+  <!ENTITY iso10646 PUBLIC '' 'refs/ISO.10646.xml'>
+  <!--ENTITY unicode PUBLIC '' 'refs/UNICODE.xml'-->
+  <!ENTITY utr15 PUBLIC '' 'refs/UTR.15.xml'>
+  <!ENTITY draft-hoffman-file-uri PUBLIC '' 'refs/draft-hoffman-file-uri-03.xml'>
 
   <!-- Keywords -->
   <!ENTITY MAY '<bcp14 xmlns="http://purl.org/net/xml2rfc/ext">MAY</bcp14>'>
@@ -362,17 +368,7 @@ file://///server.example.com/Share/path/to/file.doc
   </middle>
   <back>
     <references title="Normative References">
-      <reference anchor="RFC20">
-        <front>
-          <title abbrev="ASCII">ASCII format for Network Interchange</title>
-          <author initials="V." surname="Cerf" fullname="Vint Cerf">
-            <organization>UCLA</organization>
-          </author>
-          <date year="1969" month="October"/>
-        </front>
-        <seriesInfo name="RFC" value="20"/>
-        <format type="TXT" target="http://tools.ietf.org/rfc/rfc20.txt"/>
-      </reference>
+      &rfc20;
       &rfc3629;
       &rfc2119;
       &rfc3986;
@@ -380,81 +376,13 @@ file://///server.example.com/Share/path/to/file.doc
       &rfc5890;
       &rfc5892;
       &rfc6874;
-      <reference anchor="ISO10646">
-        <front>
-          <title abbrev="UCS">Information Technology - Universal Multiple-Octet Coded Character Set (UCS)</title>
-          <author>
-            <organization>International Organization for Standardization</organization>
-          </author>
-          <date year="2003" month="December"/>
-        </front>
-        <seriesInfo name="ISO/IEC" value="10646:2003"/>
-      </reference>
-      <!--reference anchor="UNICODE" target="http://www.unicode.org/versions/Unicode6.2.0/">
-        <front>
-          <title>The Unicode Standard, Version 6.2</title>
-          <author>
-            <organization>The Unicode Consortium</organization>
-          </author>
-          <date year="2012"/>
-        </front>
-      </reference-->
-      <reference anchor="UTR15" target="http://www.unicode.org/reports/tr15/tr15-37.html">
-        <front>
-          <title>Unicode Normalization Forms</title>
-          <author initials='M.' surname='Davis' fullname='Mark Davis'>
-            <address>
-              <email>markdavis@google.com</email>
-            </address>
-          </author>
-          <author initials='K.' surname='Whistler' fullname='Ken Whistler'>
-            <address>
-              <email>ken@unicode.org</email>
-            </address>
-          </author>
-          <date year='2012' month='August' day='31'/>
-        </front>
-      </reference>
+      &iso10646;
+      <!--&unicode;-->
+      &utr15;
     </references>
     <references title="Informative References">
-      <reference anchor='I-D.draft-hoffman-file-uri'>
-        <front>
-          <title>The file URI Scheme</title>
-          <author initials='P.' surname='Hoffman' fullname='Paul Hoffman'>
-            <organization>VPN Consortium</organization>
-            <address>
-              <postal>
-                <street>127 Segre Place</street>
-                <city>Santa Cruz</city>
-                <region>CA</region>
-                <code>95060</code>
-              </postal>
-            </address>
-          </author>
-          <date month='January' year='2005' />
-        </front>
-        <seriesInfo name='Internet-Draft' value='draft-hoffman-file-uri-03' />
-        <format type='TXT' target='http://www.ietf.org/internet-drafts/draft-hoffman-file-uri-03.txt' />
-      </reference>
-      <reference anchor="RFC791">
-        <front>
-          <title abbrev="Internet Protocol (IP)">Internet Protocol - DARPA Internet Program, Protocol Specification</title>
-          <author initials="J." surname="Postel" fullname="Jon Postel">
-            <organization>University of Southern California</organization>
-            <address>
-              <postal>
-                <street>4676 Admiralty Way</street>
-                <city>Marina del Rey</city>
-                <region>CA</region>
-                <code>90291</code>
-              </postal>
-            </address>
-          </author>
-          <date month="September" year="1981"/>
-        </front>
-        <seriesInfo name="RFC" value="791"/>
-        <format type="TXT" target="http://tools.ietf.org/rfc/rfc791.txt"/>
-      </reference>
+      &draft-hoffman-file-uri;
+      &rfc791;
       &rfc1630;
       &rfc1738;
       &rfc3530;
