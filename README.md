@@ -3,6 +3,8 @@ The file URI Scheme
 
 Revives the _file_ URI scheme, last defined in [RFC 1738](http://tools.ietf.org/html/rfc1738) (obsolete).
 
+* http://datatracker.ietf.org/doc/draft-kerwin-file-scheme/
+
 See also:
 * [RFC 3986 "URI Generic Syntax"](http://tools.ietf.org/html/rfc3986)
 * [RFC 1738 "Uniform Resource Locators (URL)"](http://tools.ietf.org/html/rfc1738#page-15)
