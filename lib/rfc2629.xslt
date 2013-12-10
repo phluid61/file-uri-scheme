@@ -2892,7 +2892,7 @@
             <xsl:with-param name="msg">WG submissions should include a /rfc/front/workgroup element</xsl:with-param>
           </xsl:call-template>
         </xsl:if>
-        <myns:item><!-- Working Group --></myns:item>
+        <myns:item>Network Working Group</myns:item>
       </xsl:otherwise>
     </xsl:choose>
     <myns:item>
