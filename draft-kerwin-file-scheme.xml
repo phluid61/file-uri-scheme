@@ -157,7 +157,7 @@
             </t>
           </list>
         </t>
-        <t>Previous definitions of the &file-URI-scheme; required two slashes between the scheme and path, so implementations that wish to remain interoperable with older implementations ought to include an authority component in any &file; URIs they generate.</t>
+        <t>Previous definitions of the &file-URI-scheme; required two (or three) slashes between the scheme and path, so implementations that wish to remain interoperable with older implementations ought to include an authority component in any &file; URIs they generate.  See also: <xref target="leading-slash"/>.</t>
       </section>
       <section title="Syntax" anchor="syntax">
         <t>The &file; URI syntax is defined here in <xref target="RFC5234">Augmented Backus-Naur Form (ABNF)</xref>, including the core ABNF syntax rule 'ALPHA' defined by that specification, and borrowing the 'host', 'path-absolute' and 'segment' rules from <xref target="RFC3986"/> (as updated by <xref target="RFC6874"/>).</t>
