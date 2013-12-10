@@ -622,7 +622,7 @@ path-abs      = 1*( "/" segment )
 path-abs-win  = drive-letter path-absolute
 drive-letter  = ALPHA [ drive-marker ]
 drive-marker  = ":" / "|"
-</pre><p>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component. See <a href="#drive-letters" title="Drive Letters">Section&nbsp;3.4</a> of RFC XXXX. [Note to RFC Editor: please replace XXXX with the number issued to this document.]
+</pre><p>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component. See <a href="#drive-letters" title="Drive Letters">Section&nbsp;3.4</a>.
       </p>
       <p id="rfc.section.2.2.p.3">Note the difference between the <samp>path-abs</samp> and <samp>path-absolute</samp> rules: only the former allows a zero-length first segment followed by a slash, e.g. <samp>//foo/bar</samp></p>
       <p id="rfc.section.2.2.p.4">Systems exhibit different levels of case-sensitivity. Implementations <em class="bcp14">SHOULD</em> maintain the case of file and directory names when translating <em>file</em> URIs to and from the local system's representation of file paths, and any systems or devices that transport <em>file</em> URIs <em class="bcp14">SHOULD NOT</em> alter the case of <em>file</em> URIs they transport.
@@ -719,14 +719,14 @@ objectname = &lt;the name of an object&gt;
          interpreted using its regular filesystem interface.
       </p>
       <h3 id="rfc.section.3.5.1"><a href="#rfc.section.3.5.1">3.5.1</a>&nbsp;<a id="unc-rfc1738" href="#unc-rfc1738">Historical Issues with UNC File Paths</a></h3>
-      <p id="rfc.section.3.5.1.p.1">As mentioned in <a href="#leading-slash" title="Leading Slash">Section&nbsp;3.1</a> above, the historical definition of <em>file</em> URIs in <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a> excluded the first slash ("/") character after the protocol identifier ("file://") from the file path. As such there exists
+      <p id="rfc.section.3.5.1.p.1">As mentioned in <a href="#leading-slash" title="Leading Slash">Section&nbsp;3.1</a>, the historical definition of <em>file</em> URIs in <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a> excluded the first slash ("/") character after the protocol identifier ("file://") from the file path. As such there exists
          a common variant of the second representation above, notably used by the Firefox web browser, that includes a fifth slash
          between the protocol identifier/authority and the UNC hostname. For example: 
       </p>
       <div id="rfc.figure.u.13"></div><pre class="inline">file://///server.example.com/Share/path/to/file.doc
        |\_________________________________________/
        |           translated UNC path
-       extra slash</pre><p> Semantically this is considered identical to the representation with four slashes. Implementations <em class="bcp14">MAY</em> interpret <em>file</em> URIs with five slashes (three between a blank authority and the first non-empty path segment) as a UNC file path, but <em class="bcp14">SHOULD NOT</em> generate such URIs.
+       extra slash</pre><p> Implementations <em class="bcp14">MAY</em> interpret <em>file</em> URIs with five slashes (three between a blank authority and the first non-empty path segment) as a UNC file path, but <em class="bcp14">SHOULD NOT</em> generate such URIs.
       </p>
       <h2 id="rfc.section.3.6"><a href="#rfc.section.3.6">3.6</a>&nbsp;<a id="namespaces" href="#namespaces">Namespaces</a></h2>
       <p id="rfc.section.3.6.p.1">The Microsoft Windows API defines <a href="#Win32-Namespaces">Win32 Namespaces</a> <cite title="Naming Files, Paths, and Namespaces">[Win32-Namespaces]</cite> for interacting with files and devices using Windows API functions. These namespaced paths are prefixed by <samp>\\?\</samp> for Win32 File Namespaces and <samp>\\.\</samp> for Win32 Device Namespaces. There is also a special case for UNC file paths <a href="#MS-DTYP"><cite title="Windows Data Types, 2.2.56 UNC">[MS-DTYP]</cite></a> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <samp>\\?\UNC\</samp>.
