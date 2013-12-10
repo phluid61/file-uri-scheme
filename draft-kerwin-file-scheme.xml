@@ -188,7 +188,7 @@ path-abs-win  = drive-letter path-absolute
 drive-letter  = ALPHA [ drive-marker ]
 drive-marker  = ":" / "|"
 ]]></artwork>
-          <postamble>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component.  See <xref target="drive-letters"/>.</postamble>
+          <postamble>* The 'no-host-file' rule allows for dubious URIs that encode a Windows drive letter as the authority component.  See: <xref target="drive-letters"/>.</postamble>
         </figure>
         <t>Note the difference between the <spanx style="verb">path-abs</spanx> and <spanx style="verb">path-absolute</spanx> rules: only the former allows a zero-length first segment followed by a slash, e.g. <spanx style="verb">//foo/bar</spanx></t>
         <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
