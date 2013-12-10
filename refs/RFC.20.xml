@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reference anchor="RFC20">
+  <front>
+    <title abbrev="ASCII">ASCII format for Network Interchange</title>
+    <author initials="V." surname="Cerf" fullname="Vint Cerf">
+      <organization>UCLA</organization>
+    </author>
+    <date year="1969" month="October"/>
+  </front>
+  <seriesInfo name="RFC" value="20"/>
+  <format type="TXT" target="http://tools.ietf.org/rfc/rfc20.txt"/>
+</reference>

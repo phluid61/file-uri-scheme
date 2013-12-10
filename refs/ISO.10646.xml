@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reference anchor="ISO10646">
+  <front>
+    <title abbrev="UCS">Information Technology - Universal Multiple-Octet Coded Character Set (UCS)</title>
+    <author>
+      <organization>International Organization for Standardization</organization>
+    </author>
+    <date year="2003" month="December"/>
+  </front>
+  <seriesInfo name="ISO/IEC" value="10646:2003"/>
+</reference>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reference anchor="UTR15" target="http://www.unicode.org/reports/tr15/tr15-37.html">
+  <front>
+    <title>Unicode Normalization Forms</title>
+    <author initials='M.' surname='Davis' fullname='Mark Davis'>
+      <address>
+        <email>markdavis@google.com</email>
+      </address>
+    </author>
+    <author initials='K.' surname='Whistler' fullname='Ken Whistler'>
+      <address>
+        <email>ken@unicode.org</email>
+      </address>
+    </author>
+    <date year='2012' month='August' day='31'/>
+  </front>
+</reference>

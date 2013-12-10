@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reference anchor="UNICODE" target="http://www.unicode.org/versions/Unicode6.2.0/">
+  <front>
+    <title>The Unicode Standard, Version 6.2</title>
+    <author>
+      <organization>The Unicode Consortium</organization>
+    </author>
+    <date year="2012"/>
+  </front>
+</reference>

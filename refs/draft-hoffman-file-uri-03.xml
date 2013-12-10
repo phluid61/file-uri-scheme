@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reference anchor='I-D.draft-hoffman-file-uri'>
+  <front>
+    <title>The file URI Scheme</title>
+    <author initials='P.' surname='Hoffman' fullname='Paul Hoffman'>
+      <organization>VPN Consortium</organization>
+      <address>
+        <postal>
+          <street>127 Segre Place</street>
+          <city>Santa Cruz</city>
+          <region>CA</region>
+          <code>95060</code>
+        </postal>
+      </address>
+    </author>
+    <date month='January' year='2005' />
+  </front>
+  <seriesInfo name='Internet-Draft' value='draft-hoffman-file-uri-03' />
+  <format type='TXT' target='http://www.ietf.org/internet-drafts/draft-hoffman-file-uri-03.txt' />
+</reference>
