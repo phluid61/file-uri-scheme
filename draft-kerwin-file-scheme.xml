@@ -322,7 +322,7 @@ file://///server.example.com/Share/path/to/file.doc
           <list style="symbols">
             <t>Firefox
               <list style="empty">
-                <t>Note: Firefox has a unique interpretation of RFC 1738 (See: <eref target="https://bugzilla.mozilla.org/show_bug.cgi?id=107540">Bugzilla#107540</eref>), which affects UNC paths.</t>
+                <t>Note: Firefox has an interpretation of RFC 1738 which affects UNC paths.  See: <xref target="unc-rfc1738"/>, <eref target="https://bugzilla.mozilla.org/show_bug.cgi?id=107540">Bugzilla#107540</eref></t>
                 <!--t><eref target="https://hg.mozilla.org/mozilla-central/file/5976b9c673f8/netwerk/protocol/file">source code repository</eref></t-->
               </list>
             </t>
@@ -350,6 +350,7 @@ file://///server.example.com/Share/path/to/file.doc
             </t>
           </list>
         </t>
+        <t>These lists are non-exhaustive.</t>
       </section>
       <section title="Interoperability Considerations" anchor="iana.interop">
         <t>Due to the convoluted history of the &file-URI-scheme; there a many, varied implementations in existence.  Many have converged over time, forming a few kernels of closely-related functionality, and &rfc; attempts to accommodate such common functionality.  &rfcXXXX;  However there will always be exceptions, and this fact is recognised.</t>
