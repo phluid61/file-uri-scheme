@@ -87,7 +87,7 @@
     <keyword>scheme</keyword>
     <keyword>file</keyword>
     <abstract>
-      <t>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in <xref target="RFC1738"/>.  The purpose of this document is to keep the information about the scheme on standards track, since <xref target="RFC1738"/> has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.</t>
+      <t>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738.  The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.</t>
     </abstract>
     <note title="Note to Readers">
       <t>This draft should be discussed on its <xref target="github">github project page</xref>.</t>
