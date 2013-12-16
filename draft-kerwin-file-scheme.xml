@@ -97,7 +97,7 @@
     <section title="Introduction" anchor="intro">
       <t>The &file-URI-scheme; has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular filesystem.  This document attempts to resolve those problems, and define a standard scheme which is interoperable between different extant and future implementations.  Additionally, it aims to ease implementation by conforming to a general syntax that allows existing URI parsing machinery to parse &file; URIs.</t>
       <t>URIs were previously defined in <xref target="RFC1738"/>, which was updated by <xref target="RFC3986"/>.  Those documents also specify how to define schemes for URIs.</t>
-      <t>The first definition for many URI schemes appeared in <xref target="RFC1738"/>.  Because that document has been made obsolete, this document copies the &file-URI-scheme; from it to allow that material to remain on standards track.</t>
+      <t>The first definition for many URI schemes appeared in <xref target="RFC1738"/>.  Because that document has been made obsolete, this document replaces the &file-URI-scheme; from it to allow the scheme to remain on standards track.</t>
       <section title="History" anchor="history">
         &NON-NORMATIVE;
         <t>The &file-URI-scheme; was first defined in <xref target="RFC1630"/>, which, being an informational RFC, does not specify an Internet standard.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with the <xref target="IANA-URI-Schemes">Internet Assigned Numbers Authority (IANA)</xref>;  however that definition omitted certain language included by former that clarified aspects such as:
