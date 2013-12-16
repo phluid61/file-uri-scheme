@@ -3,7 +3,7 @@ The file URI Scheme
 
 Revives the _file_ URI scheme, last defined in [RFC 1738](http://tools.ietf.org/html/rfc1738) (obsolete).
 
-* http://datatracker.ietf.org/doc/draft-kerwin-file-scheme/
+* [draft-kerwin-file-scheme](http://tools.ietf.org/html/draft-kerwin-file-scheme) ([tracker](http://datatracker.ietf.org/doc/draft-kerwin-file-scheme/))
 
 See also:
 * [RFC 3986 "URI Generic Syntax"](http://tools.ietf.org/html/rfc3986)
@@ -13,6 +13,7 @@ See also:
 Other Resources
 ---------------
 
+* https://offset.skew.org/wiki/URI/File_scheme
 * http://tools.ietf.org/html/draft-hoffman-file-uri-03
 * http://url.spec.whatwg.org/
 * http://suika.fam.cx/~wakaba/wiki/sw/n/file has additional points but in Japanese
@@ -23,7 +24,6 @@ Related Stuff
 
 Archives and Other Projects
 * <http://www.w3.org/Search/Mail/Public/search?keywords=file&hdr-1-name=from&hdr-1-query=Hoffman&index-grp=Public_FULL&index-type=t&type-index=uri>
-* <http://offset.skew.org/wiki/URI/File_scheme>
 
 Notes to self
 -------------
