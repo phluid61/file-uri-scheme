@@ -371,7 +371,7 @@ ul p {
        content: "Internet-Draft";
   }
   @top-right {
-       content: "December 2013";
+       content: "February 2014";
   }
   @top-center {
        content: "'file' URI";
@@ -380,7 +380,7 @@ ul p {
        content: "Kerwin";
   }
   @bottom-center {
-       content: "Expires June 14, 2014";
+       content: "Expires August 11, 2014";
   }
   @bottom-right {
        content: "[Page " counter(page) "]";
@@ -414,9 +414,9 @@ ul p {
       <link rel="schema.dct" href="http://purl.org/dc/terms/">
       <meta name="dct.creator" content="Kerwin, M. V.">
       <meta name="dct.identifier" content="urn:ietf:id:draft-kerwin-file-scheme-latest">
-      <meta name="dct.issued" scheme="ISO8601" content="2013-12-11">
-      <meta name="dct.abstract" content="This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738. The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.">
-      <meta name="description" content="This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738. The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.">
+      <meta name="dct.issued" scheme="ISO8601" content="2014-02-07">
+      <meta name="dct.abstract" content="This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738. The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by addressing disagreements between various implementations.">
+      <meta name="description" content="This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738. The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by addressing disagreements between various implementations.">
    </head>
    <body onload="init();">
       <table class="header">
@@ -431,10 +431,10 @@ ul p {
             </tr>
             <tr>
                <td class="left">Intended status: Standards Track</td>
-               <td class="right">December 11, 2013</td>
+               <td class="right">February 7, 2014</td>
             </tr>
             <tr>
-               <td class="left">Expires: June 14, 2014</td>
+               <td class="left">Expires: August 11, 2014</td>
                <td class="right"></td>
             </tr>
          </tbody>
@@ -443,7 +443,7 @@ ul p {
       <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
       <p>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738. The purpose
          of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and
-         to promote interoperability by resolving disagreements between various implementations.
+         to promote interoperability by addressing disagreements between various implementations.
       </p>
       <h1 id="rfc.note.1"><a href="#rfc.note.1">Note to Readers</a></h1>
       <p>This draft should be discussed on its <a href="#github">github project page</a> <cite title="file-uri-scheme GitHub repository">[github]</cite>.
@@ -457,9 +457,9 @@ ul p {
          documents at any time. It is inappropriate to use Internet-Drafts as reference material or to cite them other than as “work
          in progress”.
       </p>
-      <p>This Internet-Draft will expire on June 14, 2014.</p>
+      <p>This Internet-Draft will expire on August 11, 2014.</p>
       <h1><a id="rfc.copyrightnotice" href="#rfc.copyrightnotice">Copyright Notice</a></h1>
-      <p>Copyright © 2013 IETF Trust and the persons identified as the document authors. All rights reserved.</p>
+      <p>Copyright © 2014 IETF Trust and the persons identified as the document authors. All rights reserved.</p>
       <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (<a href="http://trustee.ietf.org/license-info">http://trustee.ietf.org/license-info</a>) in effect on the date of publication of this document. Please review these documents carefully, as they describe your rights
          and restrictions with respect to this document. Code Components extracted from this document must include Simplified BSD License
          text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified
@@ -488,6 +488,7 @@ ul p {
                   </ul>
                </li>
                <li><a href="#rfc.section.3.6">3.6</a>&nbsp;&nbsp;&nbsp;<a href="#namespaces">Namespaces</a></li>
+               <li><a href="#rfc.section.3.7">3.7</a>&nbsp;&nbsp;&nbsp;<a href="#media-type">Media Type</a></li>
             </ul>
          </li>
          <li><a href="#rfc.section.4">4.</a>&nbsp;&nbsp;&nbsp;<a href="#encoding">Encoding and Character Set Considerations</a></li>
@@ -522,8 +523,8 @@ ul p {
       </p>
       <p id="rfc.section.1.p.2">URIs were previously defined in <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>, which was updated by <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>. Those documents also specify how to define schemes for URIs.
       </p>
-      <p id="rfc.section.1.p.3">The first definition for many URI schemes appeared in <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>. Because that document has been made obsolete, this document copies the 'file' URI scheme from it to allow that material
-         to remain on standards track.
+      <p id="rfc.section.1.p.3">The first definition for many URI schemes appeared in <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>. Because that document has been made obsolete, this document replaces the 'file' URI scheme from it to allow the scheme to
+         remain on standards track.
       </p>
       <h2 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1</a>&nbsp;<a id="history" href="#history">History</a></h2>
       <p id="rfc.section.1.1.p.1"><em>This section is non-normative.</em></p>
@@ -562,7 +563,10 @@ ul p {
       <p id="rfc.section.2.p.2">This scheme, unlike most other URI schemes, does not identify a resource that is universally accessible over the Internet.</p>
       <p id="rfc.section.2.p.3">The mechanism for retrieving a representation of a dereferenced <em>file</em> URI is through the computer's filesystem interface; for example using the POSIX <samp>open</samp>, <samp>read</samp> and <samp>close</samp> functions <a href="#POSIX"><cite title="IEEE Std 1003.1, 2013 Edition">[POSIX]</cite></a>.
       </p>
-      <p id="rfc.section.2.p.4">Also note that <em>file</em> and <em>ftp</em> URIs are not the same, even when the target of the <em>ftp</em> URI is the local host.
+      <p id="rfc.section.2.p.4">This document does not define a mechanism for determining the media type of a file, and there is no media type associated
+         with a <em>file</em> URI. See <a href="#media-type" title="Media Type">Section&nbsp;3.7</a>.
+      </p>
+      <p id="rfc.section.2.p.5">Also note that <em>file</em> and <em>ftp</em> URIs are not the same, even when the target of the <em>ftp</em> URI is the local host.
       </p>
       <h2 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1</a>&nbsp;<a id="components" href="#components">Components</a></h2>
       <p id="rfc.section.2.1.p.1">The 'file' URI scheme conforms with the generic structure defined in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, and can be described in terms of its components: 
@@ -588,7 +592,8 @@ ul p {
             a versioning file system, the query component might be used to refer to a specific version of a file. <br><br> Few implementations are known to use or support query components in <em>file</em> URIs.
          </dd>
          <dt>Fragment</dt>
-         <dd>The semantics of a fragment component are undefined by this specification. A protocol that employs <em>file</em> URIs <em class="bcp14">MAY</em> define its own semantics for fragment components in the context of that protocol.
+         <dd>The semantics of a fragment component are undefined by this specification because they depend on the media type of the entity.
+            A protocol that employs <em>file</em> URIs <em class="bcp14">MAY</em> define its own semantics for fragment components in the context of that protocol.
          </dd>
       </dl>
       <p id="rfc.section.2.1.p.2">Previous definitions of the 'file' URI scheme required two (or three) slashes between the scheme and path, so implementations
@@ -631,7 +636,7 @@ drive-marker  = ":" / "|"
       <h2 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1</a>&nbsp;<a id="leading-slash" href="#leading-slash">Leading Slash</a></h2>
       <p id="rfc.section.3.1.p.1">The historical definition of <em>file</em> URIs stated that "... the "/" between the host (or port) and the url-path is NOT part of the url-path", <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>, <a href="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</a>, and that the "... &lt;host&gt; can be ... the empty string", <a href="#RFC1738"><cite title="Uniform Resource Locators (URL)">[RFC1738]</cite></a>, <a href="http://tools.ietf.org/html/rfc1738#section-3.10">Section 3.10</a>.
       </p>
-      <p id="rfc.section.3.1.p.2">The implication of this definition is that absolute file paths in a UNIX-like environment, when encoded as <em>file</em> URIs, ought to have begin with "file:////". This rarely, if ever, eventuated, and historically <em>file</em> URIs interpreted in UNIX-like environments have included the first slash as part of the file path. This is compatible with
+      <p id="rfc.section.3.1.p.2">The implication of this definition is that absolute file paths in a UNIX-like environment, when encoded as <em>file</em> URIs, ought to have begun with "file:////". This rarely, if ever, eventuated, and historically <em>file</em> URIs interpreted in UNIX-like environments have included the first slash as part of the file path. This is compatible with
          the updated generic syntax provided in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>.
       </p>
       <p id="rfc.section.3.1.p.3">In Microsoft DOS- and Windows-based systems the historical definition resulted in <em>file</em> URIs of the form
@@ -649,7 +654,7 @@ drive-marker  = ":" / "|"
          into the slash ("/") delimited hierarchy of the URI syntax, independent of the native platform's delimiter.
       </p>
       <p id="rfc.section.3.2.p.2">For example, on Microsoft Windows platforms, it is typical that the file system presents backslash ("\") as the file delimeter
-         for file names, yet the URI's forward slash ("/") can be used in <em>file</em> URIs interpreted on those platforms. Similarly, on (some) Macintosh OS versions, at least in some contexts, the colon (":")
+         for file names, yet the URI's forward slash ("/") can be used in <em>file</em> URIs interpreted on those platforms. Similarly, on older Macintosh OS versions, at least in some contexts, the colon (":")
          is used as the delimiter in the native presentation of file path names. Unix systems natively use the same forward slash ("/")
          delimiter for hierarchy, so there is a closer mapping between <em>file</em> URI paths and native path names.
       </p>
@@ -731,6 +736,12 @@ objectname = &lt;the name of an object&gt;
       <p id="rfc.section.3.6.p.1">The Microsoft Windows API defines <a href="#Win32-Namespaces">Win32 Namespaces</a> <cite title="Naming Files, Paths, and Namespaces">[Win32-Namespaces]</cite> for interacting with files and devices using Windows API functions. These namespaced paths are prefixed by <samp>\\?\</samp> for Win32 File Namespaces and <samp>\\.\</samp> for Win32 Device Namespaces. There is also a special case for UNC file paths <a href="#MS-DTYP"><cite title="Windows Data Types, 2.2.56 UNC">[MS-DTYP]</cite></a> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <samp>\\?\UNC\</samp>.
       </p>
       <p id="rfc.section.3.6.p.2">This specification does not define a mechanism for translating namespaced file paths to or from <em>file</em> URIs.
+      </p>
+      <h2 id="rfc.section.3.7"><a href="#rfc.section.3.7">3.7</a>&nbsp;<a id="media-type" href="#media-type">Media Type</a></h2>
+      <p id="rfc.section.3.7.p.1">This specification does not define a mechanism for determining the media type of a file, however it is worth noting that many
+         implementations have traditionally used heuristics such as filename extensions or magic numbers to this end.
+      </p>
+      <p id="rfc.section.3.7.p.2">A protocol that employs <em>file</em> URIs <em class="bcp14">MAY</em> define its own mechanisms for determining the media type of files accessed under that protocol.
       </p>
       <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a>&nbsp;<a id="encoding" href="#encoding">Encoding and Character Set Considerations</a></h1>
       <p id="rfc.section.4.p.1">As specified in <a href="#RFC3986"><cite title="Uniform Resource Identifier (URI): Generic Syntax">[RFC3986]</cite></a>, the 'file' URI scheme allows any character from the <a href="#ISO10646">Universal Character Set (UCS)</a> <cite title="Information Technology - Universal Multiple-Octet Coded Character Set (UCS)">[ISO10646]</cite> encoded as <a href="#RFC3629">UTF-8</a> <cite title="UTF-8, a transformation format of ISO 10646">[RFC3629]</cite> and then percent-encoded in valid <a href="#RFC20">ASCII</a> <cite title="ASCII format for Network Interchange">[RFC20]</cite>.
