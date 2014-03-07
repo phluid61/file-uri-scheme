@@ -195,6 +195,20 @@ drive-marker  = ":" / "|"
         <t>Systems exhibit different levels of case-sensitivity.  Implementations &SHOULD; maintain the case of file and directory names when translating &file; URIs to and from the local system's representation of file paths, and any systems or devices that transport &file; URIs &SHOULD-NOT; alter the case of &file; URIs they transport.</t>
       </section>
     </section>
+    <section title="Encoding and Character Set Considerations" anchor="encoding">
+      <t>As specified in <xref target="RFC3986"/>, the &file-URI-scheme; allows any character from the <xref target="ISO10646">Universal Character Set (UCS)</xref> encoded as <xref target="RFC3629">UTF-8</xref> and then percent-encoded in valid <xref target="RFC20">ASCII</xref>.</t>
+      <t>If the local file system uses a known non-Unicode character encoding, the file path &SHOULD; be converted to a sequence of Unicode characters normalized according to Normalization Form C (NFC, <xref target="UTR15"/>).</t>
+      <t>Before applying any percent-encoding, an application MUST ensure the following about the string that is used as input to the URI-construction process:
+        <list style="symbols">
+          <t>The host, if any, consists only of Unicode code points that conform to the rules specified in <xref target="RFC5892"/>.</t>
+          <t>Internationalized domain name (IDN) labels are encoded as A-labels <xref target="RFC5890"/>.</t>
+        </list>
+      </t>
+    </section>
+    <section title="Security Considerations" anchor="security">
+      <t>There are many security considerations for URI schemes discussed in <xref target="RFC3986"/>.</t>
+      <t>File access and the granting of privileges for specific operations are complex topics, and the use of &file; URIs can complicate the security model in effect for file privileges.  Software using &file; URIs &MUST-NOT; grant greater access than would be available for other file access methods.</t>
+    </section>
     <section title="Implementation Notes" anchor="implementation">
       <section title="Leading Slash" anchor="leading-slash">
         <t>The historical definition of &file; URIs stated that "... the "/" between the host (or port) and the url-path is NOT part of the url-path", <xref target="RFC1738"/>, <eref target="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</eref>, and that the "... &lt;host&gt; can be ... the empty string", <xref target="RFC1738"/>, <eref target="http://tools.ietf.org/html/rfc1738#section-3.10">Section 3.10</eref>.</t>
@@ -288,20 +302,6 @@ file://///server.example.com/Share/path/to/file.doc
         <t>This specification does not define a mechanism for determining the media type of a file, however it is worth noting that many implementations have traditionally used heuristics such as filename extensions or magic numbers to this end.</t>
         <t>A protocol that employs &file; URIs &MAY; define its own mechanisms for determining the media type of files accessed under that protocol.</t>
       </section>
-    </section>
-    <section title="Encoding and Character Set Considerations" anchor="encoding">
-      <t>As specified in <xref target="RFC3986"/>, the &file-URI-scheme; allows any character from the <xref target="ISO10646">Universal Character Set (UCS)</xref> encoded as <xref target="RFC3629">UTF-8</xref> and then percent-encoded in valid <xref target="RFC20">ASCII</xref>.</t>
-      <t>If the local file system uses a known non-Unicode character encoding, the file path &SHOULD; be converted to a sequence of Unicode characters normalized according to Normalization Form C (NFC, <xref target="UTR15"/>).</t>
-      <t>Before applying any percent-encoding, an application MUST ensure the following about the string that is used as input to the URI-construction process:
-        <list style="symbols">
-          <t>The host, if any, consists only of Unicode code points that conform to the rules specified in <xref target="RFC5892"/>.</t>
-          <t>Internationalized domain name (IDN) labels are encoded as A-labels <xref target="RFC5890"/>.</t>
-        </list>
-      </t>
-    </section>
-    <section title="Security Considerations" anchor="security">
-      <t>There are many security considerations for URI schemes discussed in <xref target="RFC3986"/>.</t>
-      <t>File access and the granting of privileges for specific operations are complex topics, and the use of &file; URIs can complicate the security model in effect for file privileges.  Software using &file; URIs &MUST-NOT; grant greater access than would be available for other file access methods.</t>
     </section>
     <section title="IANA Considerations" anchor="iana-considerations">
       <t>In accordance with the guidelines and registration procedures for new URI schemes <xref target="RFC4395"/>, this section provides the information needed to update the registration of the &file-URI-scheme;.</t>
