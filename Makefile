@@ -37,10 +37,6 @@ endef
 submit_deps := $(join $(addsuffix .xml: ,$(next)),$(addsuffix .xml,$(drafts)))
 $(foreach rule,$(submit_deps),$(eval $(call submit_makerule,$(rule))))
 
-draft-kerwin-file-scheme-10.xml: draft-kerwin-file-scheme.xml
-	cp $< $@
-	$(sed_i) -e"s/$(basename $<)-latest/$(basename $@)/" $@
-
 idnits: $(addsuffix .txt,$(next))
 	idnits $<
 
