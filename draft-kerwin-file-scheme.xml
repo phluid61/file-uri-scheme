@@ -80,14 +80,14 @@
         <email>matthew.kerwin@qut.edu.au</email>
       </address>
     </author>
-    <date year="2014" month="February" day="7" />
+    <date year="2014" month="March" day="7" />
     <area>Applications</area>
     <workgroup>Independent Submission</workgroup>
     <keyword>URI</keyword>
     <keyword>scheme</keyword>
     <keyword>file</keyword>
     <abstract>
-      <t>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738.  The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by addressing disagreements between various implementations.</t>
+      <t>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738.  The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by addressing differences between various implementations.</t>
     </abstract>
     <note title="Note to Readers">
       <t>This draft should be discussed on its <xref target="github">github project page</xref>.</t>

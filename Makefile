@@ -5,7 +5,8 @@ saxon ?= java -classpath $(saxpath) net.sf.saxon.Transform -novw -l
 names := file-scheme
 drafts := $(addprefix draft-kerwin-,$(names))
 current_ver = $(shell git tag | grep "$(draft)" | sort | tail -1 | awk -F- '{print $$NF}')
-next_ver := $(foreach draft, $(drafts), -$(shell printf "%.2d" $$((1$(current_ver)-99)) ) )
+#next_ver := $(foreach draft, $(drafts), -$(shell printf "%.2d" $$((1$(current_ver)-99)) ) )
+next_ver=-10
 next := $(join $(drafts),$(next_ver))
 
 TARGETS := $(addsuffix .txt,$(drafts)) \
@@ -35,6 +36,10 @@ $(1)
 endef
 submit_deps := $(join $(addsuffix .xml: ,$(next)),$(addsuffix .xml,$(drafts)))
 $(foreach rule,$(submit_deps),$(eval $(call submit_makerule,$(rule))))
+
+draft-kerwin-file-scheme-10.xml: draft-kerwin-file-scheme.xml
+	cp $< $@
+	$(sed_i) -e"s/$(basename $<)-latest/$(basename $@)/" $@
 
 idnits: $(addsuffix .txt,$(next))
 	idnits $<
