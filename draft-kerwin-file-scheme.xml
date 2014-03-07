@@ -142,7 +142,7 @@
             <t hangText="Path">
               The path component of a &file; URI describes the hierarchical directory path to the file, using the slash ("/") character to separate directories.  Implementations &SHOULD; translate between the slash-separated URI syntax and the local system's conventions for specifying file paths, where they differ. (See: <xref target="hierarchy"/>)
               <vspace blankLines="1"/>
-              Note that the leading slash, if any, is included in the path value.  This is in accordance with the generic syntax provided in <xref target="RFC3986"/>, but at odds with the definition of the "url-path" given in <eref target="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</eref> of <xref target="RFC1738"/>.  See discussions in <xref target="implementation"/> for the effect this has on Microsoft DOS and Windows drive letters, and on UNC file paths.
+              Note that the leading slash, if any, is included in the path value.  This is in accordance with the generic syntax provided in <xref target="RFC3986"/>, but at odds with the previous definition of the "url-path" given in <eref target="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</eref> of <xref target="RFC1738"/>.  See discussions in <xref target="implementation"/> for the effect this has on Microsoft DOS and Windows drive letters, and on UNC file paths.
               <vspace blankLines="1"/>
               Some systems allow &file; URIs to refer to directories.  In this case, implementations &MAY; include a terminating slash character in the path, such as in:
               <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
