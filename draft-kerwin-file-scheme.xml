@@ -80,7 +80,7 @@
         <email>matthew.kerwin@qut.edu.au</email>
       </address>
     </author>
-    <date year="2013" />
+    <date year="2014" month="February" day="7" />
     <area>Applications</area>
     <workgroup>Independent Submission</workgroup>
     <keyword>URI</keyword>
@@ -95,7 +95,7 @@
   </front>
   <middle>
     <section title="Introduction" anchor="intro">
-      <t>The &file-URI-scheme; has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular filesystem.  This document attempts to resolve those problems, and define a standard scheme which is interoperable between different extant and future implementations.  Additionally, it aims to ease implementation by conforming to a general syntax that allows existing URI parsing machinery to parse &file; URIs.</t>
+      <t>The &file-URI-scheme; has historically had little or no interoperability between platforms.  Further, implementers on a single platform have often disagreed on the syntax to use for a particular file system.  This document attempts to resolve those problems, and define a standard scheme which is interoperable between different extant and future implementations.  Additionally, it aims to ease implementation by conforming to a general syntax that allows existing URI parsing machinery to parse &file; URIs.</t>
       <t>URIs were previously defined in <xref target="RFC1738"/>, which was updated by <xref target="RFC3986"/>.  Those documents also specify how to define schemes for URIs.</t>
       <t>The first definition for many URI schemes appeared in <xref target="RFC1738"/>.  Because that document has been made obsolete, this document replaces the &file-URI-scheme; from it to allow the scheme to remain on standards track.</t>
       <section title="History" anchor="history">
@@ -121,9 +121,9 @@
       </section>
     </section>
     <section title="Scheme Definition" anchor="scheme">
-      <t>The &file-URI-scheme; is used to identify and retrieve <spanx>files</spanx> accessible on a particular host computer, where a "file" is a named resource which can be accessed through the computer's filesystem interface.  These file names are interpreted from the perspective of the user of a reference, rather than in relation to a globally-defined naming authority, so care ought to be taken when distributing &file; URIs to ensure that such references are actually intended to be interpreted in relation to the end user's filesystem interface.</t>
+      <t>The &file-URI-scheme; is used to identify and retrieve <spanx>files</spanx> accessible on a particular host computer, where a "file" is a named resource which can be accessed through the computer's file system interface.  These file names are interpreted from the perspective of the user of a reference, rather than in relation to a globally-defined naming authority, so care ought to be taken when distributing &file; URIs to ensure that such references are actually intended to be interpreted in relation to the end user's file system interface.</t>
       <t>This scheme, unlike most other URI schemes, does not identify a resource that is universally accessible over the Internet.</t>
-      <t>The mechanism for retrieving a representation of a dereferenced &file; URI is through the computer's filesystem interface; for example using the POSIX <spanx style="verb">open</spanx>, <spanx style="verb">read</spanx> and <spanx style="verb">close</spanx> functions <xref target="POSIX"/>.</t>
+      <t>The mechanism for retrieving a representation of a dereferenced &file; URI is through the computer's file system interface; for example using the POSIX <spanx style="verb">open</spanx>, <spanx style="verb">read</spanx> and <spanx style="verb">close</spanx> functions <xref target="POSIX"/>.</t>
       <t>This document does not define a mechanism for determining the media type of a file, and there is no media type associated with a &file; URI.  See <xref target="media-type"/>.</t>
       <t>Also note that &file; and &ftp; URIs are not the same, even when the target of the &ftp; URI is the local host.</t>
       <section title="Components" anchor="components">
@@ -146,7 +146,7 @@
               <vspace blankLines="1"/>
               Some systems allow &file; URIs to refer to directories.  In this case, implementations &MAY; include a terminating slash character in the path, such as in:
               <figure><artwork type="inline">file:///usr/local/bin/</artwork></figure>
-              The presence of a terminating slash character always indicates that the &file; URI refers to a directory, but the absence of a slash does not necessarily indicate that it refers to a filesystem object other than a directory.  Implementations &MUST-NOT; include a trailing slash in any &file; URIs they generate that do not refer to a directory, and ought to use other mechanisms to detect directories in any &file; URIs they receive, if and when such detection is required.
+              The presence of a terminating slash character always indicates that the &file; URI refers to a directory, but the absence of a slash does not necessarily indicate that it refers to a file system object other than a directory.  Implementations &MUST-NOT; include a trailing slash in any &file; URIs they generate that do not refer to a directory, and ought to use other mechanisms to detect directories in any &file; URIs they receive, if and when such detection is required.
             </t>
             <t hangText="Query">
               The query component of a &file; URI contains non-hierarchical data that, along with data in the path component, serves to identify a file.   For example, in a versioning file system, the query component might be used to refer to a specific version of a file.
@@ -215,7 +215,7 @@ drive-marker  = ":" / "|"
       </section>
       <section title="Absolute and relative file paths" anchor="absolute-relative-paths">
         <t>
-          The conventions for specifying absolute file paths differ from system to system.  For example, in a UNIX-based system an absolute file path begins with a slash ("/") character, denoting the root of the filesystem, whereas on a Microsoft DOS- or Windows-based system an absolute file path begins with a drive letter (e.g. "c:\").
+          The conventions for specifying absolute file paths differ from system to system.  For example, in a UNIX-based system an absolute file path begins with a slash ("/") character, denoting the root of the file system, whereas on a Microsoft DOS- or Windows-based system an absolute file path begins with a drive letter (e.g. "c:\").
         </t>
         <t>
           As relative references are resolved into their respective (absolute) target URIs according to <eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#reference-resolution">Section 5</eref> of <xref target="RFC3986"/>, this document does not describe that resolution.  However, a fully resolved URI may contain a non-absolute file path.  For example, using a generic URI parser, the URI:
@@ -257,7 +257,7 @@ objectname = &lt;the name of an object&gt;
 file://server.example.com/Share/path/to/file.doc
        \________________/\_____________________/
             hostname      sharename+objectnames</artwork></figure>
-        The implication of this representation is that, because of the presence of a non-localhost authority, the file path is not accessible using the regular filesystem interface from the machine on which the URI is being interpreted.  As noted in <xref target="components"/>, this doesn't necessarily preclude that the file might be accessible through some other mechanism.
+        The implication of this representation is that, because of the presence of a non-localhost authority, the file path is not accessible using the regular file system interface from the machine on which the URI is being interpreted.  As noted in <xref target="components"/>, this doesn't necessarily preclude that the file might be accessible through some other mechanism.
         </t>
         <t>The &file-URI-scheme; is unusual in that it does not specify an Internet protocol or access method for shared files; as such, its utility in network protocols between hosts is limited.  Examples of file server protocols that do define such access methods include <xref target="MS-SMB2">SMB/CIFS</xref>, <xref target="RFC3530">NFS</xref>, and <xref target="NOVELL">NCP</xref>.</t>
         <t>
@@ -266,7 +266,7 @@ file://server.example.com/Share/path/to/file.doc
 file:////server.example.com/Share/path/to/file.doc
        \_________________________________________/
                   translated UNC path</artwork></figure>
-          The implication of this representation is that the full UNC path can be accessed from the machine on which the URI is being interpreted using its regular filesystem interface.
+          The implication of this representation is that the full UNC path can be accessed from the machine on which the URI is being interpreted using its regular file system interface.
         </t>
         <section title="Historical Issues with UNC File Paths" anchor="unc-rfc1738">
           <t>
