@@ -87,7 +87,7 @@
     <keyword>scheme</keyword>
     <keyword>file</keyword>
     <abstract>
-      <t>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738.  The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by resolving disagreements between various implementations.</t>
+      <t>This document specifies the file Uniform Resource Identifier (URI) scheme that was originally specified in RFC 1738.  The purpose of this document is to keep the information about the scheme on standards track, since RFC 1738 has been made obsolete, and to promote interoperability by addressing disagreements between various implementations.</t>
     </abstract>
     <note title="Note to Readers">
       <t>This draft should be discussed on its <xref target="github">github project page</xref>.</t>
@@ -124,6 +124,7 @@
       <t>The &file-URI-scheme; is used to identify and retrieve <spanx>files</spanx> accessible on a particular host computer, where a "file" is a named resource which can be accessed through the computer's filesystem interface.  These file names are interpreted from the perspective of the user of a reference, rather than in relation to a globally-defined naming authority, so care ought to be taken when distributing &file; URIs to ensure that such references are actually intended to be interpreted in relation to the end user's filesystem interface.</t>
       <t>This scheme, unlike most other URI schemes, does not identify a resource that is universally accessible over the Internet.</t>
       <t>The mechanism for retrieving a representation of a dereferenced &file; URI is through the computer's filesystem interface; for example using the POSIX <spanx style="verb">open</spanx>, <spanx style="verb">read</spanx> and <spanx style="verb">close</spanx> functions <xref target="POSIX"/>.</t>
+      <t>This document does not define a mechanism for determining the media type of a file, and there is no media type associated with a &file; URI.  See <xref target="media-type"/>.</t>
       <t>Also note that &file; and &ftp; URIs are not the same, even when the target of the &ftp; URI is the local host.</t>
       <section title="Components" anchor="components">
         <t>The &file-URI-scheme; conforms with the generic structure defined in <xref target="RFC3986"/>, and can be described in terms of its components:
@@ -153,7 +154,7 @@
               Few implementations are known to use or support query components in &file; URIs.
             </t>
             <t hangText="Fragment">
-              The semantics of a fragment component are undefined by this specification.  A protocol that employs &file; URIs &MAY; define its own semantics for fragment components in the context of that protocol.
+              The semantics of a fragment component are undefined by this specification because they depend on the media type of the entity.  A protocol that employs &file; URIs &MAY; define its own semantics for fragment components in the context of that protocol.
             </t>
           </list>
         </t>
@@ -197,7 +198,7 @@ drive-marker  = ":" / "|"
     <section title="Implementation Notes" anchor="implementation">
       <section title="Leading Slash" anchor="leading-slash">
         <t>The historical definition of &file; URIs stated that "... the "/" between the host (or port) and the url-path is NOT part of the url-path", <xref target="RFC1738"/>, <eref target="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</eref>, and that the "... &lt;host&gt; can be ... the empty string", <xref target="RFC1738"/>, <eref target="http://tools.ietf.org/html/rfc1738#section-3.10">Section 3.10</eref>.</t>
-        <t>The implication of this definition is that absolute file paths in a UNIX-like environment, when encoded as &file; URIs, ought to have begin with "file:////".  This rarely, if ever, eventuated, and historically &file; URIs interpreted in UNIX-like environments have included the first slash as part of the file path.  This is compatible with the updated generic syntax provided in <xref target="RFC3986"/>.</t>
+        <t>The implication of this definition is that absolute file paths in a UNIX-like environment, when encoded as &file; URIs, ought to have begun with "file:////".  This rarely, if ever, eventuated, and historically &file; URIs interpreted in UNIX-like environments have included the first slash as part of the file path.  This is compatible with the updated generic syntax provided in <xref target="RFC3986"/>.</t>
         <t>In Microsoft DOS- and Windows-based systems the historical definition resulted in &file; URIs of the form</t>
         <figure><artwork type="inline">file:///c:/path/to/file</artwork></figure>
         <t>This structure, with an empty host/authority, can be mapped directly to the the updated generic syntax provided in <xref target="RFC3986"/> by omitting the authority entirely; for example:</t>
@@ -282,6 +283,10 @@ file://///server.example.com/Share/path/to/file.doc
       <section title="Namespaces" anchor="namespaces">
         <t>The Microsoft Windows API defines <xref target="Win32-Namespaces">Win32 Namespaces</xref> for interacting with files and devices using Windows API functions.  These namespaced paths are prefixed by <spanx style="verb">\\?\</spanx> for Win32 File Namespaces and <spanx style="verb">\\.\</spanx> for Win32 Device Namespaces.  There is also a special case for UNC file paths <xref target="MS-DTYP"/> in Win32 File Namespaces, referred to as "Long UNC", using the prefix <spanx style="verb">\\?\UNC\</spanx>.</t>
         <t>This specification does not define a mechanism for translating namespaced file paths to or from &file; URIs.</t>
+      </section>
+      <section title="Media Type" anchor="media-type">
+        <t>This specification does not define a mechanism for determining the media type of a file, however it is worth noting that many implementations have traditionally used heuristics such as filename extensions or magic numbers to this end.</t>
+        <t>A protocol that employs &file; URIs &MAY; define its own mechanisms for determining the media type of files accessed under that protocol.</t>
       </section>
     </section>
     <section title="Encoding and Character Set Considerations" anchor="encoding">
