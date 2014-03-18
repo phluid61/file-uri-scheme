@@ -102,7 +102,7 @@
         &NON-NORMATIVE;
         <t>The &file-URI-scheme; was first defined in <xref target="RFC1630"/>, which, being an informational RFC, does not specify an Internet standard.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with the <xref target="IANA-URI-Schemes">Internet Assigned Numbers Authority (IANA)</xref>;  however that definition omitted certain language included by former that clarified aspects such as:
           <list style="symbols">
-            <t>the use of slashes to donate boundaries between directory levels of a hierarchical file system; and</t>
+            <t>the use of slashes to denote boundaries between directory levels of a hierarchical file system; and</t>
             <t>the requirement that client software convert the &file; URI into a file name in the local file name conventions.</t>
           </list>
         </t>
