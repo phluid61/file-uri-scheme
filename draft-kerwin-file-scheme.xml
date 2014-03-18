@@ -209,7 +209,7 @@ drive-marker  = ":" / "|"
       <t>There are many security considerations for URI schemes discussed in <xref target="RFC3986"/>.</t>
       <t>File access and the granting of privileges for specific operations are complex topics, and the use of &file; URIs can complicate the security model in effect for file privileges.  Software using &file; URIs &MUST-NOT; grant greater access than would be available for other file access methods.</t>
     </section>
-    <section title="Implementation Notes" anchor="implementation">
+    <section title="Implementation Notes" anchor="implementation-notes">
       <section title="Leading Slash" anchor="leading-slash">
         <t>The historical definition of &file; URIs stated that "... the "/" between the host (or port) and the url-path is NOT part of the url-path", <xref target="RFC1738"/>, <eref target="http://tools.ietf.org/html/rfc1738#section-3.1">Section 3.1</eref>, and that the "... &lt;host&gt; can be ... the empty string", <xref target="RFC1738"/>, <eref target="http://tools.ietf.org/html/rfc1738#section-3.10">Section 3.10</eref>.</t>
         <t>The implication of this definition is that absolute file paths in a UNIX-like environment, when encoded as &file; URIs, ought to have begun with "file:////".  This rarely, if ever, eventuated, and historically &file; URIs interpreted in UNIX-like environments have included the first slash as part of the file path.  This is compatible with the updated generic syntax provided in <xref target="RFC3986"/>.</t>
