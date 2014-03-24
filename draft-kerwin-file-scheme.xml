@@ -97,11 +97,11 @@
     <section title="Introduction" anchor="intro">
 
       <section title="What it is/What it's for">
-        A file URI is a string that refers to a file. It is used to identify a file, and can be used to access a file if other conditions are met (locality, etc.)
+        <t>A file URI is a string that identifies a file, and can be used to access the file if other conditions are met (locality, etc.)</t>
       </section>
 
       <section title="How to use it">
-        File system, e.g. POSIX open(), read(), close()
+        <t>File system, e.g. POSIX open(), read(), close()</t>
       </section>
 
       <section title="History" anchor="history">
@@ -124,7 +124,7 @@
       </section>
 
       <section title="UNC">
-        UNC paths do a similar job. They have three parts: host, share, path. You can translate between UNC paths and file URIs.
+        <t>UNC paths do a similar job. They have three parts: host, share, path. You can translate between UNC paths and file URIs.</t>
       </section>
 
       <section title="Conventions and Terminology" anchor="conventions">
@@ -133,29 +133,38 @@
     </section>
 
     <section title="Syntax">
-      file-URI       = f-scheme ":" f-hier-part
+      <figure>
+        <artwork type="inline"><![CDATA[
+file-URI       = f-scheme ":" f-hier-part
 
-      f-scheme       = "file"
+f-scheme       = "file"
 
-      f-hier-part    = "//" auth-path ; file://...
-                     / local-path
+f-hier-part    = "//" auth-path ; file://...
+               / local-path
 
-      auth-path      = [ authority ] path-absolute
-                     / unc-path       ; file:////host/share/...
-                     / windows-path   ; file://c:/... *
+auth-path      = [ authority ] path-absolute
+               / unc-path       ; file:////host/share/... *
+               / windows-path   ; file://c:/... **
 
-      local-path     = path-absolute  ; file:/...
-                     / windows-path   ; file:c:/...
+local-path     = path-absolute  ; file:/...
+               / windows-path   ; file:c:/...
 
-      unc-path       = 2*3"/" authority path-absolute
+unc-path       = 2*3"/" authority path-absolute
 
-      windows-path   = drive-letter path-absolute
-      drive-letter   = ALPHA [ drive-marker ]
-      drive-marker   = ":" / "|"
+windows-path   = drive-letter path-absolute
+drive-letter   = ALPHA [ drive-marker ]
+drive-marker   = ":" / "|"
+]]></artwork>
+        <postamble>
+          * The 'unc-path' rule within 'auth-path' is there for legacy reasons.
+          ** The 'windows-path' rule within 'auth-path' allows for dubious URIs that encode a Windows drive letter as the authority component.
+        </postabmle>
+      </figure>
     </section>
 
     <section title="Semantics">
     </section>
+
     <section title="Encoding">
       <t>Use-cases:</t>
       <list style="handing">
@@ -165,7 +174,7 @@
           <vspace/>Output: visual representation of URI, as character sequence
         </t>
         <t hangText="Manual encoding">
-          E.g. a human entering as URI as a string literal in a program (they’d need to perform all the encoding steps, down to the byte/character level.)
+          E.g. a human entering a URI as a string literal in a program (they’d need to perform all the encoding steps, down to the byte/character level.)
           <vspace/>Input: any
           <vspace/>Output: expression of fully encoded URI, as byte sequence
         </t>
