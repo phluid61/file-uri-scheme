@@ -80,7 +80,7 @@
         <email>matthew.kerwin@qut.edu.au</email>
       </address>
     </author>
-    <date year="2014" month="March" day="7" />
+    <date year="2014" month="May" day="19" />
     <area>Applications</area>
     <workgroup>Independent Submission</workgroup>
     <keyword>URI</keyword>
@@ -97,34 +97,30 @@
     <section title="Introduction" anchor="intro">
 
       <section title="What it is/What it's for">
-        <t>A file URI is a string that identifies a file, and can be used to access the file if other conditions are met (locality, etc.)</t>
+        <t>A file URI identifies a file on a particular file system.  It can be used in discussions about the file, and it can be dereferenced to directly access the file if other conditions are met (locality, etc.)</t>
+        <t>The file URI scheme is not coupled with a specific protocol.  As such, there is no well-defined set of methods that can be performed on a file URI, nor a media type associated with them.  A file URI is simply a means of describing the location of a file on a particular file system.</t>
       </section>
 
       <section title="How to use it">
-        <t>File system, e.g. POSIX open(), read(), close()</t>
+        <t>In the simplest terms, the only methods that can be performed on a file URI are translating it to and from a file path; subsequent methods are performed on the resulting file path, and depend entirely on the file system's APIs.</t>
+        <t>For example, consider the POSIX open(), read(), and close() methods for reading a file's contents into memory.</t>
+        <t>If there's a non-blank authority, you can't use the file system. E.g. SMB, NFS, etc.</t>
+        <t>(Different from RFC1738 - "localhost" used to mean "", now means a service on loopback)</t>
       </section>
 
       <section title="History" anchor="history">
-        &NON-NORMATIVE;
         <t>The &file-URI-scheme; was first defined in <xref target="RFC1630"/>, which, being an informational RFC, does not specify an Internet standard.  The definition was standardised in <xref target="RFC1738"/>, and the scheme was registered with the <xref target="IANA-URI-Schemes">Internet Assigned Numbers Authority (IANA)</xref>;  however that definition omitted certain language included by former that clarified aspects such as:
           <list style="symbols">
             <t>the use of slashes to denote boundaries between directory levels of a hierarchical file system; and</t>
             <t>the requirement that client software convert the &file; URI into a file name in the local file name conventions.</t>
           </list>
         </t>
-        <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the &file-URI-scheme; on standards track when <xref target="RFC1738"/> was made obsolete, but that draft expired in 2005.  It enumerated concerns arising from the various, often conflicting implementations of the scheme.  It serves as the basis of this document.</t>
-        <t>The &file-URI-scheme; defined in <xref target="RFC1738"/> is referenced three times in the current <xref target="RFC3986">URI Generic Syntax standard</xref>, despite the former's obsoletion:
-          <list style="numbers">
-            <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#overview">Section 1.1</eref> uses "file:///etc/hosts" as an example for identifying a resource in relation to the end-user's local context.</t>
-            <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#hierarchical">Section 1.2.3</eref> mentions the "file" scheme regarding relative references.</t>
-            <t><eref target="http://xml.resource.org/public/rfc/html/rfc3986.html#host">Section 3.2.2</eref> says that '...the "file" URI scheme is defined so that no authority, an empty host, and "localhost" all mean the end-user's machine...'.</t>
-          </list>
-        </t>
-        <t>Finally the WHATWG defines a <xref target="WHATWG-URL">living URL standard</xref>, which includes algorithms for interpreting file URIs (as URLs).</t>
+        <t>The Internet draft <xref target="I-D.draft-hoffman-file-uri"/> was written in an effort to keep the &file-URI-scheme; on standards track when <xref target="RFC1738"/> was made obsolete, but that draft expired in 2005.  It enumerated concerns arising from the various, often conflicting implementations of the scheme.  It serves as the spiritual predecessor of this document.</t>
+        <t>Additionally the WHATWG defines a <xref target="WHATWG-URL">living URL standard</xref>, which includes algorithms for interpreting file URIs (as URLs).</t>
       </section>
 
       <section title="UNC">
-        <t>UNC paths do a similar job. They have three parts: host, share, path. You can translate between UNC paths and file URIs.</t>
+        <t>A Universal Naming Convention (UNC) string does a similar job. It has three parts: host, share, path. You can translate between UNC paths and file URIs.</t>
       </section>
 
       <section title="Conventions and Terminology" anchor="conventions">
@@ -162,12 +158,63 @@ drive-marker   = ":" / "|"
       </figure>
     </section>
 
+    <section title="Translations">
+      <section title="Translating File Path">
+        <t>
+          1. Resolve to fully qualified/absolute path
+          2. On DOS/Windows, put drive letter + ":" in first segment, on UNIX path starts with "/"
+            a) note: authority, if used, must be followed by a "/"; on DOS/Windows this implies "file://authority/c:/.."
+          3. convert each directory in the path to path segments, e.g. percent encoding reserved characters, as per RFC3986, Section 2.
+          4. concatenate segments with appropriate "file:" and slashes
+          ... gives an IRI in file system's encoding, which can be translated to a URI as per RFC3987, Section 3.1.
+        </t>
+        <t>Simplest example: file:/path/to/file.txt    |  file:c:/path/to/file.txt</t>
+        <t>Standard example: file:///path/to/file.txt  |  file:///c:/path/to/file.txt</t>
+        <section title="Not RFC1738">
+          <t>In RFC1738 always started with "file://", and first "/" wasn't part of path (although nobody ever used "file:////path/to/file.txt")</t>
+        </section>
+        <section title="Deviants">
+          <t>DOS/Windows: Some deviants leave the leading slash off before the drive letter when authority is blank, e.g. file://c:/...</t>
+          <t>DOS/Windows: Some deviants replace ":" with "|", and others leave it off completely. e.g. file:///c|/... or file:///c/...</t>
+        </section>
+      </section>
+      <section title="Translating UNC">
+        <t>The syntax of a UNC path <xref target="MS-DTYP"/>:</t>
+        <figure>
+          <artwork type="inline"><![CDATA[
+UNC = "\\" hostname "\" sharename *( "\" objectname )
+hostname = netbios-name / fqdn / ip-address
+sharename = <name of share or resource to be accessed>
+objectname = <depends on resource being accessed>
+]]></artwork>
+          <postamble>
+            o netbios-name from <xref target="MS-NBTE"/>, <eref target="http://msdn.microsoft.com/en-us/library/dd891456.aspx">Section 2.2.1</eref>.
+            o fqdn from RFC1035 or RFC1123
+            o ip-address from RFC1123, Section 2.1, or RFC4921, Section 2.2.
+
+            * format of sharename depends on protocol; see <xref target="MS-SMB"/>, RFC3530, <xref target="NOVELL">NCP</xref>.
+          </postamble>
+        </figure>
+        <t>Translates directly to file URI: hostname=:authority, sharename=:first path segment, objectnames=:subsequent path segments</t>
+        <t>
+          1. ensure hostname matches authority
+          2. convert sharename, objectnames to path segments, e.g. percent encoding reserved characters, as per RFC3986, Section 2.
+          3. concatenate with appropriate "file://" and slashes
+          ... gives a UTF-16 IRI, which can be translated to a URI as per RFC3987, Section 3.1.
+        </t>
+        <section title="Deviants">
+          <t>Many implementations accept the full UNC path in the URI path (with all backslashes converted to slashes).  Additionally, because RFC1738 said that the first "/" after "file://[authority]" wasn't part of the path, Firefox requires an additional slash.</t>
+          <t>E.g.: file:////hostname/share/object/names or file://///hostname/share/object/names (FF)</t>
+        </section>
+      </section>
+    </section>
+
     <section title="Semantics">
     </section>
 
     <section title="Encoding">
       <t>Use-cases:</t>
-      <list style="handing">
+      <list style="hanging">
         <t hangText="Transcription">
           E.g. a human hearing a spoken URI and entering it into a text file. I don’t think there’s any encoding happening here, per se; that would be handled by #3 or #4 below.
           <vspace/>Input: analogue signal
@@ -322,7 +369,7 @@ drive-marker   = ":" / "|"
           <date year="2013" month="January"/>
         </front>
       </reference>
-      <!--reference anchor="MS-SMB" target="http://msdn.microsoft.com/en-us/library/cc246231.aspx">
+      <reference anchor="MS-SMB" target="http://msdn.microsoft.com/en-us/library/cc246231.aspx">
         <front>
           <title>Server Message Block (SMB) Protocol</title>
           <author>
@@ -331,10 +378,10 @@ drive-marker   = ":" / "|"
               <uri>http://www.microsoft.com/openspecifications/en/us/default.aspx</uri>
             </address>
           </author>
-          <date year="2013" month="January"/>
+          <date year="2014" month="May"/>
         </front>
-      </reference-->
-      <reference anchor="MS-SMB2" target="http://msdn.microsoft.com/en-us/library/cc246482.aspx">
+      </reference>
+      <!--reference anchor="MS-SMB2" target="http://msdn.microsoft.com/en-us/library/cc246482.aspx">
         <front>
           <title>Server Message Block (SMB) Protocol Versions 2 and 3</title>
           <author>
@@ -345,6 +392,16 @@ drive-marker   = ":" / "|"
           </author>
           <date year="2013" month="January"/>
         </front>
+      </reference-->
+      <reference anchor="MS-NBTE" target="http://msdn.microsoft.com/en-us/library/dd891412.aspx">
+          <title>NetBIOS over TCP (NBT) Extensions</title>
+          <author>
+            <organization>Microsoft Open Specifications</organization>
+            <address>
+              <uri>http://www.microsoft.com/openspecifications/en/us/default.aspx</uri>
+            </address>
+          </author>
+          <date year="2014" month="May"/>
       </reference>
       <reference anchor="NOVELL" target="http://www.novell.com/developer/ndk/netware_core_protocols.html">
         <front>
